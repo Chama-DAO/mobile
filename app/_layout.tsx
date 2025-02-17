@@ -58,6 +58,17 @@ export default function RootLayout() {
             ),
           }}
         />
+        <Stack.Screen
+          name="onboard"
+          options={{
+            title: "",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back-outline" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
