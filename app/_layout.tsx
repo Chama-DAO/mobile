@@ -19,6 +19,11 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    PoppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
+    PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
+    JakartSemiBold: require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
+    JakartaRegular: require("../assets/fonts/PlusJakartaSans-VariableFont_wght.ttf"),
+    JakartaLight: require("../assets/fonts/PlusJakartaSans-Light.ttf"),
   });
 
   useEffect(() => {
@@ -34,6 +39,12 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
