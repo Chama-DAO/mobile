@@ -93,7 +93,7 @@ const Page = () => {
       </View>
       <Text
         style={{
-          color: "#aeaeae",
+          color: "#1A1A1A",
           textAlign: "center",
           fontSize: 24,
           fontFamily: "JakartaRegular",
@@ -122,7 +122,7 @@ const Page = () => {
           <Text style={styles.buttonDarkText}>Signin with Avalanche</Text>
         </TouchableOpacity>
       </Link>
-      <Link href={{ pathname: "/login" }} asChild style={{ marginTop: 30 }}>
+      <Link href={"/"} asChild style={{ marginTop: 30 }}>
         <Text style={styles.memberLoginText}>
           Not a member?
           <Text style={{ textDecorationLine: "underline", marginLeft: 2 }}>
@@ -150,10 +150,10 @@ const styles = StyleSheet.create({
     objectFit: "contain",
   },
   title: {
-    fontSize: 36,
+    fontSize: 38,
     textAlign: "center",
     marginBottom: 20,
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "PoppinsRegular",
   },
   inputField: {
     marginVertical: 4,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   btnDark: {
-    backgroundColor: "#AEAEAE",
+    backgroundColor: "#1A1A1A",
     marginBottom: 10,
     marginTop: 20,
     borderRadius: 24,

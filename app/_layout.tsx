@@ -50,11 +50,10 @@ export default function RootLayout() {
         <Stack.Screen
           name="login"
           options={{
-            presentation: "modal",
             title: "",
             headerLeft: () => (
               <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="close-outline" size={24} color="black" />
+                <Ionicons name="arrow-back-outline" size={24} color="black" />
               </TouchableOpacity>
             ),
           }}
