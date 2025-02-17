@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { Link } from "expo-router";
 
 const index = () => {
   return (
@@ -25,13 +26,18 @@ const index = () => {
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <View style={styles.btn}>
-          <Button
-            title="Get Started"
-            color={"#fff"}
-            onPress={() => console.log("Get Started")}
-          />
-        </View>
+        <Link href={"/onboard"} asChild style={styles.btn}>
+          <Text
+            style={{
+              color: "white",
+              textAlign: "center",
+              paddingVertical: 20,
+              fontSize: 20,
+            }}
+          >
+            Create an Account
+          </Text>
+        </Link>
       </View>
       <TouchableOpacity
         style={{
@@ -41,12 +47,14 @@ const index = () => {
           width: "100%",
         }}
       >
-        <Text style={styles.memberLoginText}>
-          Already a member?
-          <Text style={{ textDecorationLine: "underline", marginLeft: 2 }}>
-            Login
+        <Link href={{ pathname: "/login" }} asChild>
+          <Text style={styles.memberLoginText}>
+            Already a member?
+            <Text style={{ textDecorationLine: "underline", marginLeft: 2 }}>
+              Login
+            </Text>
           </Text>
-        </Text>
+        </Link>
       </TouchableOpacity>
     </SafeAreaView>
   );

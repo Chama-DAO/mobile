@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const NotFoundScreen = () => {
+const Onboard = () => {
   return (
     <View>
-      <Text>NotFoundScreen</Text>
+      <Text>Onboard</Text>
     </View>
   );
 };
 
-export default NotFoundScreen;
+export default Onboard;
 
 const styles = StyleSheet.create({});
