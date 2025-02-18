@@ -18,11 +18,6 @@ const Onboard = () => {
       keyboardVerticalOffset={1}
       style={styles.container}
     >
-      {loading && (
-        <View style={defaultStyles.loadingOverlay}>
-          <ActivityIndicator size="large" color={"#000"} />
-        </View>
-      )}
       <Image
         source={require("../assets/images/login.png")}
         style={styles.logo}

@@ -71,6 +71,7 @@ const Page = () => {
           autoComplete="tel"
           autoCorrect={false}
           textContentType="password"
+          secureTextEntry={true}
         />
         <Link
           href={{

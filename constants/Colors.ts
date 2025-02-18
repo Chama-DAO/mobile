@@ -1,5 +1,8 @@
 const colors = {
   primary: "#242d39",
+  chamaBlack: "#1A1A1A",
+  chamaGreen: "#83CCA8",
+  chamaYEllow: "#F2E7B5",
   textprimary: "rgba(248, 250, 252, 1)",
   textsecondary: "rgba(127, 127, 127, 1)",
   accent: "#496BCC",
