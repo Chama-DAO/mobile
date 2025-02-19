@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { defaultStyles } from "@/constants/Styles";
 import AppBaner from "./components/AppBaner";
 import CustomTextInput, {
   CustomTextInputProps,
@@ -47,31 +46,31 @@ const generalInformation: CustomTextInputProps[] = [
 ];
 const locationInformation: CustomTextInputProps[] = [
   {
-    title: "Username",
-    placeholder: "Enter username",
-    isPassword: false,
-    keyboardType: "default",
-    autoComplete: "username",
-    autoCorrect: false,
-    textContentType: "username",
-  },
-  {
-    title: "Email Address",
-    placeholder: "Enter email address",
-    isPassword: false,
-    keyboardType: "email-address",
-    autoComplete: "email",
-    autoCorrect: false,
-    textContentType: "emailAddress",
-  },
-  {
-    title: "Phone Number",
-    placeholder: "Enter password",
+    title: "ID Number",
+    placeholder: "Enter ID number",
     isPassword: false,
     keyboardType: "phone-pad",
     autoComplete: "tel",
     autoCorrect: false,
     textContentType: "telephoneNumber",
+  },
+  {
+    title: "Nationality",
+    placeholder: "Where are you from?",
+    isPassword: false,
+    keyboardType: "default",
+    autoComplete: "username",
+    autoCorrect: true,
+    textContentType: "username",
+  },
+  {
+    title: "Your Role",
+    placeholder: "Chama member or admin?",
+    isPassword: false,
+    keyboardType: "default",
+    autoComplete: "username",
+    autoCorrect: false,
+    textContentType: "username",
   },
 ];
 const securityInformation: CustomTextInputProps[] = [
@@ -106,16 +105,13 @@ const securityInformation: CustomTextInputProps[] = [
 
 const Onboard = () => {
   const [loading, setLoading] = React.useState(false);
-  const [bgLevel, setBgLevel] = React.useState(100);
+  const [bgLevel, setBgLevel] = React.useState(66);
   const [inputTypes, setInputTypes] =
     React.useState<CustomTextInputProps[]>(generalInformation);
 
   const handleNext = () => {
     console.log(bgLevel);
-    if (bgLevel === 100) {
-      //Save data
-      //Navigate to OTP
-    }
+
     if (bgLevel === 33) {
       setBgLevel(66);
       setInputTypes(locationInformation);
@@ -123,6 +119,11 @@ const Onboard = () => {
     if (bgLevel === 66) {
       setBgLevel(100);
       setInputTypes(securityInformation);
+    }
+    if (bgLevel === 100) {
+      setBgLevel(33);
+      //Save data
+      //Navigate to OTP
     }
   };
 

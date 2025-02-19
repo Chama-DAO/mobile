@@ -25,7 +25,7 @@ const CustomButton = ({ title, onPress, icon, width }: CustomButtonProps) => {
           styles.btCover,
         ]}
       >
-        <TouchableOpacity style={[defaultStyles.btn]}>
+        <View style={[defaultStyles.btn]}>
           {icon && (
             <Ionicons
               name={icon}
@@ -35,7 +35,7 @@ const CustomButton = ({ title, onPress, icon, width }: CustomButtonProps) => {
             />
           )}
           <Text style={styles.buttonDarkText}>{title}</Text>
-        </TouchableOpacity>
+        </View>
       </View>
     </TouchableOpacity>
   );
