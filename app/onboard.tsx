@@ -10,9 +10,43 @@ import {
 import React from "react";
 import { defaultStyles } from "@/constants/Styles";
 import AppBaner from "./components/AppBaner";
+import CustomTextInput, {
+  CustomTextInputProps,
+} from "./components/CustomTextInput";
+import CustomButton from "./components/CustomButton";
+import NotMemberFooter from "./components/NotMemberFooter";
 
 const Onboard = () => {
   const [loading, setLoading] = React.useState(false);
+  const inputTypes: CustomTextInputProps[] = [
+    {
+      title: "Username",
+      placeholder: "Enter username",
+      isPassword: false,
+      keyboardType: "default",
+      autoComplete: "username",
+      autoCorrect: false,
+      textContentType: "username",
+    },
+    {
+      title: "Email Address",
+      placeholder: "Enter email address",
+      isPassword: false,
+      keyboardType: "email-address",
+      autoComplete: "email",
+      autoCorrect: false,
+      textContentType: "emailAddress",
+    },
+    {
+      title: "Phone Number",
+      placeholder: "Enter password",
+      isPassword: false,
+      keyboardType: "phone-pad",
+      autoComplete: "tel",
+      autoCorrect: false,
+      textContentType: "telephoneNumber",
+    },
+  ];
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -20,7 +54,14 @@ const Onboard = () => {
       style={styles.container}
     >
       <AppBaner />
+
       <Text style={styles.title}>Get Started</Text>
+      <View style={{ marginBottom: 30 }} />
+      {inputTypes.map((inputType: CustomTextInputProps, index) => (
+        <CustomTextInput key={index} {...inputType} />
+      ))}
+      <CustomButton title="Next" onPress={() => {}} icon="arrow-forward" />
+      <NotMemberFooter />
     </KeyboardAvoidingView>
   );
 };
