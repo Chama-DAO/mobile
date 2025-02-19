@@ -8,25 +8,35 @@ interface CustomButtonProps {
   title: string;
   onPress: () => void;
   icon?: keyof typeof Ionicons.glyphMap;
+  width?: number;
 }
 
-const CustomButton = ({ title, onPress, icon }: CustomButtonProps) => {
+const CustomButton = ({ title, onPress, icon, width }: CustomButtonProps) => {
   return (
     <TouchableOpacity
       style={[defaultStyles.btn, styles.btnDark]}
       onPress={onPress}
     >
-      <TouchableOpacity style={[defaultStyles.btn]}>
-        {icon && (
-          <Ionicons
-            name={icon}
-            style={styles.btnIcon}
-            size={24}
-            color={colors.textprimary}
-          />
-        )}
-        <Text style={styles.buttonDarkText}>{title}</Text>
-      </TouchableOpacity>
+      <View
+        style={[
+          {
+            width: width ? `${width}%` : "100%",
+          },
+          styles.btCover,
+        ]}
+      >
+        <TouchableOpacity style={[defaultStyles.btn]}>
+          {icon && (
+            <Ionicons
+              name={icon}
+              style={styles.btnIcon}
+              size={24}
+              color={colors.textprimary}
+            />
+          )}
+          <Text style={styles.buttonDarkText}>{title}</Text>
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -34,11 +44,16 @@ const CustomButton = ({ title, onPress, icon }: CustomButtonProps) => {
 export default CustomButton;
 
 const styles = StyleSheet.create({
-  btnDark: {
+  btCover: {
     backgroundColor: "#1A1A1A",
+    height: "100%",
+    borderRadius: 24,
+  },
+  btnDark: {
     marginBottom: 10,
     marginTop: 20,
     borderRadius: 24,
+    justifyContent: "flex-start",
   },
   btnIcon: {
     paddingRight: 10,

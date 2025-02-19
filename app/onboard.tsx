@@ -16,37 +16,116 @@ import CustomTextInput, {
 import CustomButton from "./components/CustomButton";
 import NotMemberFooter from "./components/NotMemberFooter";
 
+const generalInformation: CustomTextInputProps[] = [
+  {
+    title: "Username",
+    placeholder: "Enter username",
+    isPassword: false,
+    keyboardType: "default",
+    autoComplete: "username",
+    autoCorrect: false,
+    textContentType: "username",
+  },
+  {
+    title: "Email Address",
+    placeholder: "Enter email address",
+    isPassword: false,
+    keyboardType: "email-address",
+    autoComplete: "email",
+    autoCorrect: false,
+    textContentType: "emailAddress",
+  },
+  {
+    title: "Phone Number",
+    placeholder: "Enter password",
+    isPassword: false,
+    keyboardType: "phone-pad",
+    autoComplete: "tel",
+    autoCorrect: false,
+    textContentType: "telephoneNumber",
+  },
+];
+const locationInformation: CustomTextInputProps[] = [
+  {
+    title: "Username",
+    placeholder: "Enter username",
+    isPassword: false,
+    keyboardType: "default",
+    autoComplete: "username",
+    autoCorrect: false,
+    textContentType: "username",
+  },
+  {
+    title: "Email Address",
+    placeholder: "Enter email address",
+    isPassword: false,
+    keyboardType: "email-address",
+    autoComplete: "email",
+    autoCorrect: false,
+    textContentType: "emailAddress",
+  },
+  {
+    title: "Phone Number",
+    placeholder: "Enter password",
+    isPassword: false,
+    keyboardType: "phone-pad",
+    autoComplete: "tel",
+    autoCorrect: false,
+    textContentType: "telephoneNumber",
+  },
+];
+const securityInformation: CustomTextInputProps[] = [
+  {
+    title: "Username",
+    placeholder: "Enter username",
+    isPassword: false,
+    keyboardType: "default",
+    autoComplete: "username",
+    autoCorrect: false,
+    textContentType: "username",
+  },
+  {
+    title: "Email Address",
+    placeholder: "Enter email address",
+    isPassword: false,
+    keyboardType: "email-address",
+    autoComplete: "email",
+    autoCorrect: false,
+    textContentType: "emailAddress",
+  },
+  {
+    title: "Phone Number",
+    placeholder: "Enter password",
+    isPassword: false,
+    keyboardType: "phone-pad",
+    autoComplete: "tel",
+    autoCorrect: false,
+    textContentType: "telephoneNumber",
+  },
+];
+
 const Onboard = () => {
   const [loading, setLoading] = React.useState(false);
-  const inputTypes: CustomTextInputProps[] = [
-    {
-      title: "Username",
-      placeholder: "Enter username",
-      isPassword: false,
-      keyboardType: "default",
-      autoComplete: "username",
-      autoCorrect: false,
-      textContentType: "username",
-    },
-    {
-      title: "Email Address",
-      placeholder: "Enter email address",
-      isPassword: false,
-      keyboardType: "email-address",
-      autoComplete: "email",
-      autoCorrect: false,
-      textContentType: "emailAddress",
-    },
-    {
-      title: "Phone Number",
-      placeholder: "Enter password",
-      isPassword: false,
-      keyboardType: "phone-pad",
-      autoComplete: "tel",
-      autoCorrect: false,
-      textContentType: "telephoneNumber",
-    },
-  ];
+  const [bgLevel, setBgLevel] = React.useState(100);
+  const [inputTypes, setInputTypes] =
+    React.useState<CustomTextInputProps[]>(generalInformation);
+
+  const handleNext = () => {
+    console.log(bgLevel);
+    if (bgLevel === 100) {
+      //Save data
+      //Navigate to OTP
+    }
+    if (bgLevel === 33) {
+      setBgLevel(66);
+      setInputTypes(locationInformation);
+    }
+    if (bgLevel === 66) {
+      setBgLevel(100);
+      setInputTypes(securityInformation);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -56,11 +135,16 @@ const Onboard = () => {
       <AppBaner />
 
       <Text style={styles.title}>Get Started</Text>
-      <View style={{ marginBottom: 30 }} />
+      <View style={{ marginBottom: 20 }} />
       {inputTypes.map((inputType: CustomTextInputProps, index) => (
         <CustomTextInput key={index} {...inputType} />
       ))}
-      <CustomButton title="Next" onPress={() => {}} icon="arrow-forward" />
+      <CustomButton
+        title="Next"
+        onPress={() => handleNext()}
+        icon="arrow-forward"
+        width={bgLevel}
+      />
       <NotMemberFooter />
     </KeyboardAvoidingView>
   );
@@ -77,7 +161,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     textAlign: "center",
-    marginBottom: 20,
+    marginVertical: 20,
     fontFamily: "PoppinsRegular",
   },
   logo: {
