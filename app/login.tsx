@@ -14,6 +14,7 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { defaultStyles } from "@/constants/Styles";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import AppBaner from "./components/AppBaner";
 
 const Page = () => {
   const { type } = useLocalSearchParams<{ type: string }>();
@@ -30,10 +31,7 @@ const Page = () => {
           <ActivityIndicator size="large" color={colors.textprimary} />
         </View>
       )}
-      <Image
-        source={require("../assets/images/login.png")}
-        style={styles.logo}
-      />
+      <AppBaner />
       <Text style={styles.title}>Welcome Back</Text>
       <View style={{ marginBottom: 30 }}>
         <Text
@@ -123,14 +121,32 @@ const Page = () => {
           <Text style={styles.buttonDarkText}>Signin with Avalanche</Text>
         </TouchableOpacity>
       </Link>
-      <Link href={"/"} asChild style={{ marginTop: 30 }}>
-        <Text style={styles.memberLoginText}>
-          Not a member?
-          <Text style={{ textDecorationLine: "underline", marginLeft: 2 }}>
+      <Text
+        style={{
+          marginTop: 20,
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
+        <Text style={styles.memberLoginText}>Need an account?</Text>
+        <Link href={{ pathname: "/onboard" }} asChild>
+          <Text
+            style={{
+              textDecorationLine: "underline",
+              marginLeft: 2,
+              fontFamily: "JakartaLight",
+              fontSize: 18,
+              width: 400,
+              paddingHorizontal: 40,
+              marginTop: 10,
+              textAlign: "center",
+            }}
+          >
             Signup
           </Text>
-        </Text>
-      </Link>
+        </Link>
+      </Text>
     </KeyboardAvoidingView>
   );
 };
@@ -155,6 +171,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     fontFamily: "PoppinsRegular",
+    marginTop: 20,
   },
   inputField: {
     marginVertical: 4,

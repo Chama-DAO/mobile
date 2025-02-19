@@ -26,6 +26,7 @@ export default function RootLayout() {
     JakartSemiBold: require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
     JakartaRegular: require("../assets/fonts/PlusJakartaSans-VariableFont_wght.ttf"),
     JakartaLight: require("../assets/fonts/PlusJakartaSans-Light.ttf"),
+    MontserratAlternates: require("../assets/fonts/MontserratAlternates-Bold.ttf"),
   });
 
   useEffect(() => {

@@ -39,7 +39,7 @@ const index = () => {
           </Text>
         </Link>
       </View>
-      <TouchableOpacity
+      <Text
         style={{
           marginTop: 20,
           alignItems: "center",
@@ -47,15 +47,24 @@ const index = () => {
           width: "100%",
         }}
       >
+        <Text style={styles.memberLoginText}>Already a member?</Text>
         <Link href={{ pathname: "/login" }} asChild>
-          <Text style={styles.memberLoginText}>
-            Already a member?
-            <Text style={{ textDecorationLine: "underline", marginLeft: 2 }}>
-              Login
-            </Text>
+          <Text
+            style={{
+              textDecorationLine: "underline",
+              marginLeft: 2,
+              fontFamily: "JakartaLight",
+              fontSize: 18,
+              width: 400,
+              paddingHorizontal: 40,
+              marginTop: 10,
+              textAlign: "center",
+            }}
+          >
+            Login
           </Text>
         </Link>
-      </TouchableOpacity>
+      </Text>
     </SafeAreaView>
   );
 };

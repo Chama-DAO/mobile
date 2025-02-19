@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { defaultStyles } from "@/constants/Styles";
+import AppBaner from "./components/AppBaner";
 
 const Onboard = () => {
   const [loading, setLoading] = React.useState(false);
@@ -18,10 +19,7 @@ const Onboard = () => {
       keyboardVerticalOffset={1}
       style={styles.container}
     >
-      <Image
-        source={require("../assets/images/login.png")}
-        style={styles.logo}
-      />
+      <AppBaner />
       <Text style={styles.title}>Get Started</Text>
     </KeyboardAvoidingView>
   );
