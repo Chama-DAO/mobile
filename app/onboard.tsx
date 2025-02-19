@@ -75,43 +75,41 @@ const locationInformation: CustomTextInputProps[] = [
 ];
 const securityInformation: CustomTextInputProps[] = [
   {
-    title: "Username",
-    placeholder: "Enter username",
+    title: "Password",
+    placeholder: "Enter password",
+    isPassword: true,
+    keyboardType: "default",
+    autoComplete: "password",
+    autoCorrect: false,
+    textContentType: "password",
+  },
+  {
+    title: "Confirm Password",
+    placeholder: "Please confirm password",
+    isPassword: true,
+    keyboardType: "default",
+    autoComplete: "password",
+    autoCorrect: false,
+    textContentType: "password",
+  },
+  {
+    title: "Recovery Phrase",
+    placeholder: "Enter recovery phrase",
     isPassword: false,
     keyboardType: "default",
     autoComplete: "username",
     autoCorrect: false,
     textContentType: "username",
   },
-  {
-    title: "Email Address",
-    placeholder: "Enter email address",
-    isPassword: false,
-    keyboardType: "email-address",
-    autoComplete: "email",
-    autoCorrect: false,
-    textContentType: "emailAddress",
-  },
-  {
-    title: "Phone Number",
-    placeholder: "Enter password",
-    isPassword: false,
-    keyboardType: "phone-pad",
-    autoComplete: "tel",
-    autoCorrect: false,
-    textContentType: "telephoneNumber",
-  },
 ];
 
 const Onboard = () => {
   const [loading, setLoading] = React.useState(false);
-  const [bgLevel, setBgLevel] = React.useState(66);
+  const [bgLevel, setBgLevel] = React.useState(33);
   const [inputTypes, setInputTypes] =
     React.useState<CustomTextInputProps[]>(generalInformation);
 
   const handleNext = () => {
-    console.log(bgLevel);
-
     if (bgLevel === 33) {
       setBgLevel(66);
       setInputTypes(locationInformation);
@@ -122,6 +120,7 @@ const Onboard = () => {
     }
     if (bgLevel === 100) {
       setBgLevel(33);
+      setInputTypes(generalInformation);
       //Save data
       //Navigate to OTP
     }
@@ -135,7 +134,13 @@ const Onboard = () => {
     >
       <AppBaner />
 
-      <Text style={styles.title}>Get Started</Text>
+      <Text style={styles.title}>
+        {bgLevel === 33
+          ? "Get Started"
+          : bgLevel === 66
+          ? "Almost There"
+          : "You Made It"}
+      </Text>
       <View style={{ marginBottom: 20 }} />
       {inputTypes.map((inputType: CustomTextInputProps, index) => (
         <CustomTextInput key={index} {...inputType} />
