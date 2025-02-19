@@ -13,7 +13,7 @@ const NotMemberFooter = () => {
       }}
     >
       <Text style={styles.memberLoginText}>Already a member?</Text>
-      <Link href={{ pathname: "/onboard" }} asChild>
+      <Link href={{ pathname: "/login" }} asChild>
         <Text
           style={{
             textDecorationLine: "underline",
