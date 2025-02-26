@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  Image,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 

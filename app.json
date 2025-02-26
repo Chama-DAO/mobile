@@ -29,8 +29,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash.png",
-          "resizeMode": "contain"
+          "image": "./assets/images/icon.png",
+          "resizeMode": "cover"
         }
       ],
       "expo-font"
