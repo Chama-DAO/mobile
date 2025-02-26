@@ -71,6 +71,18 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="register"
+          options={{
+            title: "Register",
+            // headerLeft: () => (
+            //   <TouchableOpacity onPress={() => router.back()}>
+            //     <Ionicons name="arrow-back-outline" size={24} color="black" />
+            //   </TouchableOpacity>
+            // ),
+            headerShown: true,
+          }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

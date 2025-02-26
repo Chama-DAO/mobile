@@ -1,17 +1,48 @@
-import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import Onboarding from "react-native-onboarding-swiper";
 import Lottie from "lottie-react-native";
-import LottieView from "lottie-react-native";
+import colors from "@/constants/Colors";
+import { useRouter } from "expo-router";
+import CustomButton from "./components/CustomButton";
+
+const { width, height } = Dimensions.get("window");
 
 const onboard = () => {
+  const router = useRouter();
+
+  const handleDone = () => {
+    router.push("/register");
+  };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Onboarding
+        onDone={handleDone}
+        onSkip={handleDone}
+        bottomBarHighlight={false}
+        DoneButtonComponent={() => (
+          <CustomButton title="Register" onPress={handleDone} />
+        )}
+        // NextButtonComponent={() => <CustomButton title="Next" />}
         containerStyles={{ paddingHorizontal: 15 }}
         pages={[
           {
-            backgroundColor: "#fff",
+            backgroundColor: colors.chamaYellow,
+            titleStyles: {
+              fontFamily: "JakartaRegular",
+            },
+            subTitleStyles: {
+              fontFamily: "PoppinsRegular",
+              lineHeight: 24,
+              fontSize: 16,
+            },
             image: (
               <Lottie
                 source={require("../assets/images/how.json")}
@@ -28,7 +59,15 @@ const onboard = () => {
               "ChamaDAO is a decentralized platform that empowers communities to pool funds, invest together, and grow wealth collectively.",
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: colors.primary,
+            titleStyles: {
+              fontFamily: "JakartaRegular",
+            },
+            subTitleStyles: {
+              fontFamily: "PoppinsRegular",
+              lineHeight: 24,
+              fontSize: 16,
+            },
             image: (
               <View>
                 <Lottie
@@ -44,7 +83,18 @@ const onboard = () => {
               "Secure contributions with smart contracts, vote on proposals, and track investments in a fully transparent treasury",
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: colors.chamaGreen,
+
+            titleStyles: {
+              color: colors.chamaBlack,
+              fontFamily: "JakartaRegular",
+            },
+            subTitleStyles: {
+              color: colors.chamaBlack,
+              fontFamily: "PoppinsRegular",
+              lineHeight: 24,
+              fontSize: 16,
+            },
             image: (
               <View style={styles.animationContainer}>
                 <Lottie
@@ -61,7 +111,7 @@ const onboard = () => {
           },
         ]}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -71,8 +121,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   animationContainer: {
-    width: 300,
-    height: 400,
+    width: width * 0.9,
+    height: width,
   },
 });
 

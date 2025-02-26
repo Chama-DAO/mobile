@@ -6,12 +6,13 @@ import colors from "@/constants/Colors";
 
 interface CustomButtonProps {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
   icon?: keyof typeof Ionicons.glyphMap;
   width?: number;
+  bgColor?: string;
 }
 
-const CustomButton = ({ title, onPress, icon, width }: CustomButtonProps) => {
+const CustomButton = ({ title, onPress, icon, bgColor }: CustomButtonProps) => {
   return (
     <TouchableOpacity
       style={[defaultStyles.btn, styles.btnDark]}
@@ -20,7 +21,7 @@ const CustomButton = ({ title, onPress, icon, width }: CustomButtonProps) => {
       <View
         style={[
           {
-            width: width ? `${width}%` : "100%",
+            backgroundColor: bgColor || colors.primary,
           },
           styles.btCover,
         ]}
@@ -45,16 +46,17 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   btCover: {
-    backgroundColor: "#1A1A1A",
     height: "100%",
-    borderRadius: 24,
+    borderRadius: 14,
+    paddingHorizontal: 20,
+    backgroundColor: colors.primary,
+    marginHorizontal: 10,
   },
   btnDark: {
     marginBottom: 10,
     marginTop: 20,
     borderRadius: 24,
     justifyContent: "flex-start",
-    backgroundColor: "#F0F9F7",
   },
   btnIcon: {
     paddingRight: 10,
