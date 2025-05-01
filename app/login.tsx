@@ -5,7 +5,6 @@ import {
   Platform,
   ActivityIndicator,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -13,7 +12,8 @@ import React from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import { defaultStyles } from "@/constants/Styles";
 import colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+
 import AppBaner from "./components/AppBaner";
 
 const Page = () => {
@@ -79,48 +79,20 @@ const Page = () => {
           asChild
           style={[defaultStyles.btn, styles.btnDark]}
         >
-          <TouchableOpacity style={[defaultStyles.btn, styles.btnDark]}>
-            <Ionicons
-              name="log-in"
-              style={styles.btnIcon}
-              size={24}
-              color={colors.textprimary}
+          <TouchableOpacity style={[defaultStyles.btn, styles.avaxLogo]}>
+            <Image
+              source={require("../assets/images/eth-logo.svg")}
+              style={{
+                width: 24,
+                height: 24,
+                marginRight: 10,
+              }}
             />
-            <Text style={styles.buttonDarkText}>Log in</Text>
+            <Text style={styles.buttonDarkText}>Signin with Ethereum</Text>
           </TouchableOpacity>
         </Link>
       </View>
-      <Text
-        style={{
-          color: "#1A1A1A",
-          textAlign: "center",
-          fontSize: 24,
-          fontFamily: "JakartaRegular",
-          marginBottom: 20,
-        }}
-      >
-        or
-      </Text>
-      <Link
-        href={{
-          pathname: "/",
-          params: { type },
-        }}
-        asChild
-        style={[defaultStyles.btn, styles.btnDark]}
-      >
-        <TouchableOpacity style={[defaultStyles.btn, styles.avaxLogo]}>
-          <Image
-            source={require("../assets/images/avax.png")}
-            style={{
-              width: 24,
-              height: 24,
-              marginRight: 10,
-            }}
-          />
-          <Text style={styles.buttonDarkText}>Signin with Avalanche</Text>
-        </TouchableOpacity>
-      </Link>
+
       <Text
         style={{
           marginTop: 20,

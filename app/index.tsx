@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#4ccfb3",
   },
   bannerContainer: {
     marginTop: 100,
