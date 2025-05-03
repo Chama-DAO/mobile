@@ -1,6 +1,11 @@
 import Colors from "@/constants/Colors";
 import { StyleSheet } from "react-native";
 
+const ke = require("../assets/images/ke.png");
+const ng = require("../assets/images/ng.png");
+const tz = require("../assets/images/tz.png");
+const sa = require("../assets/images/sa.png");
+const rw = require("../assets/images/rw.png");
 export const defaultStyles = StyleSheet.create({
   btn: {
     height: 50,
@@ -21,3 +26,11 @@ export const defaultStyles = StyleSheet.create({
     backgroundColor: Colors.textprimary,
   },
 });
+
+export const countryFlags = {
+  ke,
+  ng,
+  tz,
+  sa,
+  rw,
+};

@@ -66,12 +66,16 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   textContentType,
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        width: "auto",
+      }}
+    >
       <Text
         style={{
           marginVertical: 4,
           fontFamily: "JakartaRegular",
-          fontSize: 16,
+          fontSize: 14,
         }}
       >
         {title}

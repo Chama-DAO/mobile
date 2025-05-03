@@ -80,7 +80,21 @@ export default function RootLayout() {
             //     <Ionicons name="arrow-back-outline" size={24} color="black" />
             //   </TouchableOpacity>
             // ),
-            headerShown: true,
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="otp"
+          options={{
+            title: "OTP",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            title: "Dashboard",
+            headerShown: false,
           }}
         />
         <Stack.Screen name="+not-found" />
