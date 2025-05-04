@@ -118,9 +118,10 @@ const styles = StyleSheet.create({
   },
   verifyButtonText: {
     color: colors.textprimary,
-    fontFamily: "JakartaSemiBold",
+    fontFamily: "JakartSemiBold",
     fontSize: 16,
     textAlign: "center",
+    marginVertical: 5,
   },
   resendTimer: {
     fontFamily: "JakartaRegular",

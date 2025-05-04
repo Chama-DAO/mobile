@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   registerButtonText: {
     color: colors.textprimary,
-    fontFamily: "JakartaSemiBold",
+    fontFamily: "JakartSemiBold",
     fontSize: 16,
     textAlign: "center",
     marginVertical: 10,

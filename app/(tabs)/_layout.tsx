@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Home from ".";
 import Profile from "./profile";
 import Proposals from "./proposals";
@@ -17,7 +17,7 @@ const Tabs = () => {
       screenOptions={{
         tabBarBackground: () => (
           <BlurView
-            intensity={80}
+            intensity={100}
             tint="light"
             style={{
               flex: 1,
@@ -82,7 +82,7 @@ const Tabs = () => {
         component={Loans}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name="cash" color={color} size={!focused ? 32 : 28} />
+            <FontAwesome6 name="coins" size={focused ? 22 : 26} color={color} />
           ),
           tabBarLabel: ({ focused, color }) =>
             focused ? (
@@ -106,7 +106,7 @@ const Tabs = () => {
             <Ionicons
               name="hand-left-outline"
               color={color}
-              size={!focused ? 32 : 28}
+              size={focused ? 22 : 26}
             />
           ),
           tabBarLabel: ({ focused, color }) =>
@@ -128,7 +128,7 @@ const Tabs = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name="person" color={color} size={!focused ? 32 : 28} />
+            <Ionicons name="person" color={color} size={focused ? 22 : 26} />
           ),
           tabBarLabel: ({ focused, color }) =>
             focused ? (
