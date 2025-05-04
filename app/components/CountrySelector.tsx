@@ -11,6 +11,7 @@ import {
 import { countryFlags } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "@/constants/Colors";
+import { BlurView } from "expo-blur";
 
 const COUNTRIES = [
   { code: "ke", name: "Kenya" },
@@ -55,35 +56,38 @@ export default function CountrySelector({
       </TouchableOpacity>
       <Modal visible={modalVisible} transparent animationType="fade">
         <TouchableOpacity
-          style={styles.overlay}
+          style={{ flex: 1 }}
+          activeOpacity={1}
           onPress={() => setModalVisible(false)}
         >
-          <View style={styles.dropdown}>
-            <FlatList
-              data={COUNTRIES}
-              keyExtractor={(item) => item.code}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.option}
-                  onPress={() => {
-                    onChange(item.code);
-                    setModalVisible(false);
-                  }}
-                >
-                  <Image source={flagImages[item.code]} style={styles.flag} />
-                  <Text style={styles.optionText}>{item.name}</Text>
-                  {item.code === selected.code && (
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={18}
-                      color="#4caf50"
-                      style={{ marginLeft: "auto" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )}
-            />
-          </View>
+          <BlurView intensity={30} tint="light" style={styles.overlay}>
+            <View style={styles.dropdown}>
+              <FlatList
+                data={COUNTRIES}
+                keyExtractor={(item) => item.code}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={styles.option}
+                    onPress={() => {
+                      onChange(item.code);
+                      setModalVisible(false);
+                    }}
+                  >
+                    <Image source={flagImages[item.code]} style={styles.flag} />
+                    <Text style={styles.optionText}>{item.name}</Text>
+                    {item.code === selected.code && (
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={18}
+                        color="#4caf50"
+                        style={{ marginLeft: "auto" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </BlurView>
         </TouchableOpacity>
       </Modal>
     </View>
@@ -118,7 +122,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.08)",
     justifyContent: "center",
     alignItems: "center",
   },

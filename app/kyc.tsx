@@ -4,6 +4,8 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  Image,
+  useWindowDimensions,
 } from "react-native";
 import React, { useState } from "react";
 import AppBaner from "./components/AppBaner";
@@ -11,17 +13,29 @@ import DocumentTypeSelector from "./components/DocumentTypeSelector";
 import colors from "@/constants/Colors";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { launchImageLibraryAsync } from "expo-image-picker";
+
 const KYC = () => {
   const [documentType, setDocumentType] = useState("");
-  const [document, setDocument] = useState(null);
-  const handleUpload = () => {
+  const [document, setDocument] = useState<string | null>(null);
+  const handleUpload = async () => {
     console.log("Uploading document");
-    router.navigate("/(tabs)");
+    // upload from gallery
+    const result = await launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [16, 9],
+    });
+    if (result.assets) {
+      setDocument(result.assets[0].uri);
+    }
   };
   const handleVerify = () => {
     console.log("Verifying document");
     router.navigate("/(tabs)");
   };
+
+  const { width, height } = useWindowDimensions();
   return (
     <SafeAreaView>
       <AppBaner />
@@ -34,7 +48,19 @@ const KYC = () => {
       </View>
       <View style={styles.uploadContainer}>
         <TouchableOpacity style={styles.uploadButton} onPress={handleUpload}>
-          <Ionicons name="cloud-upload-outline" size={44} color="#0e0e0e" />
+          {document ? (
+            <Image
+              source={{ uri: document }}
+              style={{
+                width: width * 0.9,
+                height: width * 0.6,
+                borderRadius: 8,
+              }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Ionicons name="cloud-upload-outline" size={44} color="#0e0e0e" />
+          )}
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.verifyButton} onPress={handleVerify}>
