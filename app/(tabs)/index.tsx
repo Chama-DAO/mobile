@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   nextStepContainer: {
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 24,
     backgroundColor: colors.chamaYellow,
     padding: 16,
     borderRadius: 10,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   },
   quickActionsContainer: {
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 24,
   },
   quickActionTitle: {
     fontFamily: "JakartSemiBold",
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
   },
   trendingChamasContainer: {
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 24,
     paddingBottom: 40,
   },
   trendingChamasTitle: {
