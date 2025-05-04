@@ -91,12 +91,20 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="kyc"
+          options={{
+            title: "KYC Verification",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="(tabs)"
           options={{
             title: "Dashboard",
             headerShown: false,
           }}
         />
+
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

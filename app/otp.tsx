@@ -31,7 +31,7 @@ const OTP = () => {
 
   const handleVerify = () => {
     console.log("OTP verified");
-    router.navigate("/(tabs)");
+    router.navigate("/kyc");
   };
   return (
     <SafeAreaView style={styles.container}>
