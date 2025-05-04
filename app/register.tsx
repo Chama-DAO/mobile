@@ -31,6 +31,7 @@ const register = () => {
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [countryCode, setCountryCode] = useState("+254");
 
   const handleRegistration = () => {
     console.log("Registration successful");
@@ -55,7 +56,11 @@ const register = () => {
                 placeholder="sylusabel@example.com"
                 title="Email Address"
               />
-              <CountrySelector value={country} onChange={setCountry} />
+              <CountrySelector
+                value={country}
+                onChange={setCountry}
+                setCountryCode={setCountryCode}
+              />
               <Text
                 style={{
                   marginBottom: 6,
@@ -65,7 +70,7 @@ const register = () => {
               >
                 Phone Number
               </Text>
-              <PhoneNumberInput />
+              <PhoneNumberInput countryCode={countryCode} />
               <CustomTextInput
                 placeholder="39296079"
                 title="ID Number"

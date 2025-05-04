@@ -14,11 +14,11 @@ import colors from "@/constants/Colors";
 import { BlurView } from "expo-blur";
 
 const COUNTRIES = [
-  { code: "ke", name: "Kenya" },
-  { code: "ng", name: "Nigeria" },
-  { code: "tz", name: "Tanzania" },
-  { code: "rw", name: "Rwanda" },
-  { code: "sa", name: "South Africa" },
+  { code: "ke", name: "Kenya", phoneCode: "+254" },
+  { code: "ng", name: "Nigeria", phoneCode: "+234" },
+  { code: "tz", name: "Tanzania", phoneCode: "+255" },
+  { code: "rw", name: "Rwanda", phoneCode: "+250" },
+  { code: "sa", name: "South Africa", phoneCode: "+27" },
 ];
 
 const flagImages: { [key: string]: any } = {
@@ -28,11 +28,13 @@ const flagImages: { [key: string]: any } = {
 interface CountrySelectorProps {
   value: string;
   onChange: (code: string) => void;
+  setCountryCode: (code: string) => void;
 }
 
 export default function CountrySelector({
   value,
   onChange,
+  setCountryCode,
 }: CountrySelectorProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const selected = COUNTRIES.find((c) => c.code === value) || COUNTRIES[0];
@@ -70,6 +72,7 @@ export default function CountrySelector({
                     style={styles.option}
                     onPress={() => {
                       onChange(item.code);
+                      setCountryCode(item.phoneCode);
                       setModalVisible(false);
                     }}
                   >

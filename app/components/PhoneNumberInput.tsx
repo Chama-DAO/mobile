@@ -3,11 +3,11 @@ import { Image } from "expo-image";
 import colors from "@/constants/Colors";
 const ken = require("../../assets/images/ke.png");
 
-const PhoneNumberInput = () => {
+const PhoneNumberInput = ({ countryCode }: { countryCode: string }) => {
   return (
     <View style={styles.container}>
       <View style={styles.flagContainer}>
-        <Text style={styles.flag}>+254</Text>
+        <Text style={styles.flag}>{countryCode}</Text>
       </View>
       <TextInput
         placeholder="712345678"
