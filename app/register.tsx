@@ -106,7 +106,7 @@ export default register;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f7f9",
   },
   title: {
     fontSize: 24,

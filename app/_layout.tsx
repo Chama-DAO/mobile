@@ -57,6 +57,7 @@ export default function RootLayout() {
                 <Ionicons name="arrow-back-outline" size={24} color="black" />
               </TouchableOpacity>
             ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -102,6 +103,26 @@ export default function RootLayout() {
           options={{
             title: "Dashboard",
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="notifications"
+          options={{
+            title: "Notifications",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="close" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+            headerStyle: {
+              backgroundColor: "#f0f7f9",
+            },
+            headerTitle: "Notifications",
+            headerTitleStyle: {
+              fontFamily: "MontserratAlternates",
+              fontSize: 16,
+            },
+            presentation: "modal",
           }}
         />
 

@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import React from "react";
 import { Link, useLocalSearchParams } from "expo-router";
@@ -21,105 +22,109 @@ const Page = () => {
   const [loading, setLoading] = React.useState(false);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={1}
-      style={styles.container}
-    >
-      {loading && (
-        <View style={defaultStyles.loadingOverlay}>
-          <ActivityIndicator size="large" color={colors.textprimary} />
-        </View>
-      )}
-      <AppBaner />
-      <Text style={styles.title}>Welcome Back</Text>
-      <View style={{ marginBottom: 30 }}>
-        <Text
-          style={{
-            marginVertical: 4,
-            fontFamily: "JakartaRegular",
-            fontSize: 16,
-          }}
-        >
-          Email
-        </Text>
-        <TextInput
-          placeholder="Enter email address"
-          style={styles.inputField}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoComplete="email"
-          autoCorrect={false}
-          textContentType="emailAddress"
-        />
-        <Text
-          style={{
-            marginVertical: 4,
-            fontFamily: "JakartaRegular",
-            fontSize: 16,
-          }}
-        >
-          Password
-        </Text>
-        <TextInput
-          placeholder="Enter Password"
-          style={styles.inputField}
-          keyboardType="phone-pad"
-          autoCapitalize="none"
-          autoComplete="tel"
-          autoCorrect={false}
-          textContentType="password"
-          secureTextEntry={true}
-        />
-        <Link
-          href={{
-            pathname: "/",
-            params: { type },
-          }}
-          asChild
-          style={[defaultStyles.btn, styles.btnDark]}
-        >
-          <TouchableOpacity style={[defaultStyles.btn, styles.avaxLogo]}>
-            <Image
-              source={require("../assets/images/eth-logo.svg")}
-              style={{
-                width: 24,
-                height: 24,
-                marginRight: 10,
-              }}
-            />
-            <Text style={styles.buttonDarkText}>Signin with Ethereum</Text>
-          </TouchableOpacity>
-        </Link>
-      </View>
-
-      <Text
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={1}
         style={{
-          marginTop: 20,
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
+          paddingHorizontal: 20,
         }}
       >
-        <Text style={styles.memberLoginText}>Need an account?</Text>
-        <Link href={{ pathname: "/onboard" }} asChild>
+        {loading && (
+          <View style={defaultStyles.loadingOverlay}>
+            <ActivityIndicator size="large" color={colors.textprimary} />
+          </View>
+        )}
+        <AppBaner />
+        <Text style={styles.title}>Welcome Back</Text>
+        <View style={{ marginBottom: 30 }}>
           <Text
             style={{
-              textDecorationLine: "underline",
-              marginLeft: 2,
-              fontFamily: "JakartaLight",
-              fontSize: 18,
-              width: 400,
-              paddingHorizontal: 40,
-              marginTop: 10,
-              textAlign: "center",
+              marginVertical: 4,
+              fontFamily: "JakartaRegular",
+              fontSize: 16,
             }}
           >
-            Signup
+            Email
           </Text>
-        </Link>
-      </Text>
-    </KeyboardAvoidingView>
+          <TextInput
+            placeholder="Enter email address"
+            style={styles.inputField}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoComplete="email"
+            autoCorrect={false}
+            textContentType="emailAddress"
+          />
+          <Text
+            style={{
+              marginVertical: 4,
+              fontFamily: "JakartaRegular",
+              fontSize: 16,
+            }}
+          >
+            Password
+          </Text>
+          <TextInput
+            placeholder="Enter Password"
+            style={styles.inputField}
+            keyboardType="phone-pad"
+            autoCapitalize="none"
+            autoComplete="tel"
+            autoCorrect={false}
+            textContentType="password"
+            secureTextEntry={true}
+          />
+          <Link
+            href={{
+              pathname: "/",
+              params: { type },
+            }}
+            asChild
+            style={[defaultStyles.btn, styles.btnDark]}
+          >
+            <TouchableOpacity style={[defaultStyles.btn, styles.avaxLogo]}>
+              <Image
+                source={require("../assets/images/eth-logo.svg")}
+                style={{
+                  width: 24,
+                  height: 24,
+                  marginRight: 10,
+                }}
+              />
+              <Text style={styles.buttonDarkText}>Signin with Ethereum</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
+
+        <Text
+          style={{
+            marginTop: 20,
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Text style={styles.memberLoginText}>Need an account? </Text>
+          <Link href={{ pathname: "/onboard" }} asChild>
+            <Text
+              style={{
+                textDecorationLine: "underline",
+                marginLeft: 2,
+                fontFamily: "JakartaLight",
+                fontSize: 18,
+                width: 400,
+                paddingHorizontal: 40,
+                marginTop: 10,
+                textAlign: "center",
+              }}
+            >
+              Signup
+            </Text>
+          </Link>
+        </Text>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f7f9",
   },
   logo: {
     width: "100%",

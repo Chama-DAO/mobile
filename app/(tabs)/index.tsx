@@ -13,7 +13,7 @@ import { ImageBackground, Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { quickActions, trendingChamas } from "@/constants/Styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
+import { router } from "expo-router";
 const bgImage = require("@/assets/images/bg.png");
 
 const Home = () => {
@@ -25,12 +25,15 @@ const Home = () => {
             <Text style={styles.introText}>Good Morning,</Text>
             <Text style={styles.nameText}>Sylus Abel</Text>
           </View>
-          <View style={styles.headerRight}>
+          <TouchableOpacity
+            style={styles.headerRight}
+            onPress={() => router.navigate("/notifications")}
+          >
             <FontAwesome6 name="bell" size={26} color="#212121" />
             <View style={styles.notificationBadge}>
               <Text style={styles.notificationBadgeText}>4</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.bgImageContainer}>
           <ImageBackground

@@ -39,12 +39,11 @@ const index = () => {
           width: "100%",
         }}
       >
-        <Text style={styles.memberLoginText}>Already a member?</Text>
+        <Text style={styles.memberLoginText}>Already a member? </Text>
         <Link href={{ pathname: "/login" }} asChild>
           <Text
             style={{
               textDecorationLine: "underline",
-              marginLeft: 2,
               fontFamily: "JakartaLight",
               fontSize: 18,
               width: 400,

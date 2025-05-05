@@ -107,3 +107,38 @@ export const trendingChamas = [
     contributionPeriod: "Annual",
   },
 ];
+
+export const notifications = [
+  {
+    id: "1",
+    title: "New Chama Created",
+    message: "The Chama has been created successfully",
+    read: false,
+    createdAt: "2021-01-01",
+    icon: createChama,
+  },
+  {
+    id: "2",
+    title: "New Loan Request",
+    message: "A new loan request has been created",
+    read: false,
+    createdAt: "2021-01-01",
+    icon: myLoans,
+  },
+  {
+    id: "3",
+    title: "Pending Contribution",
+    message: "You have a pending contribution of Ksh 1000",
+    read: false,
+    createdAt: "2021-01-01",
+    icon: myContributions,
+  },
+  {
+    id: "4",
+    title: "Meeting Reminder",
+    message: "The meeting is scheduled for tomorrow",
+    read: false,
+    createdAt: "2021-01-01",
+    icon: meeting,
+  },
+];
