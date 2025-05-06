@@ -10,14 +10,20 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.chamadao"
+      "bundleIdentifier": "com.anonymous.chamadao",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/Subtract.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.chamadao"
+      "package": "com.anonymous.chamadao",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +49,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "67a78265-c21c-43fc-88b7-05f6cdb380ef"
+      }
     }
   }
 }
