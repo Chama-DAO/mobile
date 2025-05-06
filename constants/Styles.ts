@@ -154,38 +154,76 @@ export const notifications = [
 export const chamaActions = [
   {
     title: "Pay Contribution",
-    route: "/mycontributions",
+    route: "chama/contributions",
     icon: myContributions,
     description: "Pay your contribution to the chama",
   },
   {
     title: "Request / Pay Loan",
-    route: "/myloans",
+    route: "chama/loans",
     icon: myLoans,
     description: "Request or pay a loan from the chama",
   },
   {
     title: "View Members",
-    route: "/members",
+    route: "chama/members",
     icon: joinChama,
     description: "View all members of the chama",
   },
   {
     title: "Meeting",
-    route: "/meeting",
+    route: "chama/meeting",
     icon: meeting,
     description: "Schedule or attend a meeting",
   },
   {
     title: "Chama Profile",
-    route: "/chamaprofile",
+    route: "chama/profile",
     icon: createChama,
     description: "View the full chama profile",
   },
   {
     title: "Leave Chama",
-    route: "/leavechama",
+    route: "chama/leave",
     icon: settings,
     description: "Leave the chama",
+  },
+];
+
+export const contributionHistory = [
+  {
+    id: "1",
+    date: "May 07, 2025",
+    amount: 420,
+    status: "Paid",
+    icon: "✅",
+  },
+  {
+    id: "2",
+    date: "Apr 07, 2025",
+    amount: 420,
+    status: "Paid",
+    icon: "✅",
+  },
+  {
+    id: "3",
+    date: "Mar 17, 2025",
+    amount: 420,
+    status: "Late",
+    icon: "⚠️",
+  },
+  {
+    id: "4",
+    date: "Feb 07, 2025",
+    amount: 420,
+    status: "Paid",
+    icon: "✅",
+  },
+  {
+    id: "5",
+    date: "Jan 07, 2025",
+    amount: 420,
+    status: "Paid",
+    icon: "✅",
   },
 ];

@@ -133,6 +133,13 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="chama/contributions"
+          options={{
+            title: "Pay Contribution",
+            headerShown: false,
+          }}
+        />
 
         <Stack.Screen name="+not-found" />
       </Stack>
