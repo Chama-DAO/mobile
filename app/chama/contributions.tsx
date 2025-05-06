@@ -6,13 +6,19 @@ import {
   View,
   FlatList,
   ScrollView,
+  Modal,
+  Dimensions,
 } from "react-native";
-import React from "react";
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "@/constants/Colors";
 import { Image } from "expo-image";
 import { contributionHistory } from "@/constants/Styles";
+import { BlurView } from "expo-blur";
+
+const { width, height } = Dimensions.get("window");
 
 const TableHeader = () => {
   return (
@@ -37,22 +43,32 @@ const TableRow = ({ item }: { item: any }) => {
 };
 
 const MakeContribution = () => {
+  const [isHealthModalVisible, setIsHealthModalVisible] = useState(false);
+  const [isStreakModalVisible, setIsStreakModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="dark" />
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back-outline" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Pay Contribution</Text>
         <View style={styles.gauges}>
-          <View style={styles.healthContainer}>
+          <TouchableOpacity
+            style={styles.healthContainer}
+            onPress={() => setIsHealthModalVisible(true)}
+          >
             <Ionicons name="pulse" size={24} color={colors.chamaGreen} />
             <Text style={styles.gaugeText}>100</Text>
-          </View>
-          <View style={styles.streakContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.streakContainer}
+            onPress={() => setIsStreakModalVisible(true)}
+          >
             <Ionicons name="flame" size={24} color={colors.accent} />
             <Text style={styles.gaugeText}>4</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView
@@ -75,7 +91,7 @@ const MakeContribution = () => {
           <View style={styles.balanceContainer}>
             <View style={styles.balanceItem}>
               <Text style={styles.balanceTitle}>Already Paid</Text>
-              <Text style={styles.balanceText}>8 of 17 Members</Text>
+              <Text style={styles.balanceText}>17 of 21 Members</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.balanceItem}>
@@ -135,6 +151,48 @@ const MakeContribution = () => {
           </View>
         </View>
       </ScrollView>
+      <Modal visible={isHealthModalVisible} transparent animationType="fade">
+        <BlurView intensity={20} tint="light" style={styles.overlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Health Points</Text>
+              <TouchableOpacity onPress={() => setIsHealthModalVisible(false)}>
+                <Ionicons name="close" size={24} color={colors.accent} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.modalText}>
+              Your Health Factor is the percentage of your on-time contributions
+              over the last cycle. A higher Health Factor (closer to 100%) shows
+              you consistently pay when due, which builds trust in the group.
+              Other members see this score when deciding whether to guarantee
+              your loan, and a strong Health Factor can reduce the extra
+              collateral they require.
+            </Text>
+            <Text style={styles.learnMore}>Learn More.</Text>
+          </View>
+        </BlurView>
+      </Modal>
+      <Modal visible={isStreakModalVisible} transparent animationType="fade">
+        <BlurView intensity={20} tint="light" style={styles.overlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Streak</Text>
+              <TouchableOpacity onPress={() => setIsStreakModalVisible(false)}>
+                <Ionicons name="close" size={24} color={colors.accent} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.modalText}>
+              Your Streak counts how many payments in a row you’ve made on time
+              (e.g. “Weekly Streak: 5”). Every consecutive on-time payment
+              increases your reputation—longer streaks signal reliability and
+              lower perceived risk. This directly boosts your creditworthiness
+              in the chama’s lending process, making members more comfortable
+              acting as guarantors.
+            </Text>
+            <Text style={styles.learnMore}>Learn More.</Text>
+          </View>
+        </BlurView>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -374,5 +432,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     marginBottom: 4,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "#f0f7f9",
+    borderRadius: 10,
+    padding: 16,
+    width: width * 0.9,
+    borderWidth: 1,
+    borderColor: colors.chamaBlue,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontFamily: "MontserratAlternates",
+    fontSize: 16,
+    color: colors.accent,
+  },
+  modalText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    color: colors.chamaBlack,
+    lineHeight: 24,
+  },
+  learnMore: {
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    color: colors.accent,
+    marginTop: 6,
+    textDecorationLine: "underline",
   },
 });

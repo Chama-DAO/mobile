@@ -14,11 +14,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { quickActions, trendingChamas } from "@/constants/Styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 const bgImage = require("@/assets/images/bg.png");
 
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="dark" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.introTextContainer}>
