@@ -53,34 +53,42 @@ export const quickActions = [
   {
     name: "My Chama",
     icon: myChama,
+    route: "/mychama",
   },
   {
     name: "Take Loan",
     icon: myLoans,
+    route: "/myloans",
   },
   {
     name: "Pay Contribution",
     icon: myContributions,
+    route: "/mycontributions",
   },
   {
     name: "Join Chama",
     icon: joinChama,
+    route: "/joinchama",
   },
   {
     name: "Pay Loan",
     icon: payLoan,
+    route: "/payloan",
   },
   {
     name: "Create Chama",
     icon: createChama,
+    route: "/createchama",
   },
   {
     name: "Meeting",
     icon: meeting,
+    route: "/meeting",
   },
   {
     name: "Settings",
     icon: settings,
+    route: "/settings",
   },
 ];
 

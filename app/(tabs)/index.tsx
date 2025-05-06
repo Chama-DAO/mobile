@@ -104,6 +104,7 @@ const Home = () => {
               <TouchableOpacity
                 style={styles.quickActionItem}
                 key={action.name}
+                onPress={() => router.navigate(action.route as any)}
               >
                 <View style={styles.quickActionItemIconContainer}>
                   <Image

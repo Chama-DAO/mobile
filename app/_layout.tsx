@@ -41,6 +41,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <StatusBar style="dark" />
       <Stack>
         <Stack.Screen
           name="index"
@@ -125,10 +126,16 @@ export default function RootLayout() {
             presentation: "modal",
           }}
         />
+        <Stack.Screen
+          name="mychama"
+          options={{
+            title: "My Chama",
+            headerShown: false,
+          }}
+        />
 
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
