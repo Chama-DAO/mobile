@@ -150,3 +150,36 @@ export const notifications = [
     icon: meeting,
   },
 ];
+
+export const chamaActions = [
+  {
+    title: "Pay Contribution",
+    route: "/mycontributions",
+    icon: myContributions,
+  },
+  {
+    title: "Request / Pay Loan",
+    route: "/myloans",
+    icon: myLoans,
+  },
+  {
+    title: "View Members",
+    route: "/members",
+    icon: joinChama,
+  },
+  {
+    title: "Meeting",
+    route: "/meeting",
+    icon: meeting,
+  },
+  {
+    title: "Chama Profile",
+    route: "/chamaprofile",
+    icon: createChama,
+  },
+  {
+    title: "Leave Chama",
+    route: "/leavechama",
+    icon: settings,
+  },
+];

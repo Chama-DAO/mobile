@@ -6,11 +6,14 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  FlatList,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { chamaActions } from "@/constants/Styles";
+import ChamaAction from "./components/ChamaAction";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -26,7 +29,10 @@ const MyChama = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Wandaes</Text>
       </View>
-      <View>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 4 }}
+        showsVerticalScrollIndicator={false}
+      >
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -40,6 +46,7 @@ const MyChama = () => {
             setCurrentIndex(index);
           }}
           scrollEventThrottle={16}
+          style={{ marginBottom: 10 }}
         >
           <View style={{ width: screenWidth }}>
             <View style={styles.financialContainer}>
@@ -131,7 +138,26 @@ const MyChama = () => {
             />
           ))}
         </View>
-      </View>
+        <View style={styles.chamaActionsContainer}>
+          <FlatList
+            data={chamaActions}
+            renderItem={({ item }) => (
+              <ChamaAction
+                title={item.title}
+                route={item.route}
+                icon={item.icon}
+              />
+            )}
+            numColumns={2}
+            columnWrapperStyle={{
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
+            scrollEnabled={false}
+            keyExtractor={(item) => item.title}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -260,5 +286,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.chamaBlack,
     borderRadius: 5,
     marginHorizontal: 6,
+  },
+  chamaActionsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 16,
+    marginTop: 32,
   },
 });
