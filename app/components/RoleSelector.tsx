@@ -117,6 +117,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
+    borderColor: colors.accent,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   option: {
     flexDirection: "row",

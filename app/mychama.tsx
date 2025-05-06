@@ -146,6 +146,7 @@ const MyChama = () => {
                 title={item.title}
                 route={item.route}
                 icon={item.icon}
+                description={item.description}
               />
             )}
             numColumns={2}

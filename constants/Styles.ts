@@ -156,30 +156,36 @@ export const chamaActions = [
     title: "Pay Contribution",
     route: "/mycontributions",
     icon: myContributions,
+    description: "Pay your contribution to the chama",
   },
   {
     title: "Request / Pay Loan",
     route: "/myloans",
     icon: myLoans,
+    description: "Request or pay a loan from the chama",
   },
   {
     title: "View Members",
     route: "/members",
     icon: joinChama,
+    description: "View all members of the chama",
   },
   {
     title: "Meeting",
     route: "/meeting",
     icon: meeting,
+    description: "Schedule or attend a meeting",
   },
   {
     title: "Chama Profile",
     route: "/chamaprofile",
     icon: createChama,
+    description: "View the full chama profile",
   },
   {
     title: "Leave Chama",
     route: "/leavechama",
     icon: settings,
+    description: "Leave the chama",
   },
 ];

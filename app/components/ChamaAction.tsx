@@ -13,11 +13,12 @@ interface ChamaActionProps {
   title: string;
   route: string;
   icon: any;
+  description: string;
 }
 
 const { width } = Dimensions.get("window");
 
-const ChamaAction = ({ title, route, icon }: ChamaActionProps) => {
+const ChamaAction = ({ title, route, icon, description }: ChamaActionProps) => {
   return (
     <TouchableOpacity
       style={styles.container}
@@ -25,9 +26,7 @@ const ChamaAction = ({ title, route, icon }: ChamaActionProps) => {
     >
       <Image source={icon} style={styles.icon} contentFit="contain" />
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity>
-        <Image source={icon} />
-      </TouchableOpacity>
+      <Text style={styles.description}>{description}</Text>
     </TouchableOpacity>
   );
 };
@@ -37,7 +36,7 @@ export default ChamaAction;
 const styles = StyleSheet.create({
   container: {
     width: width / 2 - 20,
-    height: width / 2 - 20,
+    height: width / 2.8 - 20,
     backgroundColor: "#f0f7f9",
     borderRadius: 10,
     padding: 16,
@@ -52,5 +51,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "JakartaSemiBold",
     marginTop: 10,
+  },
+  description: {
+    fontSize: 12,
+    fontFamily: "JakartaRegular",
+    marginTop: 5,
+    color: colors.textsecondary,
   },
 });
