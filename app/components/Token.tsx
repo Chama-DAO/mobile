@@ -26,7 +26,9 @@ const Token = ({
         <Image source={logo} style={styles.logo} />
         <View style={styles.tokenNameContainer}>
           <Text style={styles.tokenName}>{name}</Text>
-          <Text style={styles.tokenPrice}>KSH {price.toLocaleString()}</Text>
+          <Text style={styles.tokenPrice}>
+            {amount} {name}
+          </Text>
         </View>
       </View>
       <View style={styles.tokenAmountContainer}>
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     fontFamily: "JakartaRegular",
   },
   tokenPrice: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.textsecondary,
     fontFamily: "JakartaRegular",

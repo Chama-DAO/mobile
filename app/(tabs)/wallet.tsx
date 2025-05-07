@@ -33,7 +33,7 @@ const Wallet = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.walletBalanceAmount}>KES 1, 000</Text>
+            <Text style={styles.walletBalanceAmount}>KES 3, 432.58</Text>
             <View style={styles.walletBalanceSubtitleContainer}>
               <Text style={styles.walletBalanceSubtitle}>
                 April Expenses: KES 1, 245
@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   walletBalanceAmount: {
-    fontSize: 34,
+    fontSize: 30,
     fontWeight: "bold",
     color: colors.chamaBlack,
     fontFamily: "MontserratAlternates",
-    marginVertical: 8,
+    marginVertical: 16,
   },
   walletBalanceSubtitle: {
     fontSize: 13,
