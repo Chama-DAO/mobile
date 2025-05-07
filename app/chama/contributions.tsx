@@ -112,14 +112,28 @@ const MakeContribution = () => {
               <Text style={styles.balanceText}>KES 0</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.btn}>
-            <Image
-              source={require("@/assets/images/mpesa.png")}
-              style={styles.mpesaIcon}
-              contentFit="contain"
-            />
-            <Text style={styles.btnText}>Pay with Mpesa</Text>
-          </TouchableOpacity>
+          <View style={styles.paymentContainer}>
+            <TouchableOpacity style={styles.btn}>
+              <Image
+                source={require("@/assets/images/mpesa.png")}
+                style={styles.mpesaIcon}
+                contentFit="contain"
+              />
+              <Text style={styles.btnText}>Pay with Mpesa</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btn}>
+              <Image
+                source={require("@/assets/images/cbw.svg")}
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 20,
+                }}
+                contentFit="contain"
+              />
+              <Text style={styles.btnText}>Pay with Wallet</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.infoContainer}>
             <View style={styles.infoHeader}>
               <Ionicons
@@ -333,21 +347,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f7f9",
     borderRadius: 10,
     marginHorizontal: 10,
-    marginTop: 16,
     borderWidth: 1,
     borderColor: colors.chamaBlue,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 5,
+    width: "45%",
   },
   mpesaIcon: {
     width: 40,
     height: 40,
   },
   btnText: {
-    fontFamily: "JakartSemiBold",
-    fontSize: 16,
+    fontFamily: "JakartRegular",
+    fontSize: 14,
+    paddingHorizontal: 4,
   },
   contributionHistoryTitle: {
     fontFamily: "JakartSemiBold",
@@ -470,5 +485,12 @@ const styles = StyleSheet.create({
     color: colors.accent,
     marginTop: 6,
     textDecorationLine: "underline",
+  },
+  paymentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
+    marginTop: 16,
   },
 });
