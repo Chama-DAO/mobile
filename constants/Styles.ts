@@ -16,6 +16,10 @@ const createChama = require("../assets/images/create.svg");
 const meeting = require("../assets/images/meeting.svg");
 const settings = require("../assets/images/settings.svg");
 
+const usdc = require("../assets/images/usdc.svg");
+const kshc = require("../assets/images/kshc.svg");
+const eth = require("../assets/images/eth-logo.svg");
+
 const blockbusters = require("../assets/images/blockbusters.jpg");
 const wandaes = require("../assets/images/wandaes.jpg");
 const chamadao = require("../assets/images/Subtract.png");
@@ -230,8 +234,44 @@ export const contributionHistory = [
 
 export const backgroundTokenColors = [
   "#E6F0F6",
-  "##FCDBE9",
-  "##BEE1BF",
-  "##CBFDD3",
-  "##FAF4B8",
+  "#FCDBE9",
+  "#BEE1BF",
+  "#CBFDD3",
+  "#FAF4B8",
+];
+
+export const tokens = [
+  {
+    id: "usdc",
+    name: "USDC",
+    price: 129,
+    amount: 4.12,
+    logo: usdc,
+    backgroundColor:
+      backgroundTokenColors[
+        Math.floor(Math.random() * backgroundTokenColors.length)
+      ],
+  },
+  {
+    id: "ksh",
+    name: "KSHC",
+    price: 1,
+    amount: 40.02,
+    logo: kshc,
+    backgroundColor:
+      backgroundTokenColors[
+        Math.floor(Math.random() * backgroundTokenColors.length)
+      ],
+  },
+  {
+    id: "eth",
+    name: "ETH",
+    price: 238456.98,
+    amount: 0.012,
+    logo: eth,
+    backgroundColor:
+      backgroundTokenColors[
+        Math.floor(Math.random() * backgroundTokenColors.length)
+      ],
+  },
 ];

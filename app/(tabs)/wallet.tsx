@@ -5,57 +5,70 @@ import {
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { tokens } from "@/constants/Styles";
+import Token from "../components/Token";
 const { width } = Dimensions.get("window");
 
 const Wallet = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.walletContainer}>
-        <View style={styles.walletBalanceContainer}>
-          <View style={styles.walletBalanceHeader}>
-            <Text style={styles.walletBalanceTitle}>My Balance</Text>
-            <TouchableOpacity>
-              <Ionicons
-                name="eye-outline"
-                size={24}
-                color={colors.chamaBlack}
-              />
-            </TouchableOpacity>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, backgroundColor: "#f0f7f9" }}
+      >
+        <View style={styles.walletContainer}>
+          <View style={styles.walletBalanceContainer}>
+            <View style={styles.walletBalanceHeader}>
+              <Text style={styles.walletBalanceTitle}>My Balance</Text>
+              <TouchableOpacity>
+                <Ionicons
+                  name="eye-outline"
+                  size={24}
+                  color={colors.chamaBlack}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.walletBalanceAmount}>KES 1, 000</Text>
+            <View style={styles.walletBalanceSubtitleContainer}>
+              <Text style={styles.walletBalanceSubtitle}>
+                April Expenses: KES 1, 245
+              </Text>
+              <TouchableOpacity style={styles.footerButton}>
+                <Text style={styles.walletBalanceSubtitle}> 0xdg8sgu...</Text>
+                <Ionicons
+                  name="copy-outline"
+                  size={16}
+                  color={colors.chamaBlack}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <Text style={styles.walletBalanceAmount}>KES 1, 000</Text>
-          <View style={styles.walletBalanceSubtitleContainer}>
-            <Text style={styles.walletBalanceSubtitle}>
-              April Expenses: KES 1, 245
-            </Text>
-            <TouchableOpacity style={styles.footerButton}>
-              <Text style={styles.walletBalanceSubtitle}> 0xdg8sgu...</Text>
-              <Ionicons
-                name="copy-outline"
-                size={16}
-                color={colors.chamaBlack}
-              />
+          <View style={styles.actionContainer}>
+            <TouchableOpacity style={styles.actionButton}>
+              <Ionicons name="add" size={24} color={"#f0f7f9"} />
+              <Text style={styles.actionButtonText}>Add funds</Text>
+            </TouchableOpacity>
+            <View style={styles.divider}></View>
+            <TouchableOpacity style={styles.actionButton}>
+              <Ionicons name="arrow-down-outline" size={24} color={"#f0f7f9"} />
+              <Text style={styles.actionButtonText}>Withdraw</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.actionContainer}>
-          <TouchableOpacity style={styles.actionButton}>
-            <Ionicons name="add" size={24} color={"#f0f7f9"} />
-            <Text style={styles.actionButtonText}>Add funds</Text>
-          </TouchableOpacity>
-          <View style={styles.divider}></View>
-          <TouchableOpacity style={styles.actionButton}>
-            <Ionicons name="arrow-down-outline" size={24} color={"#f0f7f9"} />
-            <Text style={styles.actionButtonText}>Withdraw</Text>
-          </TouchableOpacity>
+        <View style={styles.tokensContainer}>
+          <Text style={styles.tokensTitle}>My Tokens</Text>
+          <View style={styles.tokensList}>
+            {tokens.map((token) => (
+              <Token key={token.id} {...token} />
+            ))}
+          </View>
         </View>
-      </View>
-      <View style={styles.tokensContainer}>
-        <Text style={styles.tokensTitle}>My Tokens</Text>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -165,5 +178,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.chamaBlack,
     fontFamily: "PoppinsSemiBold",
+    marginBottom: 10,
+  },
+  tokensList: {
+    flexDirection: "column",
+    gap: 4,
+  },
+  token: {
+    padding: 16,
+    borderRadius: 16,
+  },
+  tokenName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.chamaBlack,
+    fontFamily: "JakartaRegular",
   },
 });
