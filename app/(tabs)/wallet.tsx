@@ -7,14 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { tokens } from "@/constants/Styles";
 import Token from "../components/Token";
+import { BlurView } from "expo-blur";
 const { width } = Dimensions.get("window");
 
 const Wallet = () => {
+  const [isBalanceHidden, setIsBalanceHidden] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -25,21 +28,36 @@ const Wallet = () => {
           <View style={styles.walletBalanceContainer}>
             <View style={styles.walletBalanceHeader}>
               <Text style={styles.walletBalanceTitle}>My Balance</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setIsBalanceHidden((prev) => !prev)}
+              >
                 <Ionicons
-                  name="eye-outline"
+                  name={isBalanceHidden ? "eye-off-outline" : "eye-outline"}
                   size={24}
                   color={colors.chamaBlack}
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.walletBalanceAmount}>KES 3, 432.58</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {isBalanceHidden ? (
+                <BlurView
+                  intensity={10}
+                  style={{
+                    borderRadius: 16,
+                  }}
+                >
+                  <Text style={styles.walletBalanceAmount}>***********</Text>
+                </BlurView>
+              ) : (
+                <Text style={styles.walletBalanceAmount}>KES 3,432.58</Text>
+              )}
+            </View>
             <View style={styles.walletBalanceSubtitleContainer}>
               <Text style={styles.walletBalanceSubtitle}>
-                April Expenses: KES 1, 245
+                April Expenses: KES 1,245
               </Text>
               <TouchableOpacity style={styles.footerButton}>
-                <Text style={styles.walletBalanceSubtitle}> 0xdg8sgu...</Text>
+                <Text style={styles.walletBalanceSubtitle}> 0xeg8sgu...</Text>
                 <Ionicons
                   name="copy-outline"
                   size={16}

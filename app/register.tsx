@@ -76,17 +76,6 @@ const register = () => {
                 title="ID Number"
                 keyboardType="numeric"
               />
-              <RoleSelector value={role} onChange={setRole} />
-              <CustomTextInput
-                placeholder="Enter your password"
-                title="Password"
-                isPassword={true}
-              />
-              <CustomTextInput
-                placeholder="Confirm your password"
-                title="Confirm Password"
-                isPassword={true}
-              />
               <TouchableOpacity
                 style={styles.registerButton}
                 onPress={() => handleRegistration()}
