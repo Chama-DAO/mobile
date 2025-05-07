@@ -227,3 +227,11 @@ export const contributionHistory = [
     icon: "✅",
   },
 ];
+
+export const backgroundTokenColors = [
+  "#E6F0F6",
+  "##FCDBE9",
+  "##BEE1BF",
+  "##CBFDD3",
+  "##FAF4B8",
+];
