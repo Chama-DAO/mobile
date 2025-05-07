@@ -3,11 +3,12 @@ import { Ionicons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Home from ".";
 import Profile from "./profile";
-import Proposals from "./proposals";
+import Proposals from "./wallet";
 import Loans from "./loans";
 import { BlurView } from "expo-blur";
 import { StyleSheet, Text } from "react-native";
 import colors from "@/constants/Colors";
+import Wallet from "./wallet";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,8 +22,6 @@ const Tabs = () => {
             tint="light"
             style={{
               flex: 1,
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
               borderRadius: 24,
               overflow: "hidden",
             }}
@@ -32,7 +31,7 @@ const Tabs = () => {
           position: "absolute",
           left: 16,
           right: 16,
-          bottom: 34,
+          bottom: 28,
           elevation: 10,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: -4 },
@@ -42,16 +41,17 @@ const Tabs = () => {
           borderRadius: 24,
           backgroundColor: "transparent",
           marginHorizontal: 16,
-          height: 60,
           borderColor: colors.accent,
           overflow: "hidden",
+          height: 64,
         },
         tabBarShowLabel: true,
         headerShown: false,
         tabBarLabelStyle: {
           fontSize: 13,
           fontWeight: "600",
-          fontFamily: "JakartaRegular",
+          marginTop: 4,
+          fontFamily: "JakartSemiBold",
         },
       }}
     >
@@ -60,67 +60,18 @@ const Tabs = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name="home" color={color} size={!focused ? 32 : 28} />
+            <Ionicons name="home" color={color} size={32} />
           ),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? (
-              <Text
-                style={{
-                  color,
-                  fontWeight: "600",
-                  fontFamily: "JakartaRegular",
-                }}
-              >
-                Home
-              </Text>
-            ) : null,
         }}
       />
 
       <Tab.Screen
-        name="Loans"
-        component={Loans}
+        name="Wallet"
+        component={Wallet}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
-            <FontAwesome6 name="coins" size={focused ? 22 : 26} color={color} />
+            <Ionicons name="wallet" color={color} size={32} />
           ),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? (
-              <Text
-                style={{
-                  color,
-                  fontWeight: "600",
-                  fontFamily: "JakartaRegular",
-                }}
-              >
-                Loans
-              </Text>
-            ) : null,
-        }}
-      />
-      <Tab.Screen
-        name="Proposals"
-        component={Proposals}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name="hand-left-outline"
-              color={color}
-              size={focused ? 22 : 26}
-            />
-          ),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? (
-              <Text
-                style={{
-                  color,
-                  fontWeight: "600",
-                  fontFamily: "JakartaRegular",
-                }}
-              >
-                Proposals
-              </Text>
-            ) : null,
         }}
       />
       <Tab.Screen
@@ -128,20 +79,8 @@ const Tabs = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name="person" color={color} size={focused ? 22 : 26} />
+            <Ionicons name="person" color={color} size={32} />
           ),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? (
-              <Text
-                style={{
-                  color,
-                  fontWeight: "600",
-                  fontFamily: "JakartaRegular",
-                }}
-              >
-                Profile
-              </Text>
-            ) : null,
         }}
       />
     </Tab.Navigator>

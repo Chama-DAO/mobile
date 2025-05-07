@@ -426,6 +426,7 @@ const styles = StyleSheet.create({
     fontFamily: "JakartaRegular",
     fontSize: 14,
     color: colors.chamaBlack,
+    lineHeight: 24,
   },
   infoHeader: {
     flexDirection: "row",

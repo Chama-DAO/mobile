@@ -47,7 +47,7 @@ const Home = () => {
               <View style={styles.contributionAmountContainer}>
                 <View style={styles.contributionAmountTitleContainer}>
                   <Text style={styles.contributionAmountTitle}>
-                    Total Contributions
+                    Next Contribution
                   </Text>
                   <TouchableOpacity
                     style={styles.contributionAmountTitleButton}
@@ -55,10 +55,13 @@ const Home = () => {
                     <Ionicons name="eye" size={20} color="#212121" />
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.contributionAmountText}>KES 100</Text>
+                <Text style={styles.contributionAmountText}>KES 420</Text>
               </View>
               <View style={styles.manageContributionContainer}>
-                <TouchableOpacity style={styles.manageContributionButton}>
+                <TouchableOpacity
+                  style={styles.manageContributionButton}
+                  onPress={() => router.navigate("chama/contributions" as any)}
+                >
                   <Text style={styles.manageContributionText}>Manage</Text>
                 </TouchableOpacity>
               </View>
@@ -74,17 +77,20 @@ const Home = () => {
                     <Ionicons name="eye" size={20} color="#212121" />
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.contributionAmountText}>KES 100</Text>
+                <Text style={styles.contributionAmountText}>KES 0</Text>
               </View>
               <View style={styles.manageContributionContainer}>
-                <TouchableOpacity style={styles.manageContributionButton}>
+                <TouchableOpacity
+                  style={styles.manageContributionButton}
+                  onPress={() => router.navigate("chama/myloans" as any)}
+                >
                   <Text style={styles.manageContributionText}>Manage</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ImageBackground>
         </View>
-        <View style={styles.nextStepContainer}>
+        {/* <View style={styles.nextStepContainer}>
           <View style={styles.nextStepTextContainer}>
             <Text style={styles.nextStepText}>Next Steps</Text>
             <View style={styles.nextStepProgressContainer}>
@@ -98,7 +104,7 @@ const Home = () => {
             <Ionicons name="add" size={20} color="#212121" />
             <Text style={styles.stepActionText}>Create / Join a Chama</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View style={styles.quickActionsContainer}>
           <Text style={styles.quickActionTitle}>Quick Actions</Text>
           <View style={styles.quickActionsItemsContainer}>
@@ -121,7 +127,11 @@ const Home = () => {
           </View>
           <View style={styles.quickActionsItemsContainer}>
             {quickActions.slice(4, 8).map((action) => (
-              <View style={styles.quickActionItem} key={action.name}>
+              <TouchableOpacity
+                style={styles.quickActionItem}
+                key={action.name}
+                onPress={() => router.navigate(action.route as any)}
+              >
                 <View style={styles.quickActionItemIconContainer}>
                   <Image
                     source={action.icon}
@@ -130,7 +140,7 @@ const Home = () => {
                   />
                 </View>
                 <Text style={styles.quickActionItemText}>{action.name}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>

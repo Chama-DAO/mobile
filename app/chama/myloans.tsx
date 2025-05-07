@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Proposals = () => {
+const MyLoans = () => {
   return (
     <View>
-      <Text>Proposals</Text>
+      <Text>MyLoans</Text>
     </View>
   );
 };
 
-export default Proposals;
+export default MyLoans;
 
 const styles = StyleSheet.create({});
