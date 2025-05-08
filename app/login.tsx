@@ -8,18 +8,41 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import { defaultStyles } from "@/constants/Styles";
 import colors from "@/constants/Colors";
 import { Image } from "expo-image";
+import { client } from "@/utils/client";
+import { ConnectButton, lightTheme, useActiveAccount } from "thirdweb/react";
+import { createWallet } from "thirdweb/wallets";
+import { defineChain } from "thirdweb";
+import { baseSepolia } from "thirdweb/chains";
+import { router } from "expo-router";
+import Lottie from "lottie-react-native";
+import AppBanner from "./components/AppBanner";
 
-import AppBaner from "./components/AppBanner";
+const width = Dimensions.get("window").width;
 
 const Page = () => {
-  const { type } = useLocalSearchParams<{ type: string }>();
-  const [loading, setLoading] = React.useState(false);
+  const wallets = [
+    createWallet("com.coinbase.wallet", {
+      mobileConfig: {
+        callbackURL: "myapp://createCoinbaseWallet",
+      },
+      walletConfig: {
+        options: "smartWalletOnly",
+      },
+      appMetadata: {
+        name: "The ChamaDAO",
+        description: "The complete savings platform for EVERYONE!",
+        url: "https://www.thechamadao.xyz",
+        logoUrl: "https://www.thechamadao.xyz/logo.svg",
+      },
+    }),
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,72 +53,46 @@ const Page = () => {
           paddingHorizontal: 20,
         }}
       >
-        {loading && (
-          <View style={defaultStyles.loadingOverlay}>
-            <ActivityIndicator size="large" color={colors.textprimary} />
-          </View>
-        )}
-        <AppBaner />
+        <AppBanner />
         <Text style={styles.title}>Welcome Back</Text>
-        <View style={{ marginBottom: 30 }}>
-          <Text
-            style={{
-              marginVertical: 4,
-              fontFamily: "JakartaRegular",
-              fontSize: 16,
-            }}
-          >
-            Email
-          </Text>
-          <TextInput
-            placeholder="Enter email address"
-            style={styles.inputField}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect={false}
-            textContentType="emailAddress"
+        <Text style={styles.subtitle}>
+          One-tap login with your Coinbase smart wallet
+        </Text>
+        <View style={styles.animationContainer}>
+          <Lottie
+            source={require("../assets/images/smart-wallet.json")}
+            autoPlay
+            loop
+            style={styles.animationContainer}
           />
-          <Text
-            style={{
-              marginVertical: 4,
-              fontFamily: "JakartaRegular",
-              fontSize: 16,
-            }}
-          >
-            Password
-          </Text>
-          <TextInput
-            placeholder="Enter Password"
-            style={styles.inputField}
-            keyboardType="phone-pad"
-            autoCapitalize="none"
-            autoComplete="tel"
-            autoCorrect={false}
-            textContentType="password"
-            secureTextEntry={true}
-          />
-          <Link
-            href={{
-              pathname: "/",
-              params: { type },
-            }}
-            asChild
-            style={[defaultStyles.btn, styles.btnDark]}
-          >
-            <TouchableOpacity style={[defaultStyles.btn, styles.avaxLogo]}>
-              <Image
-                source={require("../assets/images/eth-logo.svg")}
-                style={{
-                  width: 24,
-                  height: 24,
-                  marginRight: 10,
-                }}
-              />
-              <Text style={styles.buttonDarkText}>Signin with Ethereum</Text>
-            </TouchableOpacity>
-          </Link>
         </View>
+        <TouchableOpacity style={styles.createWalletButton}>
+          <ConnectButton
+            client={client}
+            theme={lightTheme({
+              colors: {
+                modalBg: "#f0f7f9",
+                modalOverlayBg: "#f0f7f9",
+                primaryButtonBg: "#f0f7f9",
+                primaryButtonText: colors.chamaBlack,
+              },
+              fontFamily: "Poppins",
+            })}
+            wallets={wallets}
+            chain={defineChain(baseSepolia)}
+            connectButton={{
+              label: "Sign in with Smart Wallet",
+            }}
+            connectModal={{
+              title: "Coinbase Wallet",
+              titleIcon: "https://www.thechamadao.xyz/logo.svg",
+              size: "compact",
+            }}
+            onConnect={(wallet) => {
+              router.push("/(tabs)");
+            }}
+          />
+        </TouchableOpacity>
 
         <Text
           style={{
@@ -146,8 +143,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 38,
     textAlign: "center",
-    marginBottom: 20,
-    fontFamily: "PoppinsRegular",
+    marginBottom: 4,
+    fontFamily: "JakartSemiBold",
     marginTop: 20,
   },
   inputField: {
@@ -158,9 +155,18 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 10,
     backgroundColor: "#F0F9F7",
-    fontFamily: "JakartaRegular",
+    fontFamily: "MontserratAlternates",
     marginBottom: 20,
     paddingHorizontal: 20,
+  },
+  createWalletButton: {
+    marginTop: 32,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.chamaGreen,
+    padding: 2,
+    marginHorizontal: 16,
+    flexDirection: "column",
   },
   btnIcon: {
     paddingRight: 10,
@@ -177,7 +183,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 24,
   },
-
+  animationContainer: {
+    width: width * 0.9,
+    height: width,
+  },
   buttonDarkText: {
     fontSize: 16,
     color: "#fff",
@@ -190,5 +199,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     marginTop: 10,
     textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    fontFamily: "JakartaRegular",
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 20,
+    marginHorizontal: 16,
   },
 });

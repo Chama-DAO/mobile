@@ -5,24 +5,30 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import AppBanner from "./components/AppBanner";
 import Lottie from "lottie-react-native";
 import colors from "@/constants/Colors";
 import { client } from "@/utils/client";
-import { ConnectButton, lightTheme } from "thirdweb/react";
+import { ConnectButton, lightTheme, useActiveAccount } from "thirdweb/react";
 import { createWallet } from "thirdweb/wallets";
 import { defineChain } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
-
+import { router } from "expo-router";
 const width = Dimensions.get("window").width;
 
 const CreateCoinbaseWallet = () => {
+  const [walletConnected, setWalletConnected] = useState(true);
+  const activeAccount = useActiveAccount();
   const wallets = [
     createWallet("com.coinbase.wallet", {
       mobileConfig: {
-        callbackURL: "https://www.thechamadao.xyz",
+        callbackURL: "myapp://createCoinbaseWallet",
+      },
+      walletConfig: {
+        options: "smartWalletOnly",
       },
       appMetadata: {
         name: "The ChamaDAO",
@@ -32,45 +38,72 @@ const CreateCoinbaseWallet = () => {
       },
     }),
   ];
+  const completeRegistration = async () => {
+    // get registration data from local storage
+    // append user wallet address to reg details
+    // send the data to the backend
+    // show a success lottie animation
+    // navigate to home screen
+    router.push("/(tabs)");
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <AppBanner />
-      <Text style={styles.title}>Smart Wallet</Text>
-      <Text style={styles.subtitle}>
-        With a smart wallet, you can manage your wallet on the go.
-      </Text>
-      <View style={styles.animationContainer}>
-        <Lottie
-          source={require("../assets/images/smart-wallet.json")}
-          autoPlay
-          loop
-          style={styles.animationContainer}
-        />
-      </View>
-      <TouchableOpacity style={styles.createWalletButton}>
-        <ConnectButton
-          client={client}
-          theme={lightTheme({
-            colors: {
-              modalBg: "#f0f7f9",
-              modalOverlayBg: "#f0f7f9",
-              primaryButtonBg: colors.chamaGreen,
-              primaryButtonText: colors.chamaBlack,
-            },
-            fontFamily: "Poppins",
-          })}
-          wallets={wallets}
-          chain={defineChain(baseSepolia)}
-          connectButton={{
-            label: "Create a Smart Wallet",
-          }}
-          connectModal={{
-            title: "Coinbase Wallet",
-            titleIcon: "https://www.thechamadao.xyz/logo.svg",
-            size: "compact",
-          }}
-        />
-      </TouchableOpacity>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <AppBanner />
+        <Text style={styles.title}>Smart Wallet</Text>
+        <Text style={styles.subtitle}>
+          With a smart wallet, you can manage your wallet on the go.
+        </Text>
+        <View style={styles.animationContainer}>
+          <Lottie
+            source={require("../assets/images/smart-wallet.json")}
+            autoPlay
+            loop
+            style={styles.animationContainer}
+          />
+        </View>
+        <TouchableOpacity style={styles.createWalletButton}>
+          <ConnectButton
+            client={client}
+            theme={lightTheme({
+              colors: {
+                modalBg: "#f0f7f9",
+                modalOverlayBg: "#f0f7f9",
+                primaryButtonBg: "#f0f7f9",
+                primaryButtonText: colors.chamaBlack,
+              },
+              fontFamily: "Poppins",
+            })}
+            wallets={wallets}
+            chain={defineChain(baseSepolia)}
+            connectButton={{
+              label: "Create a Smart Wallet",
+            }}
+            connectModal={{
+              title: "Coinbase Wallet",
+              titleIcon: "https://www.thechamadao.xyz/logo.svg",
+              size: "compact",
+            }}
+            onConnect={(wallet) => {
+              setWalletConnected(true);
+              localStorage.setItem(
+                "wallet",
+                JSON.stringify(activeAccount?.address)
+              );
+            }}
+          />
+        </TouchableOpacity>
+        {walletConnected && (
+          <TouchableOpacity
+            style={styles.completeRegistrationButton}
+            onPress={completeRegistration}
+          >
+            <Text style={styles.completeRegistrationButtonText}>
+              Complete Registration
+            </Text>
+          </TouchableOpacity>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -105,9 +138,24 @@ const styles = StyleSheet.create({
     borderColor: colors.chamaGreen,
     padding: 2,
     marginHorizontal: 16,
+    flexDirection: "column",
   },
   animationContainer: {
     width: width * 0.9,
     height: width,
+  },
+  completeRegistrationButton: {
+    backgroundColor: colors.chamaBlack,
+    borderRadius: 14,
+    padding: 20,
+    marginHorizontal: 16,
+    marginTop: 32,
+  },
+  completeRegistrationButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontFamily: "JakartSemiBold",
   },
 });
