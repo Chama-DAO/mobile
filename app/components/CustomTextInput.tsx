@@ -54,6 +54,8 @@ export interface CustomTextInputProps {
     | "telephoneNumber"
     | "username"
     | "password";
+  value?: string;
+  onChangeText?: (text: string) => void;
 }
 
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
@@ -64,6 +66,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   autoComplete,
   autoCorrect,
   textContentType,
+  value,
+  onChangeText,
 }) => {
   return (
     <View
@@ -89,6 +93,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         autoCorrect={autoCorrect}
         textContentType={textContentType}
         secureTextEntry={isPassword}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );

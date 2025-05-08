@@ -19,23 +19,50 @@ import RoleSelector from "./components/RoleSelector";
 import colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 
+interface RegisterDetails {
+  fullName: string;
+  email: string;
+  country: string;
+  role: string;
+  idNumber: string;
+  phoneNumber: string;
+}
+
 const register = () => {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("ke");
   const [role, setRole] = useState("member");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string[] | null>(null);
   const [countryCode, setCountryCode] = useState("+254");
 
   const handleRegistration = () => {
-    console.log("Registration successful");
-    router.navigate("/otp");
+    const registerDetails: RegisterDetails = {
+      fullName,
+      email,
+      country,
+      role,
+      idNumber,
+      phoneNumber,
+    };
+    const errors = Object.keys(registerDetails).filter(
+      (key) => registerDetails[key as keyof RegisterDetails] === ""
+    );
+    if (errors.length > 0) {
+      setError(errors);
+      return;
+    }
+    try {
+      console.log("Registration successful");
+      router.navigate("/otp");
+    } catch (error) {
+      console.log(error);
+      setError(["An error occurred while registering"]);
+    }
   };
 
   return (
@@ -51,10 +78,17 @@ const register = () => {
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ paddingHorizontal: 20 }}>
-              <CustomTextInput placeholder="Sylus Abel" title="Full Name" />
+              <CustomTextInput
+                placeholder="Sylus Abel"
+                title="Full Name"
+                value={fullName}
+                onChangeText={setFullName}
+              />
               <CustomTextInput
                 placeholder="sylusabel@example.com"
                 title="Email Address"
+                value={email}
+                onChangeText={setEmail}
               />
               <CountrySelector
                 value={country}
@@ -70,21 +104,49 @@ const register = () => {
               >
                 Phone Number
               </Text>
-              <PhoneNumberInput countryCode={countryCode} />
+              <PhoneNumberInput
+                countryCode={countryCode}
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
               <CustomTextInput
                 placeholder="39296079"
                 title="ID Number"
                 keyboardType="numeric"
+                value={idNumber}
+                onChangeText={setIdNumber}
               />
               <TouchableOpacity
-                style={styles.registerButton}
+                style={[
+                  styles.registerButton,
+                  {
+                    opacity:
+                      fullName === "" ||
+                      email === "" ||
+                      idNumber === "" ||
+                      phoneNumber === ""
+                        ? 0.5
+                        : 1,
+                  },
+                ]}
                 onPress={() => handleRegistration()}
+                disabled={
+                  fullName === "" ||
+                  email === "" ||
+                  idNumber === "" ||
+                  phoneNumber === ""
+                }
               >
                 <Text style={styles.registerButtonText}>Register</Text>
               </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
+        {error && (
+          <Text style={styles.errorText}>
+            {error.map((error) => error).join(", ")} required!
+          </Text>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -123,5 +185,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginVertical: 10,
+  },
+  errorText: {
+    color: "red",
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    textAlign: "center",
   },
 });

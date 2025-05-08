@@ -3,7 +3,15 @@ import { Image } from "expo-image";
 import colors from "@/constants/Colors";
 const ken = require("../../assets/images/ke.png");
 
-const PhoneNumberInput = ({ countryCode }: { countryCode: string }) => {
+const PhoneNumberInput = ({
+  countryCode,
+  value,
+  onChangeText,
+}: {
+  countryCode: string;
+  value: string;
+  onChangeText: (text: string) => void;
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.flagContainer}>
@@ -14,6 +22,8 @@ const PhoneNumberInput = ({ countryCode }: { countryCode: string }) => {
         style={styles.inputField}
         keyboardType="phone-pad"
         maxLength={10}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );
