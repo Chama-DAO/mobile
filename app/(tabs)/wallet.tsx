@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import colors from "@/constants/Colors";
@@ -13,10 +14,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { tokens } from "@/constants/Styles";
 import Token from "../components/Token";
 import { BlurView } from "expo-blur";
+import { Image } from "expo-image";
 const { width } = Dimensions.get("window");
 
 const Wallet = () => {
   const [isBalanceHidden, setIsBalanceHidden] = useState(false);
+  const [depositModal, setDepositModal] = useState(false);
+  const [depositMethod, setDepositMethod] = useState<"wallet" | "mpesa">(
+    "mpesa"
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +73,10 @@ const Wallet = () => {
             </View>
           </View>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => setDepositModal(true)}
+            >
               <Ionicons name="add" size={24} color={"#f0f7f9"} />
               <Text style={styles.actionButtonText}>Add funds</Text>
             </TouchableOpacity>
@@ -87,6 +96,71 @@ const Wallet = () => {
           </View>
         </View>
       </ScrollView>
+      <Modal visible={depositModal} transparent animationType="fade">
+        <BlurView intensity={20} tint="light" style={styles.overlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Choose a Deposit Method</Text>
+              <TouchableOpacity onPress={() => setDepositModal(false)}>
+                <Ionicons name="close" size={24} color={colors.accent} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                onPressIn={() => setDepositMethod("mpesa")}
+                style={[
+                  styles.depositMethod,
+                  {
+                    backgroundColor:
+                      depositMethod === "mpesa" ? "#E7E7E7FF" : "transparent",
+                  },
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/mpesa.png")}
+                  style={styles.mpesaIcon}
+                  contentFit="contain"
+                />
+                <Text style={styles.depositMethodText}>M-Pesa</Text>
+                <Ionicons
+                  name="checkmark-outline"
+                  size={24}
+                  color={
+                    depositMethod === "mpesa" ? colors.accent : "transparent"
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPressIn={() => setDepositMethod("wallet")}
+                style={[
+                  styles.depositMethod,
+                  {
+                    backgroundColor:
+                      depositMethod === "wallet" ? "#E7E7E7FF" : "transparent",
+                  },
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/cbw.svg")}
+                  style={styles.mpesaIcon}
+                  contentFit="contain"
+                />
+                <Text style={styles.depositMethodText}>Wallet</Text>
+                <Ionicons
+                  name="checkmark-outline"
+                  size={24}
+                  color={
+                    depositMethod === "wallet" ? colors.accent : "transparent"
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.depositButton}>
+                <Text style={styles.depositButtonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </BlurView>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -211,5 +285,72 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.chamaBlack,
     fontFamily: "JakartaRegular",
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "#f0f7f9",
+    borderRadius: 10,
+    padding: 16,
+    width: width * 0.9,
+    borderWidth: 1,
+    borderColor: colors.chamaBlue,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontFamily: "MontserratAlternates",
+    fontSize: 16,
+    color: colors.accent,
+  },
+  modalText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    color: colors.chamaBlack,
+    lineHeight: 24,
+  },
+  mpesaIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  depositMethod: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.chamaBlue,
+  },
+  depositMethodText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    color: colors.chamaBlack,
+  },
+  modalContent: {
+    flexDirection: "column",
+    gap: 16,
+    marginVertical: 10,
+  },
+  depositButton: {
+    backgroundColor: colors.chamaBlack,
+    padding: 16,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  depositButtonText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 14,
+    color: colors.chamaGray,
   },
 });
