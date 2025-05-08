@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import AppBaner from "./components/AppBaner";
+
+import AppBanner from "./components/AppBanner";
 import CustomTextInput from "./components/CustomTextInput";
 import PhoneNumberInput from "./components/PhoneNumberInput";
 import CountrySelector from "./components/CountrySelector";
-import RoleSelector from "./components/RoleSelector";
 import colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 
@@ -30,10 +30,10 @@ interface RegisterDetails {
 
 const register = () => {
   const router = useRouter();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [idNumber, setIdNumber] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [fullName, setFullName] = useState("sylusabel@example.com");
+  const [email, setEmail] = useState("sylusabel@example.com");
+  const [idNumber, setIdNumber] = useState("39296079");
+  const [phoneNumber, setPhoneNumber] = useState("+254712345678");
   const [country, setCountry] = useState("ke");
   const [role, setRole] = useState("member");
   const [isLoading, setIsLoading] = useState(false);
@@ -68,7 +68,7 @@ const register = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <AppBaner />
+        <AppBanner />
         <Text style={styles.title}>Get Started</Text>
         <Text style={styles.subtitle}>Create an account to get started</Text>
         <KeyboardAvoidingView

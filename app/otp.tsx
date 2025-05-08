@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import AppBaner from "./components/AppBaner";
+import AppBaner from "./components/AppBanner";
 import CustomTextInput from "./components/CustomTextInput";
 import colors from "@/constants/Colors";
 import { router } from "expo-router";
@@ -31,7 +31,7 @@ const OTP = () => {
 
   const handleVerify = () => {
     console.log("OTP verified");
-    router.navigate("/kyc");
+    router.navigate("/createCoinbaseWallet");
   };
   return (
     <SafeAreaView style={styles.container}>

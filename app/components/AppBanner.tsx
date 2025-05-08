@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 
-const AppBaner = () => {
+const AppBanner = () => {
   return (
     <View
       style={{
@@ -23,7 +23,7 @@ const AppBaner = () => {
   );
 };
 
-export default AppBaner;
+export default AppBanner;
 
 const styles = StyleSheet.create({
   container: {

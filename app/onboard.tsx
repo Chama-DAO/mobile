@@ -107,7 +107,7 @@ const onboard = () => {
             ),
             title: "Get Started",
             subtitle:
-              "Creat and account, join or create a Chama, and collaborate for a brighter, decentralized financial future",
+              "Create an account, join or create a Chama, and collaborate for a brighter, decentralized financial future",
           },
         ]}
       />

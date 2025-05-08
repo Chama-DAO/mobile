@@ -21,9 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.chamadao",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "bundler": "metro",

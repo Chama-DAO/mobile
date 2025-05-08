@@ -15,7 +15,7 @@ import { defaultStyles } from "@/constants/Styles";
 import colors from "@/constants/Colors";
 import { Image } from "expo-image";
 
-import AppBaner from "./components/AppBaner";
+import AppBaner from "./components/AppBanner";
 
 const Page = () => {
   const { type } = useLocalSearchParams<{ type: string }>();
