@@ -15,9 +15,23 @@ import { quickActions, trendingChamas } from "@/constants/Styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import {
+  AccountProvider,
+  AccountAvatar,
+  AccountName,
+  AccountBalance,
+  useActiveAccount,
+  useWalletDetailsModal,
+} from "thirdweb/react";
+import { client } from "@/utils/client";
 const bgImage = require("@/assets/images/bg.png");
 
 const Home = () => {
+  const activeAccount = useActiveAccount();
+
+  function handleClick() {
+    console.log("clicked");
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -27,15 +41,22 @@ const Home = () => {
             <Text style={styles.introText}>Good Morning,</Text>
             <Text style={styles.nameText}>Sylus Abel</Text>
           </View>
-          <TouchableOpacity
-            style={styles.headerRight}
-            onPress={() => router.navigate("/notifications")}
-          >
-            <FontAwesome6 name="bell" size={26} color="#212121" />
-            <View style={styles.notificationBadge}>
-              <Text style={styles.notificationBadgeText}>4</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.accountBalanceContainer}>
+            <TouchableOpacity onPress={handleClick}>
+              <AccountProvider client={client} address={activeAccount!.address}>
+                <AccountBalance style={styles.accountBalance} />
+              </AccountProvider>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.headerRight}
+              onPress={() => router.navigate("/notifications")}
+            >
+              <FontAwesome6 name="bell" size={26} color="#212121" />
+              <View style={styles.notificationBadge}>
+                <Text style={styles.notificationBadgeText}>4</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.bgImageContainer}>
           <ImageBackground
@@ -522,5 +543,15 @@ const styles = StyleSheet.create({
     fontFamily: "JakartaRegular",
     fontSize: 12,
     color: "#212121",
+  },
+  accountBalance: {
+    fontFamily: "MontserratAlternates",
+    fontSize: 14,
+    color: "#212121",
+  },
+  accountBalanceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
   },
 });
