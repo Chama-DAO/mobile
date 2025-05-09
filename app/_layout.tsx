@@ -143,9 +143,16 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="/create/index"
+            name="create/index"
             options={{
               title: "Create a Chama",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="create/chamaDetails"
+            options={{
+              title: "Chama Details",
               headerShown: false,
             }}
           />

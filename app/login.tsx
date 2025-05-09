@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   animationContainer: {
     width: width * 0.9,
     height: width,
+    alignSelf: "center",
   },
   buttonDarkText: {
     fontSize: 16,

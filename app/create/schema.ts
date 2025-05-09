@@ -125,3 +125,5 @@ export const createChamaSchema = z.object({
       "The total loan penalties that have been paid to the chama in KES."
     ),
 });
+
+export type CreateChamaSchema = z.infer<typeof createChamaSchema>;
