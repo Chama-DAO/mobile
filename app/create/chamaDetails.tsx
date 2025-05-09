@@ -15,8 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
 import colors from "@/constants/Colors";
-import CustomTextInput from "../components/CustomTextInput";
 import LocationSelector from "../components/LocationSelector";
+import StepFormIndicator from "../components/StepFormIndicator";
 const { width } = Dimensions.get("window");
 
 const ChamaDetails = () => {
@@ -32,14 +32,7 @@ const ChamaDetails = () => {
           </TouchableOpacity>
           <Text style={styles.title}>Chama Details</Text>
         </View>
-        <View style={styles.indicatorContainer}>
-          <View
-            style={[styles.indicator, { backgroundColor: colors.chamaBlack }]}
-          ></View>
-          <View style={styles.indicator}></View>
-          <View style={styles.indicator}></View>
-          <View style={styles.indicator}></View>
-        </View>
+        <StepFormIndicator step={1} />
         <KeyboardAvoidingView
           style={styles.formContainer}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -164,23 +157,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     paddingVertical: 14,
   },
-  indicatorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    marginVertical: 16,
-  },
-  indicator: {
-    width: width / 5,
-    height: width * 0.01,
-    borderRadius: width,
-    backgroundColor: colors.chamaBlue,
-  },
   nextButton: {
     backgroundColor: colors.chamaBlack,
     borderRadius: 14,
-    padding: 18,
+    padding: 16,
     marginBottom: 24,
   },
   nextButtonText: {
