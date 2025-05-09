@@ -60,32 +60,32 @@ export const quickActions = [
     route: "/mychama",
   },
   {
-    name: "Take Loan",
+    name: "Borrow",
     icon: myLoans,
     route: "chama/myloans",
   },
   {
-    name: "Pay Contribution",
+    name: "Contribute",
     icon: myContributions,
     route: "chama/contributions",
   },
   {
-    name: "Join Chama",
-    icon: joinChama,
+    name: "Join",
+    icon: createChama,
     route: "/joinchama",
   },
   {
-    name: "Pay Loan",
+    name: "Pay",
     icon: payLoan,
     route: "chama/myloans",
   },
   {
-    name: "Create Chama",
-    icon: createChama,
+    name: "Create",
+    icon: joinChama,
     route: "/createchama",
   },
   {
-    name: "Meeting",
+    name: "Meetings",
     icon: meeting,
     route: "/meeting",
   },
@@ -232,13 +232,7 @@ export const contributionHistory = [
   },
 ];
 
-export const backgroundTokenColors = [
-  "#E6F0F6",
-  "#FCDBE9",
-  "#BEE1BF",
-  "#CBFDD3",
-  "#FAF4B8",
-];
+export const backgroundTokenColors = ["#E6F0F6", "#FCDBE9", "#CBFDD3"];
 
 export const tokens = [
   {

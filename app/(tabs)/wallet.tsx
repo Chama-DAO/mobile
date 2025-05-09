@@ -40,7 +40,7 @@ const Wallet = () => {
                 <Ionicons
                   name={isBalanceHidden ? "eye-off-outline" : "eye-outline"}
                   size={24}
-                  color={colors.chamaBlack}
+                  color={colors.chamaGray}
                 />
               </TouchableOpacity>
             </View>
@@ -67,7 +67,7 @@ const Wallet = () => {
                 <Ionicons
                   name="copy-outline"
                   size={16}
-                  color={colors.chamaBlack}
+                  color={colors.chamaGreen}
                 />
               </TouchableOpacity>
             </View>
@@ -77,12 +77,16 @@ const Wallet = () => {
               style={styles.actionButton}
               onPress={() => setDepositModal(true)}
             >
-              <Ionicons name="add" size={24} color={"#f0f7f9"} />
+              <Ionicons name="add" size={24} color={colors.chamaBlack} />
               <Text style={styles.actionButtonText}>Add funds</Text>
             </TouchableOpacity>
             <View style={styles.divider}></View>
             <TouchableOpacity style={styles.actionButton}>
-              <Ionicons name="arrow-down-outline" size={24} color={"#f0f7f9"} />
+              <Ionicons
+                name="arrow-down-outline"
+                size={24}
+                color={colors.chamaBlack}
+              />
               <Text style={styles.actionButtonText}>Withdraw</Text>
             </TouchableOpacity>
           </View>
@@ -94,6 +98,12 @@ const Wallet = () => {
               <Token key={token.id} {...token} />
             ))}
           </View>
+        </View>
+        <View style={styles.transactionsContainer}>
+          <Text style={styles.transactionsTitle}>Transactions</Text>
+          <Text style={styles.noTransactionsText}>
+            Nothing to show here yet!
+          </Text>
         </View>
       </ScrollView>
       <Modal visible={depositModal} transparent animationType="fade">
@@ -182,7 +192,7 @@ const styles = StyleSheet.create({
   walletContainer: {
     width: width * 0.9,
     height: width * 0.58,
-    backgroundColor: colors.chamaBlack,
+    backgroundColor: colors.chamaGreen,
     borderRadius: 16,
     marginTop: 16,
     marginHorizontal: 16,
@@ -194,7 +204,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     padding: 16,
     borderRadius: 16,
-    backgroundColor: colors.chamaBlue,
+    backgroundColor: colors.chamaBlack,
     height: width * 0.4,
     width: width * 0.88,
   },
@@ -215,7 +225,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#f0f7f9",
+    color: colors.chamaBlack,
     fontFamily: "JakartSemiBold",
   },
   divider: {
@@ -226,21 +236,21 @@ const styles = StyleSheet.create({
   walletBalanceTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.chamaBlack,
+    color: colors.chamaGray,
     fontFamily: "JakartaRegular",
     marginVertical: 8,
   },
   walletBalanceAmount: {
     fontSize: 30,
     fontWeight: "bold",
-    color: colors.chamaBlack,
+    color: colors.chamaGreen,
     fontFamily: "MontserratAlternates",
     marginVertical: 16,
   },
   walletBalanceSubtitle: {
     fontSize: 13,
     fontWeight: "bold",
-    color: colors.chamaBlack,
+    color: colors.chamaGray,
     fontFamily: "JakartaRegular",
     marginTop: 4,
   },
@@ -269,7 +279,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: colors.chamaBlack,
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "JakartSemiBold",
     marginBottom: 10,
   },
   tokensList: {
@@ -352,5 +362,23 @@ const styles = StyleSheet.create({
     fontFamily: "JakartaRegular",
     fontSize: 14,
     color: colors.chamaGray,
+  },
+  transactionsContainer: {
+    marginHorizontal: 16,
+    marginTop: 32,
+  },
+  transactionsTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.chamaBlack,
+    fontFamily: "JakartSemiBold",
+    marginBottom: 10,
+  },
+  noTransactionsText: {
+    fontSize: 14,
+    color: colors.chamaBlue,
+    fontFamily: "JakartaRegular",
+    textAlign: "center",
+    marginVertical: 10,
   },
 });

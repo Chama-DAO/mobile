@@ -149,7 +149,27 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
-
+          <Stack.Screen
+            name="chama/create"
+            options={{
+              title: "Create Chama",
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="chama/join"
+            options={{
+              title: "Join Chama",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="join/[id]"
+            options={{
+              title: "Join Chama",
+              headerShown: false,
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>

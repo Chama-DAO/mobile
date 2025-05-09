@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import colors from "@/constants/Colors";
 import { ImageBackground, Image } from "expo-image";
@@ -28,6 +28,8 @@ const bgImage = require("@/assets/images/bg.png");
 
 const Home = () => {
   const activeAccount = useActiveAccount();
+  const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
+  console.log(activeAccount?.address);
 
   function handleClick() {
     console.log("clicked");
@@ -128,42 +130,76 @@ const Home = () => {
         </View> */}
         <View style={styles.quickActionsContainer}>
           <Text style={styles.quickActionTitle}>Quick Actions</Text>
-          <View style={styles.quickActionsItemsContainer}>
-            {quickActions.slice(0, 4).map((action) => (
+          {userIsPartOfAChama && (
+            <View>
+              <View style={styles.quickActionsItemsContainer}>
+                {quickActions.slice(0, 4).map((action) => (
+                  <TouchableOpacity
+                    style={styles.quickActionItem}
+                    key={action.name}
+                    onPress={() => router.navigate(action.route as any)}
+                  >
+                    <View style={styles.quickActionItemIconContainer}>
+                      <Image
+                        source={action.icon}
+                        style={styles.quickActionItemIcon}
+                        contentFit="contain"
+                      />
+                    </View>
+                    <Text style={styles.quickActionItemText}>
+                      {action.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View style={styles.quickActionsItemsContainer}>
+                {quickActions.slice(4, 8).map((action) => (
+                  <TouchableOpacity
+                    style={styles.quickActionItem}
+                    key={action.name}
+                    onPress={() => router.navigate(action.route as any)}
+                  >
+                    <View style={styles.quickActionItemIconContainer}>
+                      <Image
+                        source={action.icon}
+                        style={styles.quickActionItemIcon}
+                        contentFit="contain"
+                      />
+                    </View>
+                    <Text style={styles.quickActionItemText}>
+                      {action.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+          {!userIsPartOfAChama && (
+            <View style={styles.quickActionsItemsContainer}>
               <TouchableOpacity
-                style={styles.quickActionItem}
-                key={action.name}
-                onPress={() => router.navigate(action.route as any)}
+                style={styles.chamaActionButton}
+                onPress={() => router.navigate("chama/create" as any)}
               >
-                <View style={styles.quickActionItemIconContainer}>
-                  <Image
-                    source={action.icon}
-                    style={styles.quickActionItemIcon}
-                    contentFit="contain"
-                  />
-                </View>
-                <Text style={styles.quickActionItemText}>{action.name}</Text>
+                <Image
+                  source={require("@/assets/images/create.svg")}
+                  style={styles.chamaActionButtonIcon}
+                  contentFit="contain"
+                />
+                <Text style={styles.quickActionItemText}>Create a Chama</Text>
               </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.quickActionsItemsContainer}>
-            {quickActions.slice(4, 8).map((action) => (
               <TouchableOpacity
-                style={styles.quickActionItem}
-                key={action.name}
-                onPress={() => router.navigate(action.route as any)}
+                style={styles.chamaActionButton}
+                onPress={() => router.navigate("chama/join" as any)}
               >
-                <View style={styles.quickActionItemIconContainer}>
-                  <Image
-                    source={action.icon}
-                    style={styles.quickActionItemIcon}
-                    contentFit="contain"
-                  />
-                </View>
-                <Text style={styles.quickActionItemText}>{action.name}</Text>
+                <Image
+                  source={require("@/assets/images/join.svg")}
+                  style={styles.chamaActionButtonIcon}
+                  contentFit="contain"
+                />
+                <Text style={styles.quickActionItemText}>Join a Chama</Text>
               </TouchableOpacity>
-            ))}
-          </View>
+            </View>
+          )}
         </View>
         <View style={styles.trendingChamasContainer}>
           <View style={styles.trendingChamasHeader}>
@@ -443,12 +479,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 14,
+    gap: 4,
   },
   quickActionItem: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    width: "20%",
   },
   quickActionItemIcon: {
     width: 40,
@@ -553,5 +591,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
+  },
+  chamaActionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.chamaGreen,
+    borderRadius: 10,
+    padding: 10,
+    width: "48%",
+  },
+  chamaActionButtonIcon: {
+    width: 40,
+    height: 40,
+  },
+  chamaActionButtonText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 12,
+    color: "#212121",
   },
 });
