@@ -15,16 +15,12 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import StepFormIndicator from "../components/StepFormIndicator";
-import LocationSelector from "../components/LocationSelector";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
 import colors from "@/constants/Colors";
 import MembershipSelector from "../components/MembershipSelector";
 const { width } = Dimensions.get("window");
 
 const MembershipDetails = () => {
-  const [chamaName, setChamaName] = useState("");
-  const [chamaDescription, setChamaDescription] = useState("");
-  const [location, setLocation] = useState("");
   const [maxMembership, setMaxMembership] = useState<number | string>(0);
   const [registrationFee, setRegistrationFee] = useState(false);
   const [registrationFeeAmount, setRegistrationFeeAmount] = useState("");
@@ -65,6 +61,9 @@ const MembershipDetails = () => {
               value={registrationFee}
               onValueChange={setRegistrationFee}
               style={styles.switch}
+              trackColor={{ false: colors.chamaBlue, true: colors.chamaBlack }}
+              thumbColor={registrationFee ? colors.chamaGray : "#f4f3f4"}
+              ios_backgroundColor={colors.chamaBlue}
             />
           </View>
           {registrationFee && (
@@ -105,7 +104,7 @@ const MembershipDetails = () => {
               onPress={() => router.push("/create/chamaDetails")}
             >
               <Ionicons name="arrow-back" size={24} color="black" />
-              <Text style={styles.previousButtonText}>Back</Text>
+              <Text style={styles.previousButtonText}>Chama Details</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.nextButton}
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
   },
   previousButtonText: {
     color: colors.chamaBlack,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "JakartSemiBold",

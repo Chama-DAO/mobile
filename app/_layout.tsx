@@ -164,6 +164,34 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="create/contributions"
+            options={{
+              title: "Contributions Details",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="create/loans"
+            options={{
+              title: "Loans Details",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="create/overview"
+            options={{
+              title: "Overview",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="chama/[id]"
+            options={{
+              title: "Chama",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name="chama/join"
             options={{
               title: "Join Chama",

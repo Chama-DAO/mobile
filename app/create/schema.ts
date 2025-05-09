@@ -52,7 +52,7 @@ export const createChamaSchema = z.object({
     .number()
     .min(1)
     .describe(
-      "The period in days in which the penalty will expire after a member misses a contribution."
+      "The period in contribution periods in which the penalty will expire after a member misses a contribution."
     ),
 
   // Loans Details
