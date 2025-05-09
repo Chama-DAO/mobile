@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontFamily: "MontserratAlternates",
     fontSize: 16,
-    color: colors.accent,
+    color: colors.chamaBlack,
   },
   modalText: {
     fontFamily: "JakartaRegular",

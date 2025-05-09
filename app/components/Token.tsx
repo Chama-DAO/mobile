@@ -21,7 +21,7 @@ const Token = ({
   backgroundColor,
 }: TokenProps) => {
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <View style={[styles.container]}>
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logo} />
         <View style={styles.tokenNameContainer}>

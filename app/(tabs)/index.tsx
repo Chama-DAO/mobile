@@ -55,7 +55,7 @@ const Home = () => {
             >
               <FontAwesome6 name="bell" size={26} color="#212121" />
               <View style={styles.notificationBadge}>
-                <Text style={styles.notificationBadgeText}>4</Text>
+                <Text style={styles.notificationBadgeText}>9+</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -335,15 +335,15 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: colors.primary,
     borderRadius: 100,
-    width: 15,
-    height: 15,
+    width: 16,
+    height: 16,
     alignItems: "center",
     justifyContent: "center",
   },
   notificationBadgeText: {
     fontFamily: "MontserratAlternates",
     fontSize: 10,
-    color: "#f0f7f9",
+    color: colors.chamaGreen,
   },
   bgImageContainer: {
     marginHorizontal: 16,
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     gap: 10,
-    backgroundColor: "#e2e4e4",
+    backgroundColor: "#EAEFEFFF",
     borderRadius: 10,
     padding: 10,
     marginVertical: 5,
