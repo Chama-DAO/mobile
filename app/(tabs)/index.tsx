@@ -204,7 +204,10 @@ const Home = () => {
         <View style={styles.trendingChamasContainer}>
           <View style={styles.trendingChamasHeader}>
             <Text style={styles.trendingChamasTitle}>Trending Chamas</Text>
-            <TouchableOpacity style={styles.trendingChamasButton}>
+            <TouchableOpacity
+              style={styles.trendingChamasButton}
+              onPress={() => router.push("/chama/join")}
+            >
               <Text style={styles.trendingChamasButtonText}>Search</Text>
               <Ionicons
                 name="chevron-forward-outline"
