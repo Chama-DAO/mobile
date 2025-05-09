@@ -102,13 +102,6 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="kyc"
-            options={{
-              title: "KYC Verification",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
             name="(tabs)"
             options={{
               title: "Dashboard",
@@ -150,10 +143,10 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="chama/create"
+            name="/create/index"
             options={{
-              title: "Create Chama",
-              headerShown: true,
+              title: "Create a Chama",
+              headerShown: false,
             }}
           />
           <Stack.Screen
@@ -166,7 +159,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="join/[id]"
             options={{
-              title: "Join Chama",
+              title: "Join a Chama",
               headerShown: false,
             }}
           />

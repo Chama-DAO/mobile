@@ -58,6 +58,7 @@ const Join = () => {
                     <TouchableOpacity
                       style={styles.filteredChama}
                       onPress={() => router.push(`/join/${chama.name}`)}
+                      key={chama.name}
                     >
                       <Image
                         source={chama.icon}

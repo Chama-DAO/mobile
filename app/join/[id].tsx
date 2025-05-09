@@ -180,8 +180,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: colors.chamaBlack,
     borderRadius: 18,
-    padding: 20,
-    marginHorizontal: 16,
+    padding: 16,
     marginTop: 32,
   },
 });

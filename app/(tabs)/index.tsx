@@ -178,7 +178,7 @@ const Home = () => {
             <View style={styles.quickActionsItemsContainer}>
               <TouchableOpacity
                 style={styles.chamaActionButton}
-                onPress={() => router.navigate("chama/create" as any)}
+                onPress={() => router.navigate("/create" as any)}
               >
                 <Image
                   source={require("@/assets/images/create.svg")}
