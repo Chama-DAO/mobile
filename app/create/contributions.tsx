@@ -10,18 +10,44 @@ import {
   TextInput,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import StepFormIndicator from "../components/StepFormIndicator";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
 import colors from "@/constants/Colors";
 import PeriodSelector from "../components/PeriodSelector";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import useCreateStore from "./store";
+import { createChamaSchema } from "./schema";
+
 const { width } = Dimensions.get("window");
 
+const contributionDetailsSchema = createChamaSchema.pick({
+  contributionAmount: true,
+  contributionPeriod: true,
+  contributionPenalty: true,
+});
+type ContributionDetailsSchema = z.infer<typeof contributionDetailsSchema>;
+
 const ContributionDetails = () => {
-  const [contributionAmount, setContributionAmount] = useState("");
-  const [period, setPeriod] = useState("weekly");
+  const form = useForm<ContributionDetailsSchema>({
+    resolver: zodResolver(contributionDetailsSchema),
+    defaultValues: {
+      contributionAmount: 0,
+      contributionPeriod: "weekly",
+      contributionPenalty: 0,
+    },
+  });
+  const setData = useCreateStore((state) => state.setData);
+
+  const onsubmit = async (data: ContributionDetailsSchema) => {
+    setData(data);
+    router.push("/create/loans");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -59,8 +85,10 @@ const ContributionDetails = () => {
               <Text style={{ fontFamily: "JakartaRegular" }}>KES</Text>
               <TextInput
                 placeholder="Enter the contribution amount"
-                value={contributionAmount}
-                onChangeText={setContributionAmount}
+                value={form.watch("contributionAmount").toString()}
+                onChangeText={(text) =>
+                  form.setValue("contributionAmount", Number(text))
+                }
                 keyboardType="numeric"
               />
             </View>
@@ -71,7 +99,12 @@ const ContributionDetails = () => {
               subtitle="How often will members contribute?"
               tooltipText="This is the period in which members will have to pay their contribution amount entered above. Choose below the period that you and your chama have agreed on."
             />
-            <PeriodSelector value={period} onChange={setPeriod} />
+            <PeriodSelector
+              value={form.watch("contributionPeriod")}
+              onChange={(value) =>
+                form.setValue("contributionPeriod", value as any)
+              }
+            />
             <View style={styles.formItemContainer}>
               <FormTitleWithToolTip
                 title="Contribution Penalty"
@@ -94,9 +127,11 @@ const ContributionDetails = () => {
               >
                 <Text style={{ fontFamily: "JakartaRegular" }}>KES</Text>
                 <TextInput
-                  placeholder="Enter the contribution amount"
-                  value={contributionAmount}
-                  onChangeText={setContributionAmount}
+                  placeholder="Enter the contribution penalty amount"
+                  value={form.watch("contributionPenalty").toString()}
+                  onChangeText={(text) =>
+                    form.setValue("contributionPenalty", Number(text))
+                  }
                   keyboardType="numeric"
                 />
               </View>
@@ -112,7 +147,7 @@ const ContributionDetails = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.nextButton}
-              onPress={() => router.push("/create/loans")}
+              onPress={form.handleSubmit(onsubmit)}
             >
               <Text style={styles.nextButtonText}>Next</Text>
               <Ionicons name="arrow-forward" size={24} color="white" />

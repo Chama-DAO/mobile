@@ -10,12 +10,14 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { ThirdwebProvider } from "thirdweb/react";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const router = useRouter();
@@ -41,180 +43,188 @@ export default function RootLayout() {
   }
 
   return (
-    <ThirdwebProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <StatusBar style="dark" />
-        <Stack>
-          <Stack.Screen
-            name="index"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="login"
-            options={{
-              title: "",
-              headerLeft: () => (
-                <TouchableOpacity onPress={() => router.back()}>
-                  <Ionicons name="arrow-back-outline" size={24} color="black" />
-                </TouchableOpacity>
-              ),
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="onboard"
-            options={{
-              title: "",
-              // headerLeft: () => (
-              //   <TouchableOpacity onPress={() => router.back()}>
-              //     <Ionicons name="arrow-back-outline" size={24} color="black" />
-              //   </TouchableOpacity>
-              // ),
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="register"
-            options={{
-              title: "Register",
-              // headerLeft: () => (
-              //   <TouchableOpacity onPress={() => router.back()}>
-              //     <Ionicons name="arrow-back-outline" size={24} color="black" />
-              //   </TouchableOpacity>
-              // ),
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="createCoinbaseWallet"
-            options={{
-              title: "Create Wallet",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="otp"
-            options={{
-              title: "OTP",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              title: "Dashboard",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="notifications"
-            options={{
-              title: "Notifications",
-              headerLeft: () => (
-                <TouchableOpacity onPress={() => router.back()}>
-                  <Ionicons name="close" size={24} color="black" />
-                </TouchableOpacity>
-              ),
-              headerStyle: {
-                backgroundColor: "#f0f7f9",
-              },
-              headerTitle: "Notifications",
-              headerTitleStyle: {
-                fontFamily: "MontserratAlternates",
-                fontSize: 16,
-              },
-              presentation: "modal",
-            }}
-          />
-          <Stack.Screen
-            name="mychama"
-            options={{
-              title: "My Chama",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="chama/contributions"
-            options={{
-              title: "Pay Contribution",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/index"
-            options={{
-              title: "Create a Chama",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/chamaDetails"
-            options={{
-              title: "Chama Details",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/membershipDetails"
-            options={{
-              title: "Membership Details",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/contributions"
-            options={{
-              title: "Contributions Details",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/loans"
-            options={{
-              title: "Loans Details",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="create/overview"
-            options={{
-              title: "Overview",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="chama/[id]"
-            options={{
-              title: "Chama",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="chama/join"
-            options={{
-              title: "Join Chama",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="join/[id]"
-            options={{
-              title: "Join a Chama",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="settings"
-            options={{
-              title: "Settings",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ThemeProvider>
-    </ThirdwebProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThirdwebProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <StatusBar style="dark" />
+          <Stack>
+            <Stack.Screen
+              name="index"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="login"
+              options={{
+                title: "",
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons
+                      name="arrow-back-outline"
+                      size={24}
+                      color="black"
+                    />
+                  </TouchableOpacity>
+                ),
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="onboard"
+              options={{
+                title: "",
+                // headerLeft: () => (
+                //   <TouchableOpacity onPress={() => router.back()}>
+                //     <Ionicons name="arrow-back-outline" size={24} color="black" />
+                //   </TouchableOpacity>
+                // ),
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="register"
+              options={{
+                title: "Register",
+                // headerLeft: () => (
+                //   <TouchableOpacity onPress={() => router.back()}>
+                //     <Ionicons name="arrow-back-outline" size={24} color="black" />
+                //   </TouchableOpacity>
+                // ),
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="createCoinbaseWallet"
+              options={{
+                title: "Create Wallet",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="otp"
+              options={{
+                title: "OTP",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                title: "Dashboard",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="notifications"
+              options={{
+                title: "Notifications",
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons name="close" size={24} color="black" />
+                  </TouchableOpacity>
+                ),
+                headerStyle: {
+                  backgroundColor: "#f0f7f9",
+                },
+                headerTitle: "Notifications",
+                headerTitleStyle: {
+                  fontFamily: "MontserratAlternates",
+                  fontSize: 16,
+                },
+                presentation: "modal",
+              }}
+            />
+            <Stack.Screen
+              name="mychama"
+              options={{
+                title: "My Chama",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="chama/contributions"
+              options={{
+                title: "Pay Contribution",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/index"
+              options={{
+                title: "Create a Chama",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/chamaDetails"
+              options={{
+                title: "Chama Details",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/membershipDetails"
+              options={{
+                title: "Membership Details",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/contributions"
+              options={{
+                title: "Contributions Details",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/loans"
+              options={{
+                title: "Loans Details",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="create/overview"
+              options={{
+                title: "Overview",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="chama/[id]"
+              options={{
+                title: "Chama",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="chama/join"
+              options={{
+                title: "Join Chama",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="join/[id]"
+              options={{
+                title: "Join a Chama",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="settings"
+              options={{
+                title: "Settings",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </ThirdwebProvider>
+    </QueryClientProvider>
   );
 }

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppBanner from "./components/AppBanner";
 import CustomTextInput from "./components/CustomTextInput";
 import PhoneNumberInput from "./components/PhoneNumberInput";
@@ -25,7 +25,7 @@ interface RegisterDetails {
   country: string;
   role: string;
   idNumber: string;
-  phoneNumber: string;
+  mobileNumber: string;
 }
 
 const register = () => {
@@ -33,7 +33,7 @@ const register = () => {
   const [fullName, setFullName] = useState("sylusabel@example.com");
   const [email, setEmail] = useState("sylusabel@example.com");
   const [idNumber, setIdNumber] = useState("39296079");
-  const [phoneNumber, setPhoneNumber] = useState("+254712345678");
+  const [mobileNumber, setPhoneNumber] = useState("+254712345678");
   const [country, setCountry] = useState("ke");
   const [role, setRole] = useState("member");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +47,7 @@ const register = () => {
       country,
       role,
       idNumber,
-      phoneNumber,
+      mobileNumber,
     };
     const errors = Object.keys(registerDetails).filter(
       (key) => registerDetails[key as keyof RegisterDetails] === ""
@@ -58,6 +58,11 @@ const register = () => {
     }
     try {
       console.log("Registration successful");
+      // save user details to local storage
+      AsyncStorage.setItem(
+        "userRegistrationDetails",
+        JSON.stringify(registerDetails)
+      );
       router.navigate("/otp");
     } catch (error) {
       console.log(error);
@@ -106,7 +111,7 @@ const register = () => {
               </Text>
               <PhoneNumberInput
                 countryCode={countryCode}
-                value={phoneNumber}
+                value={mobileNumber}
                 onChangeText={setPhoneNumber}
               />
               <CustomTextInput
@@ -124,7 +129,7 @@ const register = () => {
                       fullName === "" ||
                       email === "" ||
                       idNumber === "" ||
-                      phoneNumber === ""
+                      mobileNumber === ""
                         ? 0.5
                         : 1,
                   },
@@ -134,7 +139,7 @@ const register = () => {
                   fullName === "" ||
                   email === "" ||
                   idNumber === "" ||
-                  phoneNumber === ""
+                  mobileNumber === ""
                 }
               >
                 <Text style={styles.registerButtonText}>Register</Text>

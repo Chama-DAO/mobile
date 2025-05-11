@@ -9,8 +9,11 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
@@ -18,11 +21,61 @@ import colors from "@/constants/Colors";
 import LocationSelector from "../components/LocationSelector";
 import StepFormIndicator from "../components/StepFormIndicator";
 const { width } = Dimensions.get("window");
+import { createChamaSchema } from "./schema";
+import { z } from "zod";
+import * as ImagePicker from "expo-image-picker";
+import { Image } from "expo-image";
+import useCreateStore from "./store";
+
+const createChamaDetailsSchema = createChamaSchema.pick({
+  name: true,
+  description: true,
+  location: true,
+  profileImage: true,
+  chamaId: true,
+});
+
+type CreateChamaDetailsSchema = z.infer<typeof createChamaDetailsSchema>;
 
 const ChamaDetails = () => {
-  const [chamaName, setChamaName] = useState("");
-  const [chamaDescription, setChamaDescription] = useState("");
-  const [location, setLocation] = useState("");
+  const form = useForm<CreateChamaDetailsSchema>({
+    resolver: zodResolver(createChamaDetailsSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      location: "Nairobi",
+      profileImage: "",
+      chamaId: "",
+    },
+  });
+  const [error, setError] = useState<string | null>(null);
+  const setData = useCreateStore((state) => state.setData);
+
+  const onsubmit = async (data: CreateChamaDetailsSchema) => {
+    console.log(data);
+    setData(data);
+    router.push("/create/membershipDetails");
+  };
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Denied",
+        `Sorry, we need camera 
+             roll permission to upload images.`
+      );
+    } else {
+      const result = await ImagePicker.launchImageLibraryAsync();
+
+      if (!result.canceled) {
+        form.setValue("profileImage", result.assets[0].uri);
+        setError(null);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -44,9 +97,17 @@ const ChamaDetails = () => {
               tooltipText="A profile image helps other members easily identify you chama. Choose a picture you took together or any other image that is familiar to you and your chama members."
             />
             <View style={styles.profileImageContainer}>
-              <TouchableOpacity>
-                <Ionicons name="image-outline" size={44} color="black" />
-              </TouchableOpacity>
+              {form.watch("profileImage") ? (
+                <Image
+                  source={{ uri: form.watch("profileImage") }}
+                  style={styles.profileImage}
+                  contentFit="cover"
+                />
+              ) : (
+                <TouchableOpacity onPress={pickImage}>
+                  <Ionicons name="image-outline" size={44} color="black" />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <View style={styles.formItemContainer}>
@@ -57,8 +118,8 @@ const ChamaDetails = () => {
             />
             <TextInput
               placeholder="Enter your chama name"
-              value={chamaName}
-              onChangeText={setChamaName}
+              value={form.watch("name")}
+              onChangeText={(text) => form.setValue("name", text)}
               style={styles.inputField}
             />
           </View>
@@ -70,8 +131,8 @@ const ChamaDetails = () => {
             />
             <TextInput
               placeholder="Enter your chama description"
-              value={chamaDescription}
-              onChangeText={setChamaDescription}
+              value={form.watch("description")}
+              onChangeText={(text) => form.setValue("description", text)}
               style={[styles.inputField, styles.descriptionInputField]}
               multiline={true}
               numberOfLines={4}
@@ -83,11 +144,14 @@ const ChamaDetails = () => {
               subtitle="Where is your chama located?"
               tooltipText="Where are most of your chama members located? Which town or city are you closest to? This will help us when organizing events and meetings."
             />
-            <LocationSelector value={location} onChange={setLocation} />
+            <LocationSelector
+              value={form.watch("location")}
+              onChange={(value) => form.setValue("location", value)}
+            />
           </View>
           <TouchableOpacity
             style={styles.nextButton}
-            onPress={() => router.push("/create/membershipDetails")}
+            onPress={form.handleSubmit(onsubmit)}
           >
             <Text style={styles.nextButtonText}>Next</Text>
           </TouchableOpacity>
@@ -169,5 +233,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "JakartSemiBold",
+  },
+  profileImage: {
+    width: width * 0.3,
+    height: width * 0.3,
+    borderRadius: width,
   },
 });

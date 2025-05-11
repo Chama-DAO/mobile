@@ -28,7 +28,7 @@ const Home = () => {
   const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
 
   function handleClick() {
-    console.log("clicked");
+    console.log(activeAccount?.address);
   }
   return (
     <SafeAreaView style={styles.container}>

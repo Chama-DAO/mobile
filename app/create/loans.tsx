@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import StepFormIndicator from "../components/StepFormIndicator";
@@ -17,12 +18,88 @@ import { Ionicons } from "@expo/vector-icons";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
 import colors from "@/constants/Colors";
 import PeriodSelector from "../components/PeriodSelector";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import useCreateStore from "./store";
+import { createChamaSchema } from "./schema";
 const { width } = Dimensions.get("window");
 
+const loansDetailsSchema = createChamaSchema.pick({
+  maximumLoanAmount: true,
+  loanInterestRate: true,
+  loanTerm: true,
+  loanPenalty: true,
+});
+type LoansDetailsSchema = z.infer<typeof loansDetailsSchema>;
+
 const Loans = () => {
-  const [maximumLoanAmount, setMaximumLoanAmount] = useState("");
-  const [loanInterest, setLoanInterest] = useState("");
-  const [loanTerm, setLoanTerm] = useState("weekly");
+  const name = useCreateStore((state) => state.name);
+  const description = useCreateStore((state) => state.description);
+  const location = useCreateStore((state) => state.location);
+  const profileImage = useCreateStore((state) => state.profileImage);
+  const maximumMembers = useCreateStore((state) => state.maximumMembers);
+  const [loading, setLoading] = useState(false);
+  const registrationFeeRequired = useCreateStore(
+    (state) => state.registrationFeeRequired
+  );
+  const registrationFeeAmount = useCreateStore(
+    (state) => state.registrationFeeAmount
+  );
+  const registrationFeeCurrency = useCreateStore(
+    (state) => state.registrationFeeCurrency
+  );
+  const contributionAmount = useCreateStore(
+    (state) => state.contributionAmount
+  );
+  const contributionPeriod = useCreateStore(
+    (state) => state.contributionPeriod
+  );
+  const contributionPenalty = useCreateStore(
+    (state) => state.contributionPenalty
+  );
+  const penaltyExpirationPeriod = useCreateStore(
+    (state) => state.penaltyExpirationPeriod
+  );
+
+  const form = useForm<LoansDetailsSchema>({
+    resolver: zodResolver(loansDetailsSchema),
+    defaultValues: {
+      maximumLoanAmount: 0,
+      loanInterestRate: 0,
+      loanTerm: "",
+      loanPenalty: 0,
+    },
+  });
+
+  const onsubmit = async (data: LoansDetailsSchema) => {
+    setLoading(true);
+    console.log("Here is the data");
+    const chamaId = "1234567890";
+    const dateCreated = new Date();
+
+    console.log(
+      data.loanInterestRate,
+      data.loanPenalty,
+      data.loanTerm,
+      data.maximumLoanAmount,
+      name,
+      description,
+      location,
+      profileImage,
+      maximumMembers,
+      registrationFeeRequired,
+      registrationFeeAmount,
+      registrationFeeCurrency,
+      contributionAmount,
+      contributionPeriod,
+      contributionPenalty,
+      chamaId,
+      dateCreated
+    );
+    // router.push("/create/overview");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -60,8 +137,10 @@ const Loans = () => {
               <Text style={{ fontFamily: "JakartaRegular" }}>KES</Text>
               <TextInput
                 placeholder="Enter the maximum loan amount"
-                value={maximumLoanAmount}
-                onChangeText={setMaximumLoanAmount}
+                value={form.watch("maximumLoanAmount").toString()}
+                onChangeText={(text) =>
+                  form.setValue("maximumLoanAmount", Number(text))
+                }
                 keyboardType="numeric"
               />
             </View>
@@ -89,8 +168,10 @@ const Loans = () => {
               <Text style={{ fontFamily: "JakartaRegular" }}>%</Text>
               <TextInput
                 placeholder="Enter the loan interest"
-                value={loanInterest}
-                onChangeText={setLoanInterest}
+                value={form.watch("loanInterestRate").toString()}
+                onChangeText={(text) =>
+                  form.setValue("loanInterestRate", Number(text))
+                }
                 keyboardType="numeric"
               />
             </View>
@@ -101,7 +182,10 @@ const Loans = () => {
               subtitle="What is the maximum loan period?"
               tooltipText="This is the period of time in which a loan borrowed can be repaid with no penalty. "
             />
-            <PeriodSelector value={loanTerm} onChange={setLoanTerm} />
+            <PeriodSelector
+              value={form.watch("loanTerm").toString()}
+              onChange={(value) => form.setValue("loanTerm", value as any)}
+            />
           </View>
           <View style={styles.formItemContainer}>
             <FormTitleWithToolTip
@@ -125,9 +209,11 @@ const Loans = () => {
             >
               <Text style={{ fontFamily: "JakartaRegular" }}>%</Text>
               <TextInput
-                placeholder="Enter the loan interest"
-                value={loanInterest}
-                onChangeText={setLoanInterest}
+                placeholder="Enter the loan penalty"
+                value={form.watch("loanPenalty").toString()}
+                onChangeText={(text) =>
+                  form.setValue("loanPenalty", Number(text))
+                }
                 keyboardType="numeric"
               />
             </View>
@@ -144,10 +230,16 @@ const Loans = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.nextButton}
-              onPress={() => router.push("/create/overview")}
+              onPress={form.handleSubmit(onsubmit)}
             >
-              <Text style={styles.nextButtonText}>Finish</Text>
-              <Ionicons name="arrow-forward" size={24} color="white" />
+              {loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                <>
+                  <Text style={styles.nextButtonText}>Finish</Text>
+                  <Ionicons name="arrow-forward" size={24} color="white" />
+                </>
+              )}
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

@@ -3,9 +3,9 @@ import { z } from "zod";
 export const createChamaSchema = z.object({
   // Chama Details
   profileImage: z.string().min(1),
-  name: z.string().min(3).max(30),
-  description: z.string().min(3).max(100),
-  location: z.string().min(3).max(30),
+  name: z.string().min(1).max(30),
+  description: z.string().min(1).max(100),
+  location: z.string().min(1),
 
   // Membership Details
   maximumMembers: z
@@ -21,14 +21,22 @@ export const createChamaSchema = z.object({
     .describe("The amount of money that a member will pay to join the chama."),
   payoutPeriod: z
     .enum(["daily", "weekly", "monthly", "yearly"])
-    .describe("The period in which the chama will pay out the members."),
+    .describe("The period in which the chama will pay out the members.")
+    .optional()
+    .default("yearly"),
   payoutPercentageAmount: z
     .number()
     .min(1)
     .max(100)
     .describe(
       "The percentage of a member's total shares that will be paid out to the members during the payout period."
-    ),
+    )
+    .optional()
+    .default(80),
+  registrationFeeCurrency: z
+    .string()
+    .min(1)
+    .describe("The currency of the registration fee."),
 
   // Contributions Details
   contributionAmount: z
@@ -66,7 +74,7 @@ export const createChamaSchema = z.object({
     .number()
     .min(1)
     .describe("The interest rate that a member will pay for a loan."),
-  loanTerm: z.number().min(1).describe("The term of a loan in days."),
+  loanTerm: z.string().describe("The term of a loan."),
   loanPenalty: z
     .number()
     .min(1)
@@ -124,6 +132,7 @@ export const createChamaSchema = z.object({
     .describe(
       "The total loan penalties that have been paid to the chama in KES."
     ),
+  chamaAddress: z.string().describe("The blockchain address of the chama."),
 });
 
 export type CreateChamaSchema = z.infer<typeof createChamaSchema>;

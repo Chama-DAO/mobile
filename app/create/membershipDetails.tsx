@@ -18,13 +18,38 @@ import StepFormIndicator from "../components/StepFormIndicator";
 import FormTitleWithToolTip from "../components/FormTitleWithToolTip";
 import colors from "@/constants/Colors";
 import MembershipSelector from "../components/MembershipSelector";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createChamaSchema } from "./schema";
+import { z } from "zod";
+import useCreateStore from "./store";
 const { width } = Dimensions.get("window");
 
+const membershipDetailsSchema = createChamaSchema.pick({
+  maximumMembers: true,
+  registrationFeeRequired: true,
+  registrationFeeAmount: true,
+  registrationFeeCurrency: true,
+});
+
+type MembershipDetailsSchema = z.infer<typeof membershipDetailsSchema>;
+
 const MembershipDetails = () => {
-  const [maxMembership, setMaxMembership] = useState<number | string>(0);
-  const [registrationFee, setRegistrationFee] = useState(false);
-  const [registrationFeeAmount, setRegistrationFeeAmount] = useState("");
-  const [registrationFeeCurrency, setRegistrationFeeCurrency] = useState("KES");
+  const form = useForm<MembershipDetailsSchema>({
+    resolver: zodResolver(membershipDetailsSchema),
+    defaultValues: {
+      maximumMembers: 0,
+      registrationFeeRequired: false,
+      registrationFeeAmount: 0,
+      registrationFeeCurrency: "KES",
+    },
+  });
+  const setData = useCreateStore((state) => state.setData);
+
+  const onsubmit = async (data: MembershipDetailsSchema) => {
+    setData(data);
+    router.push("/create/contributions");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,8 +72,10 @@ const MembershipDetails = () => {
               tooltipText="The maximum number of members your chama can have. This will be used to determine the number of members your chama can have."
             />
             <MembershipSelector
-              value={maxMembership}
-              onChange={setMaxMembership}
+              value={form.watch("maximumMembers")}
+              onChange={(value) =>
+                form.setValue("maximumMembers", Number(value))
+              }
             />
           </View>
           <View style={styles.formItemContainer}>
@@ -58,15 +85,21 @@ const MembershipDetails = () => {
               tooltipText="A registration fee is a fee that members pay to join your chama. This fee is deducted from the member's account when they join the chama and is not refundable."
             />
             <Switch
-              value={registrationFee}
-              onValueChange={setRegistrationFee}
+              value={form.watch("registrationFeeRequired")}
+              onValueChange={(value) =>
+                form.setValue("registrationFeeRequired", value)
+              }
               style={styles.switch}
               trackColor={{ false: colors.chamaBlue, true: colors.chamaBlack }}
-              thumbColor={registrationFee ? colors.chamaGray : "#f4f3f4"}
+              thumbColor={
+                form.watch("registrationFeeRequired")
+                  ? colors.chamaGray
+                  : "#f4f3f4"
+              }
               ios_backgroundColor={colors.chamaBlue}
             />
           </View>
-          {registrationFee && (
+          {form.watch("registrationFeeRequired") && (
             <View style={styles.formItemContainer}>
               <FormTitleWithToolTip
                 title="Registration Fee Amount"
@@ -90,8 +123,10 @@ const MembershipDetails = () => {
                 <Text style={{ fontFamily: "JakartaRegular" }}>KES</Text>
                 <TextInput
                   placeholder="Enter the registration fee amount"
-                  value={registrationFeeAmount}
-                  onChangeText={setRegistrationFeeAmount}
+                  value={form.watch("registrationFeeAmount").toString()}
+                  onChangeText={(text) =>
+                    form.setValue("registrationFeeAmount", Number(text))
+                  }
                   keyboardType="numeric"
                 />
               </View>
@@ -108,7 +143,7 @@ const MembershipDetails = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.nextButton}
-              onPress={() => router.push("/create/contributions")}
+              onPress={form.handleSubmit(onsubmit)}
             >
               <Text style={styles.nextButtonText}>Next</Text>
               <Ionicons name="arrow-forward" size={24} color="white" />

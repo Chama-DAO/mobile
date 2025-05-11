@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import AppBanner from "./components/AppBanner";
@@ -17,10 +18,15 @@ import { createWallet } from "thirdweb/wallets";
 import { defineChain } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SignUpData } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 const width = Dimensions.get("window").width;
 
 const CreateCoinbaseWallet = () => {
   const [walletConnected, setWalletConnected] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { signUpMutation, user, error } = useAuth();
   const activeAccount = useActiveAccount();
   const wallets = [
     createWallet("com.coinbase.wallet", {
@@ -39,12 +45,26 @@ const CreateCoinbaseWallet = () => {
     }),
   ];
   const completeRegistration = async () => {
-    // get registration data from local storage
-    // append user wallet address to reg details
-    // send the data to the backend
-    // show a success lottie animation
-    // navigate to home screen
-    router.push("/(tabs)");
+    setLoading(true);
+    try {
+      // get registration data from local storage
+      const registrationData = await AsyncStorage.getItem(
+        "userRegistrationDetails"
+      );
+      if (!registrationData) {
+        console.log("No registration data found");
+        return;
+      }
+      const data: SignUpData = JSON.parse(registrationData);
+      data.walletAddress = activeAccount!.address.slice(0, 40) + "fe";
+      const response = await signUpMutation.mutateAsync(data);
+      console.log(response);
+      router.push("/(tabs)");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -98,9 +118,13 @@ const CreateCoinbaseWallet = () => {
             style={styles.completeRegistrationButton}
             onPress={completeRegistration}
           >
-            <Text style={styles.completeRegistrationButtonText}>
-              Complete Registration
-            </Text>
+            {loading ? (
+              <ActivityIndicator size="small" color={colors.chamaGray} />
+            ) : (
+              <Text style={styles.completeRegistrationButtonText}>
+                Complete Registration
+              </Text>
+            )}
           </TouchableOpacity>
         )}
       </ScrollView>
