@@ -17,11 +17,8 @@ import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
   AccountProvider,
-  AccountAvatar,
-  AccountName,
   AccountBalance,
   useActiveAccount,
-  useWalletDetailsModal,
 } from "thirdweb/react";
 import { client } from "@/utils/client";
 const bgImage = require("@/assets/images/bg.png");
@@ -29,7 +26,6 @@ const bgImage = require("@/assets/images/bg.png");
 const Home = () => {
   const activeAccount = useActiveAccount();
   const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
-  console.log(activeAccount?.address);
 
   function handleClick() {
     console.log("clicked");

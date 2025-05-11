@@ -35,7 +35,7 @@ const Overview = () => {
         />
         <TouchableOpacity style={styles.shareButton}>
           <Text style={styles.footerText}>Share Invite</Text>
-          <Ionicons name="share-outline" size={24} color="black" />
+          <Ionicons name="share-social-outline" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.getStartedButton}

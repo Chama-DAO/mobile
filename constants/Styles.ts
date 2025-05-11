@@ -1,5 +1,6 @@
 import Colors from "@/constants/Colors";
 import { StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const ke = require("../assets/images/ke.png");
 const ng = require("../assets/images/ng.png");
@@ -19,10 +20,19 @@ const settings = require("../assets/images/settings.svg");
 const usdc = require("../assets/images/usdc.svg");
 const kshc = require("../assets/images/kshc.svg");
 const eth = require("../assets/images/eth-logo.svg");
+const transactions = require("../assets/images/transactions.png");
+const user = require("../assets/images/badge.png");
+const streak = require("../assets/images/streak.png");
+const health = require("../assets/images/health.png");
 
 const blockbusters = require("../assets/images/blockbusters.jpg");
 const wandaes = require("../assets/images/wandaes.jpg");
 const chamadao = require("../assets/images/Subtract.png");
+
+interface AccountSettingProps {
+  title: string;
+  icon: keyof typeof Ionicons.glyphMap;
+}
 
 export const defaultStyles = StyleSheet.create({
   btn: {
@@ -157,10 +167,10 @@ export const notifications = [
 
 export const chamaActions = [
   {
-    title: "Proposals",
+    title: "Contributions",
     route: "chama/proposals",
     icon: myContributions,
-    description: "Loan and constitution proposals by other members.",
+    description: "View contribution history of the chama.",
   },
   {
     title: "Chama Finances",
@@ -267,5 +277,55 @@ export const tokens = [
       backgroundTokenColors[
         Math.floor(Math.random() * backgroundTokenColors.length)
       ],
+  },
+];
+
+export const profileActions = [
+  {
+    name: "Transactions",
+    description: "You're in the top 1% of transactors on ChamaDAO",
+    data: "KES 1K",
+    icon: transactions,
+  },
+  {
+    name: "Founder",
+    description: "You're one of our oldest members",
+    data: "2 Months",
+    icon: user,
+  },
+  {
+    name: "Streak",
+    description: "You're on a 5 consecutive rounds streak. Keep it up!",
+    data: "5/5",
+    icon: streak,
+  },
+  {
+    name: "Health",
+    description: "You reputation is in good health. Keep it up!",
+    data: "100%",
+    icon: health,
+  },
+];
+
+export const accountSettings: AccountSettingProps[] = [
+  {
+    title: "Email",
+    icon: "mail-outline",
+  },
+  {
+    title: "Currency",
+    icon: "logo-bitcoin",
+  },
+  {
+    title: "Language",
+    icon: "language-outline",
+  },
+  {
+    title: "ID Number",
+    icon: "id-card-outline",
+  },
+  {
+    title: "Phone Number",
+    icon: "call-outline",
   },
 ];
