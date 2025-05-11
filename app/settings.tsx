@@ -75,10 +75,10 @@ const Settings = () => {
           >
             Get 1 free money transfer for every 10 friends you refer.
           </Text>
-          <View style={styles.referralButton}>
+          <TouchableOpacity style={styles.referralButton}>
             <Text style={styles.referralButtonText}>Share</Text>
             <Ionicons name="share-social-outline" size={24} color="white" />
-          </View>
+          </TouchableOpacity>
         </ImageBackground>
 
         <View style={styles.appSettingsContainer}>
@@ -112,7 +112,7 @@ const Settings = () => {
                 gap: 10,
               }}
             >
-              <Ionicons name="apps-outline" size={48} color="black" />
+              <Ionicons name="apps-outline" size={44} color="black" />
               <Text style={styles.appSettingsItemText}>Widgets</Text>
             </View>
             <View style={styles.appSettingsItem}>
