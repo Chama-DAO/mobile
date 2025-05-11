@@ -11,7 +11,11 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import colors from "@/constants/Colors";
 import { ImageBackground, Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
-import { quickActions, trendingChamas } from "@/constants/Styles";
+import {
+  quickActions,
+  trendingChamas,
+  notifications,
+} from "@/constants/Styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -21,11 +25,28 @@ import {
   useActiveAccount,
 } from "thirdweb/react";
 import { client } from "@/utils/client";
+import { useGetUser } from "@/hooks/useUser";
 const bgImage = require("@/assets/images/bg.png");
+
+export interface UserData {
+  chamaName: string | null;
+  chamaWalletAddress: string | null;
+  country: string;
+  createdAt: string;
+  email: string;
+  fullName: string;
+  idNumber: string;
+  mobileNumber: string;
+  updatedAt: string;
+  walletAddress: string;
+}
 
 const Home = () => {
   const activeAccount = useActiveAccount();
   const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
+  const { data: userData } = useGetUser(activeAccount!.address) as {
+    data: UserData;
+  };
 
   function handleClick() {
     console.log(activeAccount?.address);
@@ -51,79 +72,102 @@ const Home = () => {
             >
               <FontAwesome6 name="bell" size={26} color="#212121" />
               <View style={styles.notificationBadge}>
-                <Text style={styles.notificationBadgeText}>9+</Text>
+                <Text style={styles.notificationBadgeText}>
+                  {notifications.length}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.bgImageContainer}>
-          <ImageBackground
-            source={bgImage}
-            style={styles.bgImage}
-            contentFit="contain"
-          >
-            <View style={styles.contributionsContainer}>
-              <View style={styles.contributionAmountContainer}>
-                <View style={styles.contributionAmountTitleContainer}>
-                  <Text style={styles.contributionAmountTitle}>
-                    Next Contribution
-                  </Text>
+        {userData?.chamaName && (
+          <View style={styles.bgImageContainer}>
+            <ImageBackground
+              source={bgImage}
+              style={styles.bgImage}
+              contentFit="contain"
+            >
+              <View style={styles.contributionsContainer}>
+                <View style={styles.contributionAmountContainer}>
+                  <View style={styles.contributionAmountTitleContainer}>
+                    <Text style={styles.contributionAmountTitle}>
+                      Next Contribution
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.contributionAmountTitleButton}
+                    >
+                      <Ionicons name="eye" size={20} color="#212121" />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.contributionAmountText}>KES 420</Text>
+                </View>
+                <View style={styles.manageContributionContainer}>
                   <TouchableOpacity
-                    style={styles.contributionAmountTitleButton}
+                    style={styles.manageContributionButton}
+                    onPress={() =>
+                      router.navigate("chama/contributions" as any)
+                    }
                   >
-                    <Ionicons name="eye" size={20} color="#212121" />
+                    <Text style={styles.manageContributionText}>Manage</Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.contributionAmountText}>KES 420</Text>
               </View>
-              <View style={styles.manageContributionContainer}>
-                <TouchableOpacity
-                  style={styles.manageContributionButton}
-                  onPress={() => router.navigate("chama/contributions" as any)}
-                >
-                  <Text style={styles.manageContributionText}>Manage</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.separator} />
-            <View style={styles.contributionsContainer}>
-              <View style={styles.contributionAmountContainer}>
-                <View style={styles.contributionAmountTitleContainer}>
-                  <Text style={styles.contributionAmountTitle}>My Loans</Text>
+              <View style={styles.separator} />
+              <View style={styles.contributionsContainer}>
+                <View style={styles.contributionAmountContainer}>
+                  <View style={styles.contributionAmountTitleContainer}>
+                    <Text style={styles.contributionAmountTitle}>My Loans</Text>
+                    <TouchableOpacity
+                      style={styles.contributionAmountTitleButton}
+                    >
+                      <Ionicons name="eye" size={20} color="#212121" />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.contributionAmountText}>KES 0</Text>
+                </View>
+                <View style={styles.manageContributionContainer}>
                   <TouchableOpacity
-                    style={styles.contributionAmountTitleButton}
+                    style={styles.manageContributionButton}
+                    onPress={() => router.navigate("chama/myloans" as any)}
                   >
-                    <Ionicons name="eye" size={20} color="#212121" />
+                    <Text style={styles.manageContributionText}>Manage</Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.contributionAmountText}>KES 0</Text>
               </View>
-              <View style={styles.manageContributionContainer}>
-                <TouchableOpacity
-                  style={styles.manageContributionButton}
-                  onPress={() => router.navigate("chama/myloans" as any)}
-                >
-                  <Text style={styles.manageContributionText}>Manage</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-        {/* <View style={styles.nextStepContainer}>
-          <View style={styles.nextStepTextContainer}>
-            <Text style={styles.nextStepText}>Next Steps</Text>
-            <View style={styles.nextStepProgressContainer}>
-              <View style={styles.nextStepProgress} />
-            </View>
-            <View style={styles.stepsIndicatorContainer}>
-              <Text style={styles.stepsIndicatorText}>1/3</Text>
-            </View>
+            </ImageBackground>
           </View>
-          <TouchableOpacity style={styles.stepActionContainer}>
-            <Ionicons name="add" size={20} color="#212121" />
-            <Text style={styles.stepActionText}>Create / Join a Chama</Text>
-          </TouchableOpacity>
-        </View> */}
+        )}
+        {!userData?.chamaName && (
+          <>
+            <Text
+              style={{
+                fontFamily: "JakartaRegular",
+                fontSize: 24,
+                color: colors.chamaBlack,
+                marginHorizontal: 16,
+                marginTop: 32,
+                textAlign: "center",
+              }}
+            >
+              Welcome To ChamaDAO
+            </Text>
+            <View style={styles.nextStepContainer}>
+              <View style={styles.nextStepTextContainer}>
+                <Text style={styles.nextStepText}>Next Steps</Text>
+                <View style={styles.nextStepProgressContainer}>
+                  <View style={styles.nextStepProgress} />
+                </View>
+                <View style={styles.stepsIndicatorContainer}>
+                  <Text style={styles.stepsIndicatorText}>1/3</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.stepActionContainer}>
+                <Ionicons name="add" size={20} color="#212121" />
+                <Text style={styles.stepActionText}>Create / Join a Chama</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+
         <View style={styles.quickActionsContainer}>
           <Text style={styles.quickActionTitle}>Quick Actions</Text>
           {userIsPartOfAChama && (
@@ -411,6 +455,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.chamaYellow,
     padding: 16,
     borderRadius: 10,
+    marginBottom: 32,
   },
   nextStepText: {
     fontFamily: "JakartSemiBold",

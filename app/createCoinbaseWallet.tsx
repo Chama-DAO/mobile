@@ -56,7 +56,7 @@ const CreateCoinbaseWallet = () => {
         return;
       }
       const data: SignUpData = JSON.parse(registrationData);
-      data.walletAddress = activeAccount!.address.slice(0, 40) + "fe";
+      data.walletAddress = activeAccount!.address;
       const response = await signUpMutation.mutateAsync(data);
       console.log(response);
       router.push("/(tabs)");
