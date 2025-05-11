@@ -93,7 +93,7 @@ const Settings = () => {
               <Image
                 source={require("@/assets/images/Subtract.png")}
                 style={styles.appSettingsImage}
-              />{" "}
+              />
               <Text style={styles.appSettingsItemText}>App Icon</Text>
             </View>
             <View style={styles.appSettingsItem}>
