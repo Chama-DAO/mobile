@@ -8,10 +8,10 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import { tokens } from "@/constants/Styles";
+import { tokenAddresses, tokens } from "@/constants/Styles";
 import Token, { TokenProps } from "../components/Token";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
@@ -20,7 +20,7 @@ import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 import { baseSepolia } from "thirdweb/chains";
 import { client } from "@/utils/client";
 import { getWalletBalanceInKes } from "@/utils/getWalletBalanceInKes";
-
+import { getTokenPriceInUSDT } from "@/utils/getTokenPrice";
 export interface TokenBalance {
   chainId: number;
   decimals: number;
@@ -38,23 +38,42 @@ const Wallet = () => {
   const [depositMethod, setDepositMethod] = useState<"wallet" | "mpesa">(
     "mpesa"
   );
-  const {
-    data: ethBalance,
-    isLoading: ethBalanceLoading,
-    isError: ethBalanceError,
-  } = useWalletBalance({
+  const { data: ethBalance } = useWalletBalance({
     tokenAddress: undefined,
     address: activeAccount?.address,
     chain: baseSepolia,
     client: client,
   });
 
+  const { data: usdcBalance, error: usdcError } = useWalletBalance({
+    tokenAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    address: activeAccount?.address,
+    chain: baseSepolia,
+    client: client,
+  });
+  console.log(usdcError);
+  console.log(tokenAddresses.usdc);
+
+  const [ethPrice, setEthPrice] = useState<number>(0);
+  const [usdcPrice, setUsdcPrice] = useState<number>(0);
+
+  useEffect(() => {
+    getTokenPriceInUSDT("eth").then(setEthPrice);
+    getTokenPriceInUSDT("usdc").then(setUsdcPrice);
+  }, []);
+
   const formattedTokens = tokens.map((token) => {
     if (token.id === "eth") {
       return {
         ...token,
-        price: 328237.42,
+        price: 129.33 * ethPrice,
         amount: ethBalance!.displayValue || "0",
+      };
+    } else if (token.id === "usdc") {
+      return {
+        ...token,
+        price: usdcPrice,
+        amount: usdcBalance?.displayValue || "0",
       };
     } else {
       return {
@@ -104,7 +123,9 @@ const Wallet = () => {
             <View style={styles.walletBalanceSubtitleContainer}>
               <Text style={styles.walletBalanceSubtitle}>Wallet Address</Text>
               <TouchableOpacity style={styles.footerButton}>
-                <Text style={styles.walletBalanceSubtitle}> 0xeg8sgu...</Text>
+                <Text style={styles.walletBalanceSubtitle}>
+                  {activeAccount?.address?.slice(0, 6)}...
+                </Text>
                 <Ionicons
                   name="copy-outline"
                   size={16}
