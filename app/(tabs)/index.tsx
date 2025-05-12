@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   stepActionContainer: {
     width: "100%",
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.primary,
+    borderColor: colors.chamaGreen,
     borderRadius: 16,
     padding: 14,
     marginTop: 16,
