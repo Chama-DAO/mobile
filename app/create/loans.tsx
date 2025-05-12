@@ -151,16 +151,16 @@ const Loans = () => {
         return;
       }
 
-      // const result = await createChama(
-      //   activeAccount.address,
-      //   "Demo Chama",
-      //   BigInt(7)
-      // );
-      // console.log("Transaction result:", result);
+      const result = await createChama(
+        activeAccount.address,
+        "Demo Chama",
+        BigInt(7)
+      );
+      console.log("Transaction result:", result);
       const chamaAddress =
         event?.[0].args.contributions ||
         "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4";
-      // const txnHash = event?.[0].transactionHash;
+      const txnHash = event?.[0].transactionHash;
 
       if (
         !chamaAddress ||
