@@ -22,8 +22,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import useCreateStore from "./store";
-import { createChamaSchema } from "./schema";
+import { CreateChamaSchema, createChamaSchema } from "./schema";
+import contract from "@/utils/client";
+import { useActiveAccount } from "thirdweb/react";
 const { width } = Dimensions.get("window");
+import { prepareContractCall } from "thirdweb";
+import { useSendTransaction } from "thirdweb/react";
 
 const loansDetailsSchema = createChamaSchema.pick({
   maximumLoanAmount: true,
@@ -34,12 +38,34 @@ const loansDetailsSchema = createChamaSchema.pick({
 type LoansDetailsSchema = z.infer<typeof loansDetailsSchema>;
 
 const Loans = () => {
+  const { mutateAsync: sendTransaction } = useSendTransaction();
+  const createChama = async (
+    _admin: string,
+    _name: string,
+    _interestRate: bigint
+  ) => {
+    const transaction = await prepareContractCall({
+      contract,
+      method:
+        "function createChama(address _admin, string _name, uint256 _interestRate) returns (address)",
+      params: [_admin, _name, _interestRate],
+    });
+    console.warn(transaction);
+    return sendTransaction(transaction, {
+      onSuccess: (result) => {
+        // Parse result here for the address
+        console.log("Transaction result:", result);
+      },
+      onError: () => console.error("Transaction error"),
+    });
+  };
   const name = useCreateStore((state) => state.name);
   const description = useCreateStore((state) => state.description);
   const location = useCreateStore((state) => state.location);
   const profileImage = useCreateStore((state) => state.profileImage);
   const maximumMembers = useCreateStore((state) => state.maximumMembers);
   const [loading, setLoading] = useState(false);
+  const activeAccount = useActiveAccount();
   const registrationFeeRequired = useCreateStore(
     (state) => state.registrationFeeRequired
   );
@@ -74,29 +100,71 @@ const Loans = () => {
 
   const onsubmit = async (data: LoansDetailsSchema) => {
     setLoading(true);
-    console.log("Here is the data");
-    const chamaId = "1234567890";
-    const dateCreated = new Date();
+    try {
+      console.log("Here is the data");
+      const chamaId = "1234567890";
+      const dateCreated = new Date();
 
-    console.log(
-      data.loanInterestRate,
-      data.loanPenalty,
-      data.loanTerm,
-      data.maximumLoanAmount,
-      name,
-      description,
-      location,
-      profileImage,
-      maximumMembers,
-      registrationFeeRequired,
-      registrationFeeAmount,
-      registrationFeeCurrency,
-      contributionAmount,
-      contributionPeriod,
-      contributionPenalty,
-      chamaId,
-      dateCreated
-    );
+      console.log(
+        data.loanInterestRate,
+        data.loanPenalty,
+        data.loanTerm,
+        data.maximumLoanAmount,
+        name,
+        description,
+        location,
+        profileImage,
+        maximumMembers,
+        registrationFeeRequired,
+        registrationFeeAmount,
+        registrationFeeCurrency,
+        contributionAmount,
+        contributionPeriod,
+        contributionPenalty,
+        chamaId,
+        dateCreated
+      );
+      if (!activeAccount || !name || !data.loanInterestRate) {
+        console.log("Missing required fields");
+        return;
+      }
+      // create a txn
+      const result = await createChama(
+        activeAccount.address,
+        "Demo Chama",
+        BigInt(7)
+      );
+      console.log("Transaction result:", result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+
+    // send the data to the backend plus the chama address returned from above
+    // const chamaData: CreateChamaSchema = {
+    //   name: name,
+    //   description: description,
+    //   location: location,
+    //   profileImage: profileImage,
+    //   maximumMembers: maximumMembers,
+    //   registrationFeeRequired: registrationFeeRequired,
+    //   registrationFeeAmount: registrationFeeAmount,
+    //   payoutPeriod: "yearly",
+    //   payoutPercentageAmount: 80,
+    //   registrationFeeCurrency: registrationFeeCurrency,
+    //   contributionAmount: contributionAmount,
+    //   contributionPeriod: contributionPeriod,
+    //   contributionPenalty: contributionPenalty,
+    //   penaltyExpirationPeriod: penaltyExpirationPeriod,
+    //   chamaAddress: chamaAddress,
+    //   dateCreated: dateCreated,
+    //   maximumLoanAmount: data.maximumLoanAmount,
+    //   loanInterestRate: data.loanInterestRate,
+    //   loanTerm: data.loanTerm,
+    //   loanPenalty: data.loanPenalty,
+    // };
+
     // router.push("/create/overview");
   };
 
@@ -231,6 +299,7 @@ const Loans = () => {
             <TouchableOpacity
               style={styles.nextButton}
               onPress={form.handleSubmit(onsubmit)}
+              disabled={loading}
             >
               {loading ? (
                 <ActivityIndicator size="small" color="white" />
