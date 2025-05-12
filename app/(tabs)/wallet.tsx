@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import colors from "@/constants/Colors";
@@ -21,6 +22,8 @@ import { baseSepolia } from "thirdweb/chains";
 import { client } from "@/utils/client";
 import { getWalletBalanceInKes } from "@/utils/getWalletBalanceInKes";
 import { getTokenPriceInUSDT } from "@/utils/getTokenPrice";
+import * as Clipboard from "expo-clipboard";
+
 export interface TokenBalance {
   chainId: number;
   decimals: number;
@@ -84,6 +87,11 @@ const Wallet = () => {
     }
   });
 
+  const handleCopyAddress = () => {
+    Clipboard.setStringAsync(activeAccount?.address || "");
+    Alert.alert("Address copied to clipboard");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -122,7 +130,10 @@ const Wallet = () => {
             </View>
             <View style={styles.walletBalanceSubtitleContainer}>
               <Text style={styles.walletBalanceSubtitle}>Wallet Address</Text>
-              <TouchableOpacity style={styles.footerButton}>
+              <TouchableOpacity
+                style={styles.footerButton}
+                onPress={handleCopyAddress}
+              >
                 <Text style={styles.walletBalanceSubtitle}>
                   {activeAccount?.address?.slice(0, 6)}...
                 </Text>
