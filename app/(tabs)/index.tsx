@@ -170,7 +170,7 @@ const Home = () => {
 
         <View style={styles.quickActionsContainer}>
           <Text style={styles.quickActionTitle}>Quick Actions</Text>
-          {userIsPartOfAChama && (
+          {!userIsPartOfAChama && (
             <View>
               <View style={styles.quickActionsItemsContainer}>
                 {quickActions.slice(0, 4).map((action) => (
@@ -192,29 +192,9 @@ const Home = () => {
                   </TouchableOpacity>
                 ))}
               </View>
-              <View style={styles.quickActionsItemsContainer}>
-                {quickActions.slice(4, 8).map((action) => (
-                  <TouchableOpacity
-                    style={styles.quickActionItem}
-                    key={action.name}
-                    onPress={() => router.navigate(action.route as any)}
-                  >
-                    <View style={styles.quickActionItemIconContainer}>
-                      <Image
-                        source={action.icon}
-                        style={styles.quickActionItemIcon}
-                        contentFit="contain"
-                      />
-                    </View>
-                    <Text style={styles.quickActionItemText}>
-                      {action.name}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
             </View>
           )}
-          {!userIsPartOfAChama && (
+          {userIsPartOfAChama && (
             <View style={styles.quickActionsItemsContainer}>
               <TouchableOpacity
                 style={styles.chamaActionButton}

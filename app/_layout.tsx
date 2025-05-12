@@ -201,6 +201,13 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="chama/loans"
+              options={{
+                title: "Loans",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="chama/join"
               options={{
                 title: "Join Chama",
@@ -218,6 +225,13 @@ export default function RootLayout() {
               name="settings"
               options={{
                 title: "Settings",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="myloans"
+              options={{
+                title: "My Loans",
                 headerShown: false,
               }}
             />

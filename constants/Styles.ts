@@ -70,34 +70,14 @@ export const quickActions = [
     route: "/mychama",
   },
   {
-    name: "Borrow",
+    name: "My Loans",
     icon: myLoans,
-    route: "chama/myloans",
+    route: "/myloans",
   },
   {
     name: "Contribute",
     icon: myContributions,
     route: "chama/contributions",
-  },
-  {
-    name: "Join",
-    icon: createChama,
-    route: "/joinchama",
-  },
-  {
-    name: "Pay",
-    icon: payLoan,
-    route: "chama/myloans",
-  },
-  {
-    name: "Create",
-    icon: joinChama,
-    route: "/createchama",
-  },
-  {
-    name: "Meetings",
-    icon: meeting,
-    route: "/meeting",
   },
   {
     name: "Settings",
@@ -149,10 +129,10 @@ export const chamaActions = [
     description: "View contribution history of the chama.",
   },
   {
-    title: "Chama Finances",
-    route: "chama/finances",
+    title: "Chama Loans",
+    route: "chama/loans",
     icon: myLoans,
-    description: "An overview of the chama's financial details.",
+    description: "An overview of the chama's loan details.",
   },
   {
     title: "View Members",
