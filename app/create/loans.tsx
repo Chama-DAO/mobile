@@ -26,8 +26,40 @@ import { CreateChamaSchema, createChamaSchema } from "./schema";
 import contract from "@/utils/client";
 import { useActiveAccount } from "thirdweb/react";
 const { width } = Dimensions.get("window");
-import { prepareContractCall } from "thirdweb";
-import { useSendTransaction } from "thirdweb/react";
+import { prepareContractCall, prepareEvent } from "thirdweb";
+import { useSendTransaction, useContractEvents } from "thirdweb/react";
+import { useCreateChama } from "@/hooks/useCreateChama";
+import { setDefaults } from "@/utils/format";
+
+export interface ChamaCreatedEvent {
+  address: string;
+  args: {
+    admin: string;
+    contributions: string;
+    [key: string]: any;
+  };
+  blockHash: string;
+  blockNumber: number | string | bigint;
+  blockTimestamp: number;
+  chainId: string;
+  data: string;
+  eventName: string;
+  logIndex: number;
+  topics: string[];
+  transactionHash: string;
+  transactionIndex: number;
+}
+export interface TransactionResult {
+  chain: {
+    id: number;
+    rpc: string;
+  };
+  client: {
+    clientId: string;
+    secretKey: string;
+  };
+  transactionHash: string;
+}
 
 const loansDetailsSchema = createChamaSchema.pick({
   maximumLoanAmount: true,
@@ -36,9 +68,22 @@ const loansDetailsSchema = createChamaSchema.pick({
   loanPenalty: true,
 });
 type LoansDetailsSchema = z.infer<typeof loansDetailsSchema>;
+const preparedEvent = prepareEvent({
+  signature: "event chamaCreated(address indexed admin, address contributions)",
+});
 
 const Loans = () => {
   const { mutateAsync: sendTransaction } = useSendTransaction();
+  const { data: event } = useContractEvents({
+    contract,
+    events: [preparedEvent],
+  });
+  const {
+    createChamaMutation,
+    loading: creatingChama,
+    error,
+  } = useCreateChama();
+
   const createChama = async (
     _admin: string,
     _name: string,
@@ -101,15 +146,42 @@ const Loans = () => {
   const onsubmit = async (data: LoansDetailsSchema) => {
     setLoading(true);
     try {
-      console.log("Here is the data");
-      const chamaId = "1234567890";
-      const dateCreated = new Date();
+      if (!activeAccount || !name || !data.loanInterestRate) {
+        console.log("Missing required fields");
+        return;
+      }
 
-      console.log(
-        data.loanInterestRate,
-        data.loanPenalty,
-        data.loanTerm,
-        data.maximumLoanAmount,
+      // const result = await createChama(
+      //   activeAccount.address,
+      //   "Demo Chama",
+      //   BigInt(7)
+      // );
+      // console.log("Transaction result:", result);
+      const chamaAddress =
+        event?.[0].args.contributions ||
+        "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4";
+      // const txnHash = event?.[0].transactionHash;
+
+      if (
+        !chamaAddress ||
+        !name ||
+        !description ||
+        !location ||
+        !profileImage ||
+        !maximumMembers ||
+        !registrationFeeRequired ||
+        !registrationFeeAmount ||
+        !registrationFeeCurrency ||
+        !contributionAmount ||
+        !contributionPeriod ||
+        !contributionPenalty
+      ) {
+        console.log("Missing required fields");
+        return;
+      }
+      const chamaData = setDefaults({
+        chamaAddress:
+          "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4",
         name,
         description,
         location,
@@ -117,55 +189,25 @@ const Loans = () => {
         maximumMembers,
         registrationFeeRequired,
         registrationFeeAmount,
-        registrationFeeCurrency,
-        contributionAmount,
-        contributionPeriod,
-        contributionPenalty,
-        chamaId,
-        dateCreated
-      );
-      if (!activeAccount || !name || !data.loanInterestRate) {
-        console.log("Missing required fields");
-        return;
-      }
-      // create a txn
-      const result = await createChama(
-        activeAccount.address,
-        "Demo Chama",
-        BigInt(7)
-      );
-      console.log("Transaction result:", result);
+        contributionAmount: contributionAmount,
+        contributionPeriod: contributionPeriod,
+        contributionPenalty: contributionPenalty,
+        maximumLoanAmount: data.maximumLoanAmount,
+        loanInterestRate: data.loanInterestRate,
+        loanTerm: data.loanTerm,
+        loanPenalty: data.loanPenalty,
+      });
+
+      const response = await createChamaMutation.mutateAsync(chamaData);
+      console.log(response);
+      setLoading(false);
+
+      // router.push("/create/overview");
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-
-    // send the data to the backend plus the chama address returned from above
-    // const chamaData: CreateChamaSchema = {
-    //   name: name,
-    //   description: description,
-    //   location: location,
-    //   profileImage: profileImage,
-    //   maximumMembers: maximumMembers,
-    //   registrationFeeRequired: registrationFeeRequired,
-    //   registrationFeeAmount: registrationFeeAmount,
-    //   payoutPeriod: "yearly",
-    //   payoutPercentageAmount: 80,
-    //   registrationFeeCurrency: registrationFeeCurrency,
-    //   contributionAmount: contributionAmount,
-    //   contributionPeriod: contributionPeriod,
-    //   contributionPenalty: contributionPenalty,
-    //   penaltyExpirationPeriod: penaltyExpirationPeriod,
-    //   chamaAddress: chamaAddress,
-    //   dateCreated: dateCreated,
-    //   maximumLoanAmount: data.maximumLoanAmount,
-    //   loanInterestRate: data.loanInterestRate,
-    //   loanTerm: data.loanTerm,
-    //   loanPenalty: data.loanPenalty,
-    // };
-
-    // router.push("/create/overview");
   };
 
   return (

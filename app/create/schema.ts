@@ -97,7 +97,6 @@ export const createChamaSchema = z.object({
   // Additional Non-Form Details
   chamaId: z.string().describe("A unique 8 digit identifier for the chama."),
   dateCreated: z.string().describe("The date and time the chama was created."),
-  address: z.string().describe("The blockchain address of the chama."),
   members: z.array(z.string()).describe("The members of the chama."),
   loans: z
     .array(z.string())
