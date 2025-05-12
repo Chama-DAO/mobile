@@ -17,12 +17,18 @@ import Token, { TokenProps } from "../components/Token";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 const { width } = Dimensions.get("window");
-import { useActiveAccount, useWalletBalance } from "thirdweb/react";
-import { baseSepolia } from "thirdweb/chains";
+import {
+  ConnectButton,
+  lightTheme,
+  useActiveAccount,
+  useWalletBalance,
+} from "thirdweb/react";
+import { baseSepolia, defineChain } from "thirdweb/chains";
 import { client } from "@/utils/client";
 import { getWalletBalanceInKes } from "@/utils/getWalletBalanceInKes";
 import { getTokenPriceInUSDT } from "@/utils/getTokenPrice";
 import * as Clipboard from "expo-clipboard";
+import { createWallet } from "thirdweb/wallets";
 
 export interface TokenBalance {
   chainId: number;
@@ -91,6 +97,22 @@ const Wallet = () => {
     Clipboard.setStringAsync(activeAccount?.address || "");
     Alert.alert("Address copied to clipboard");
   };
+  const wallets = [
+    createWallet("com.coinbase.wallet", {
+      mobileConfig: {
+        callbackURL: "myapp://createCoinbaseWallet",
+      },
+      walletConfig: {
+        options: "smartWalletOnly",
+      },
+      appMetadata: {
+        name: "The ChamaDAO",
+        description: "The complete savings platform for EVERYONE!",
+        url: "https://www.thechamadao.xyz",
+        logoUrl: "https://www.thechamadao.xyz/logo.svg",
+      },
+    }),
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -213,30 +235,28 @@ const Wallet = () => {
                   }
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPressIn={() => setDepositMethod("wallet")}
-                style={[
-                  styles.depositMethod,
-                  {
-                    backgroundColor:
-                      depositMethod === "wallet" ? "#E7E7E7FF" : "transparent",
+              <ConnectButton
+                client={client}
+                theme={lightTheme({
+                  colors: {
+                    modalBg: "#f0f7f9",
+                    modalOverlayBg: "#f0f7f9",
+                    primaryButtonBg: "#f0f7f9",
+                    primaryButtonText: colors.chamaBlack,
                   },
-                ]}
-              >
-                <Image
-                  source={require("@/assets/images/cbw.svg")}
-                  style={styles.mpesaIcon}
-                  contentFit="contain"
-                />
-                <Text style={styles.depositMethodText}>Wallet</Text>
-                <Ionicons
-                  name="checkmark-outline"
-                  size={24}
-                  color={
-                    depositMethod === "wallet" ? colors.accent : "transparent"
-                  }
-                />
-              </TouchableOpacity>
+                  fontFamily: "Poppins",
+                })}
+                wallets={wallets}
+                chain={defineChain(baseSepolia)}
+                connectButton={{
+                  label: "Create a Smart Wallet",
+                }}
+                connectModal={{
+                  title: "Coinbase Wallet",
+                  titleIcon: "https://www.thechamadao.xyz/logo.svg",
+                  size: "compact",
+                }}
+              />
               <TouchableOpacity style={styles.depositButton}>
                 <Text style={styles.depositButtonText}>Confirm</Text>
               </TouchableOpacity>
