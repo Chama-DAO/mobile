@@ -3,23 +3,16 @@ import React from "react";
 import colors from "@/constants/Colors";
 import { Image } from "expo-image";
 
-interface TokenProps {
+export interface TokenProps {
   id: string;
   name: string;
   price: number;
-  amount: number;
+  amount: string;
   logo: any;
-  backgroundColor: string;
+  hidden?: boolean;
 }
 
-const Token = ({
-  id,
-  name,
-  price,
-  amount,
-  logo,
-  backgroundColor,
-}: TokenProps) => {
+const Token = ({ id, name, price, amount, logo, hidden }: TokenProps) => {
   return (
     <View style={[styles.container]}>
       <View style={styles.logoContainer}>
@@ -27,13 +20,13 @@ const Token = ({
         <View style={styles.tokenNameContainer}>
           <Text style={styles.tokenName}>{name}</Text>
           <Text style={styles.tokenPrice}>
-            {amount} {name}
+            {hidden ? "****" : `${amount} ${name}`}
           </Text>
         </View>
       </View>
       <View style={styles.tokenAmountContainer}>
         <Text style={styles.tokenAmount}>
-          KSH {(amount * price).toLocaleString()}
+          KSH {hidden ? "****" : (Number(amount) * price).toLocaleString()}
         </Text>
       </View>
     </View>

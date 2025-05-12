@@ -12,17 +12,58 @@ import React, { useState } from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { tokens } from "@/constants/Styles";
-import Token from "../components/Token";
+import Token, { TokenProps } from "../components/Token";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 const { width } = Dimensions.get("window");
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+import { baseSepolia } from "thirdweb/chains";
+import { client } from "@/utils/client";
+import { getWalletBalanceInKes } from "@/utils/getWalletBalanceInKes";
+
+export interface TokenBalance {
+  chainId: number;
+  decimals: number;
+  displayValue: string;
+  name: string;
+  symbol: string;
+  tokenAddress: string;
+  value: number;
+}
 
 const Wallet = () => {
   const [isBalanceHidden, setIsBalanceHidden] = useState(false);
+  const activeAccount = useActiveAccount();
   const [depositModal, setDepositModal] = useState(false);
   const [depositMethod, setDepositMethod] = useState<"wallet" | "mpesa">(
     "mpesa"
   );
+  const {
+    data: ethBalance,
+    isLoading: ethBalanceLoading,
+    isError: ethBalanceError,
+  } = useWalletBalance({
+    tokenAddress: undefined,
+    address: activeAccount?.address,
+    chain: baseSepolia,
+    client: client,
+  });
+
+  const formattedTokens = tokens.map((token) => {
+    if (token.id === "eth") {
+      return {
+        ...token,
+        price: 328237.42,
+        amount: ethBalance!.displayValue || "0",
+      };
+    } else {
+      return {
+        ...token,
+        price: 129,
+        amount: "0",
+      };
+    }
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,13 +96,13 @@ const Wallet = () => {
                   <Text style={styles.walletBalanceAmount}>***********</Text>
                 </BlurView>
               ) : (
-                <Text style={styles.walletBalanceAmount}>KES 3,432.58</Text>
+                <Text style={styles.walletBalanceAmount}>
+                  KES {getWalletBalanceInKes(formattedTokens).toLocaleString()}
+                </Text>
               )}
             </View>
             <View style={styles.walletBalanceSubtitleContainer}>
-              <Text style={styles.walletBalanceSubtitle}>
-                April Expenses: KES 1,245
-              </Text>
+              <Text style={styles.walletBalanceSubtitle}>Wallet Address</Text>
               <TouchableOpacity style={styles.footerButton}>
                 <Text style={styles.walletBalanceSubtitle}> 0xeg8sgu...</Text>
                 <Ionicons
@@ -94,8 +135,8 @@ const Wallet = () => {
         <View style={styles.tokensContainer}>
           <Text style={styles.tokensTitle}>My Tokens</Text>
           <View style={styles.tokensList}>
-            {tokens.map((token) => (
-              <Token key={token.id} {...token} />
+            {formattedTokens.map((token) => (
+              <Token key={token.id} {...token} hidden={isBalanceHidden} />
             ))}
           </View>
         </View>

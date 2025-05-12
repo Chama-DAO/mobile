@@ -136,7 +136,7 @@ export const notifications = [
     title: "Welcome to ChamaDAO",
     message: "You are now a member of ChamaDAO.",
     read: false,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date().toDateString(),
     icon: require("../assets/images/Subtract.png"),
   },
 ];
@@ -227,10 +227,6 @@ export const tokens = [
     price: 129,
     amount: 4.12,
     logo: usdc,
-    backgroundColor:
-      backgroundTokenColors[
-        Math.floor(Math.random() * backgroundTokenColors.length)
-      ],
   },
   {
     id: "ksh",
@@ -238,10 +234,6 @@ export const tokens = [
     price: 1,
     amount: 40.02,
     logo: kshc,
-    backgroundColor:
-      backgroundTokenColors[
-        Math.floor(Math.random() * backgroundTokenColors.length)
-      ],
   },
   {
     id: "eth",
@@ -249,10 +241,6 @@ export const tokens = [
     price: 238456.98,
     amount: 0.012,
     logo: eth,
-    backgroundColor:
-      backgroundTokenColors[
-        Math.floor(Math.random() * backgroundTokenColors.length)
-      ],
   },
 ];
 
@@ -305,3 +293,7 @@ export const accountSettings: AccountSettingProps[] = [
     icon: "call-outline",
   },
 ];
+
+export const tokenAddresses = {
+  usdc: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+};
