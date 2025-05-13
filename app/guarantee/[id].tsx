@@ -63,7 +63,7 @@ const Guarantee = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back-outline" size={28} color="black" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Guarantee Loan</Text>
