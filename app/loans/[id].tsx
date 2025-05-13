@@ -75,7 +75,7 @@ const LoanOverview = () => {
                       fontFamily: "JakartSemiBold",
                     }}
                   >
-                    {activeAccount?.address.slice(0, 12)}...
+                    Wallet Address
                   </Text>
                   <Ionicons
                     name="link-outline"
@@ -134,6 +134,25 @@ const LoanOverview = () => {
             amount="KES 1,000"
           />
         </View>
+
+        <TouchableOpacity
+          style={[
+            {
+              marginHorizontal: 16,
+              height: 40,
+            },
+            styles.closeButton,
+          ]}
+          onPress={() => setIsModalVisible(false)}
+        >
+          <Ionicons
+            name="add-circle-outline"
+            size={24}
+            color={colors.chamaGray}
+          />
+          <Text style={styles.closeText}>Guarantee this loan</Text>
+        </TouchableOpacity>
+
         <Modal visible={isModalVisible} transparent={true} animationType="fade">
           <BlurView intensity={10} style={styles.overlay}>
             <View style={styles.tooltipContainer}>
@@ -191,7 +210,7 @@ const styles = StyleSheet.create({
   profileTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    fontFamily: "JakartSemiBold",
+    fontFamily: "JakartaRegular",
     marginTop: 6,
   },
   profileBody: {
@@ -226,7 +245,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 16,
+    marginTop: 32,
   },
   extrasText: {
     fontSize: 14,
@@ -280,7 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    marginTop: 12,
+    marginTop: 20,
   },
   overlay: {
     flex: 1,
