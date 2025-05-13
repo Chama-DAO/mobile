@@ -143,7 +143,7 @@ const LoanOverview = () => {
             },
             styles.closeButton,
           ]}
-          onPress={() => setIsModalVisible(false)}
+          onPress={() => router.push(`/guarantee/1`)}
         >
           <Ionicons
             name="add-circle-outline"

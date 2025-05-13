@@ -243,6 +243,20 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="guarantee/[id]"
+              options={{
+                title: "Guarantee",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="guarantee/overview"
+              options={{
+                title: "Guarantee Overview",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="settings"
               options={{
                 title: "Settings",
