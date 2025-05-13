@@ -170,7 +170,7 @@ const Home = () => {
 
         <View style={styles.quickActionsContainer}>
           <Text style={styles.quickActionTitle}>Quick Actions</Text>
-          {!userIsPartOfAChama && (
+          {userIsPartOfAChama && (
             <View>
               <View style={styles.quickActionsItemsContainer}>
                 {quickActions.slice(0, 4).map((action) => (
@@ -194,7 +194,7 @@ const Home = () => {
               </View>
             </View>
           )}
-          {userIsPartOfAChama && (
+          {!userIsPartOfAChama && (
             <View style={styles.quickActionsItemsContainer}>
               <TouchableOpacity
                 style={styles.chamaActionButton}
