@@ -15,6 +15,7 @@ import {
   quickActions,
   trendingChamas,
   notifications,
+  onboardingSteps,
 } from "@/constants/Styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
@@ -44,6 +45,7 @@ export interface UserData {
 const Home = () => {
   const activeAccount = useActiveAccount();
   const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(1);
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
   };
@@ -79,7 +81,7 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {userData?.chamaName && (
+        {!userData?.chamaName && (
           <View style={styles.bgImageContainer}>
             <ImageBackground
               source={bgImage}
@@ -136,7 +138,7 @@ const Home = () => {
             </ImageBackground>
           </View>
         )}
-        {!userData?.chamaName && (
+        {onboardingStep < 2 && (
           <>
             <Text
               style={{
@@ -154,15 +156,35 @@ const Home = () => {
               <View style={styles.nextStepTextContainer}>
                 <Text style={styles.nextStepText}>Next Steps</Text>
                 <View style={styles.nextStepProgressContainer}>
-                  <View style={styles.nextStepProgress} />
+                  <View
+                    style={[
+                      styles.nextStepProgress,
+                      {
+                        width:
+                          onboardingStep === 0
+                            ? "33%"
+                            : onboardingStep === 1
+                            ? "66%"
+                            : "100%",
+                      },
+                    ]}
+                  />
                 </View>
                 <View style={styles.stepsIndicatorContainer}>
-                  <Text style={styles.stepsIndicatorText}>1/3</Text>
+                  <Text style={styles.stepsIndicatorText}>
+                    {onboardingStep + 1}/{onboardingSteps.length}
+                  </Text>
                 </View>
               </View>
               <TouchableOpacity style={styles.stepActionContainer}>
-                <Ionicons name="add" size={20} color="#212121" />
-                <Text style={styles.stepActionText}>Create / Join a Chama</Text>
+                <Image
+                  source={onboardingSteps[onboardingStep].icon}
+                  style={styles.stepActionIcon}
+                  contentFit="contain"
+                />
+                <Text style={styles.stepActionText}>
+                  {onboardingSteps[onboardingStep].title}
+                </Text>
               </TouchableOpacity>
             </View>
           </>
@@ -489,6 +511,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#212121",
     alignSelf: "center",
+  },
+  stepActionIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 4,
   },
   quickActionsContainer: {
     marginHorizontal: 16,

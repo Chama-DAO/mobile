@@ -277,3 +277,21 @@ export const accountSettings: AccountSettingProps[] = [
 export const tokenAddresses = {
   usdc: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
 };
+
+export const onboardingSteps = [
+  {
+    title: "Create / Join a Chama",
+    description: "Create a chama to start saving and borrowing.",
+    icon: createChama,
+  },
+  {
+    title: "Make a Contribution",
+    description: "Make a contribution to the chama.",
+    icon: myContributions,
+  },
+  {
+    title: "Request a Loan",
+    description: "Request a loan from the chama.",
+    icon: myLoans,
+  },
+];
