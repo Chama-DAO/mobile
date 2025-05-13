@@ -197,6 +197,7 @@ const Loans = () => {
         loanTerm: data.loanTerm,
         loanPenalty: data.loanPenalty,
       });
+      console.log("chama data", chamaData);
 
       const response = await createChamaMutation.mutateAsync(chamaData);
       console.log(response);
