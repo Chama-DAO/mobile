@@ -229,6 +229,20 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="loans/apply"
+              options={{
+                title: "Apply Loan",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="loans/overview"
+              options={{
+                title: "Loan Overview",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="settings"
               options={{
                 title: "Settings",

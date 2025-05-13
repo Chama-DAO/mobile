@@ -2,7 +2,14 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-const Search = ({ placeholder }: { placeholder: string }) => {
+
+interface SearchProps {
+  placeholder: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
+}
+
+const Search = ({ placeholder, value, onChangeText }: SearchProps) => {
   return (
     <View style={styles.container}>
       <Ionicons name="search" size={24} color={colors.chamaGreen} />
@@ -10,6 +17,8 @@ const Search = ({ placeholder }: { placeholder: string }) => {
         placeholder={placeholder}
         style={styles.inputField}
         autoCapitalize="none"
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );
@@ -34,5 +43,6 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     fontFamily: "JakartaRegular",
+    flex: 1,
   },
 });

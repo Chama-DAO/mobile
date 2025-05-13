@@ -52,7 +52,7 @@ const MyLoans = () => {
             <View style={styles.divider} />
             <TouchableOpacity
               style={[styles.balanceItem]}
-              onPress={() => router.push("/pay/1" as any)}
+              onPress={() => router.push("/loans/apply" as any)}
             >
               <Text style={styles.balanceTitle}>Borrow Loan</Text>
               <Ionicons name="cash-outline" size={24} color="black" />
