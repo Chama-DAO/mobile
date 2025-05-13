@@ -227,25 +227,25 @@ export const tokens = [
 export const profileActions = [
   {
     name: "Transactions",
-    description: "You're in the top 1% of transactors on ChamaDAO",
+    description: "In the top 1% of transactors on ChamaDAO",
     data: "KES 1K",
     icon: transactions,
   },
   {
     name: "Founder",
-    description: "You're one of our oldest members",
+    description: "One of our oldest members",
     data: "2 Months",
     icon: user,
   },
   {
     name: "Streak",
-    description: "You're on a 5 consecutive rounds streak. Keep it up!",
+    description: "On a 5 consecutive rounds streak. Keep it up!",
     data: "5/5",
     icon: streak,
   },
   {
     name: "Health",
-    description: "You reputation is in good health. Keep it up!",
+    description: "Reputation is in good health. Keep it up!",
     data: "100%",
     icon: health,
   },

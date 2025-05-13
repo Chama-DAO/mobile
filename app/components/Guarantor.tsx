@@ -1,21 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { Link, router } from "expo-router";
 import { Image } from "expo-image";
 import colors from "@/constants/Colors";
-import { Link, router } from "expo-router";
-interface LoanItemRowProps {
+
+interface GuarantorProps {
   id: string;
   icon: string;
   user: string;
   amount: string;
-  status: string;
 }
 
-const LoanItemRow = ({ id, icon, user, amount, status }: LoanItemRowProps) => {
+const Guarantor = ({ id, icon, user, amount }: GuarantorProps) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => router.push(`/loans/${id}`)}
+      onPress={() => router.push(`/profiles/${id}`)}
     >
       <View style={styles.iconContainer}>
         <Image
@@ -33,14 +33,11 @@ const LoanItemRow = ({ id, icon, user, amount, status }: LoanItemRowProps) => {
       <View style={styles.amountContainer}>
         <Text style={styles.amountText}>{amount}</Text>
       </View>
-      <View style={styles.statusContainer}>
-        <Text style={styles.statusText}>{status}</Text>
-      </View>
     </TouchableOpacity>
   );
 };
 
-export default LoanItemRow;
+export default Guarantor;
 
 const styles = StyleSheet.create({
   container: {

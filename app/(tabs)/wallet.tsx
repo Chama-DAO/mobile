@@ -76,7 +76,7 @@ const Wallet = () => {
       return {
         ...token,
         price: 129.33 * ethPrice,
-        amount: ethBalance!.displayValue || "0",
+        amount: ethBalance?.displayValue || "0",
       };
     } else if (token.id === "usdc") {
       return {

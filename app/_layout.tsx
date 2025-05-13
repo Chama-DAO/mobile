@@ -222,6 +222,13 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="loans/[id]"
+              options={{
+                title: "Loan Overview",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="settings"
               options={{
                 title: "Settings",

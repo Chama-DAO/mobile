@@ -77,6 +77,7 @@ const Loans = () => {
               <Text style={styles.loansStatusHeaderText}>Loan Status</Text>
             </View>
             <LoanItemRow
+              id="1"
               icon={require("@/assets/images/profile.jpg")}
               user="Sylus Abel"
               amount="KES 1,000"

@@ -54,7 +54,7 @@ const MyLoans = () => {
               style={[styles.balanceItem]}
               onPress={() => router.push("/pay/1" as any)}
             >
-              <Text style={styles.balanceTitle}>Borrow`` Loan</Text>
+              <Text style={styles.balanceTitle}>Borrow Loan</Text>
               <Ionicons name="cash-outline" size={24} color="black" />
             </TouchableOpacity>
           </View>
