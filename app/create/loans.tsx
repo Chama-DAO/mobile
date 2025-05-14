@@ -74,10 +74,10 @@ const preparedEvent = prepareEvent({
 
 const Loans = () => {
   const { mutateAsync: sendTransaction } = useSendTransaction();
-  const { data: event } = useContractEvents({
-    contract,
-    events: [preparedEvent],
-  });
+  // const { data: event } = useContractEvents({
+  //   contract,
+  //   events: [preparedEvent],
+  // });
   const {
     createChamaMutation,
     loading: creatingChama,
@@ -151,16 +151,16 @@ const Loans = () => {
         return;
       }
 
-      const result = await createChama(
-        activeAccount.address,
-        "Demo Chama",
-        BigInt(7)
-      );
-      console.log("Transaction result:", result);
+      // const result = await createChama(
+      //   activeAccount.address,
+      //   "Demo Chama",
+      //   BigInt(7)
+      // );
+      // console.log("Transaction result:", result);
       const chamaAddress =
-        event?.[0].args.contributions ||
+        // event?.[0].args.contributions ||
         "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4";
-      const txnHash = event?.[0].transactionHash;
+      // const txnHash = event?.[0].transactionHash;
 
       if (
         !chamaAddress ||
@@ -197,6 +197,10 @@ const Loans = () => {
         loanTerm: data.loanTerm,
         loanPenalty: data.loanPenalty,
       });
+      const finalData = {
+        ...chamaData,
+        creatorAddress: activeAccount.address,
+      };
       console.log("chama data", chamaData);
 
       const response = await createChamaMutation.mutateAsync(chamaData);
