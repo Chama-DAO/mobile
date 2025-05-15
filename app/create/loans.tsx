@@ -181,8 +181,8 @@ const Loans = () => {
         BigInt(data.loanInterestRate)
       );
       console.log("Transaction result:", result);
-      const chamaAddress = event?.[0].args.contributions;
-      const txnHash = event?.[0].transactionHash;
+      const chamaAddress = event?.[0]?.args?.contributions;
+      console.log("chamaAddress", chamaAddress);
 
       if (
         !chamaAddress ||

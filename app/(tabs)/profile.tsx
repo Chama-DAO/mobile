@@ -32,7 +32,6 @@ const Profile = () => {
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
   };
-  console.log("user data", userData);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
