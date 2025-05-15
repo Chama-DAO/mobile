@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import colors from "@/constants/Colors";
@@ -14,13 +15,68 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { chamaActions } from "@/constants/Styles";
 import ChamaAction from "../components/ChamaAction";
+import { useGetChama } from "@/hooks/useChama";
 
 const screenWidth = Dimensions.get("window").width;
+
+export interface ChamaMember {
+  walletAddress: string;
+  fullName: string;
+  profileImage: string;
+}
+
+export interface ChamaData {
+  chamaAddress: string;
+  chamaId: string;
+  name: string;
+  description: string;
+  location: string;
+  profileImage: string;
+  creator: ChamaMember;
+  maximumMembers: number;
+  registrationFeeRequired: boolean;
+  registrationFeeAmount: number;
+  registrationFeeCurrency: string;
+  payoutPeriod: string;
+  payoutPercentageAmount: number;
+  contributionAmount: number;
+  contributionPeriod: string;
+  contributionPenalty: number;
+  penaltyExpirationPeriod: number;
+  maximumLoanAmount: number;
+  loanInterestRate: number;
+  loanTerm: string;
+  loanPenalty: number;
+  loanPenaltyExpirationPeriod: number;
+  minContributionRatio: number;
+  totalContributions: number;
+  totalPayouts: number;
+  totalLoans: number;
+  totalLoanRepayments: number;
+  totalLoanPenalties: number;
+  members: ChamaMember[];
+  dateCreated: string;
+  updatedAt: string;
+}
+
+const getChamaBalance = () => {
+  return 0;
+};
 
 const MyChama = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useLocalSearchParams();
   const scrollRef = useRef(null);
+  const { data: chamaData } = useGetChama(id as string);
+
+  if (!chamaData) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color={colors.chamaBlue} />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,7 +84,7 @@ const MyChama = () => {
         <TouchableOpacity onPress={() => router.push("/(tabs)")}>
           <Ionicons name="arrow-back-outline" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Wandaes</Text>
+        <Text style={styles.headerTitle}>{chamaData?.name}</Text>
       </View>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 4 }}
@@ -55,10 +111,15 @@ const MyChama = () => {
                 <Text style={styles.financialTitle}>Total Contributions</Text>
                 <Ionicons name="eye" size={24} color="black" />
               </View>
-              <Text style={styles.amountText}>KES 10,000</Text>
+              <Text style={styles.amountText}>
+                KES {chamaData?.totalContributions?.toLocaleString()}
+              </Text>
               <View style={styles.footer}>
                 <View style={styles.moreInfo}>
-                  <Text style={styles.moreInfoText}>Chama Code: 1234 5678</Text>
+                  <Text style={styles.moreInfoText}>
+                    Chama Code: {chamaData?.chamaId?.slice(0, 4)}{" "}
+                    {chamaData?.chamaId?.slice(4, 8)}
+                  </Text>
 
                   <Ionicons
                     name="copy-outline"
@@ -67,26 +128,33 @@ const MyChama = () => {
                     style={styles.copyIcon}
                   />
                 </View>
-                <Text style={styles.pendingText}>Pending Contributions: 4</Text>
+                <Text style={styles.pendingText}>
+                  Location: {chamaData?.location}
+                </Text>
               </View>
             </View>
             <View style={styles.balanceContainer}>
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Balance</Text>
-                <Text style={styles.balanceText}>KES 120,000</Text>
+                <Text style={styles.balanceText}>
+                  KES {getChamaBalance().toLocaleString()}
+                </Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Address</Text>
                 <Text style={styles.balanceText}>
-                  0xhdh...
+                  {chamaData?.chamaAddress?.slice(0, 4)}...
                   <Ionicons name="copy-outline" size={14} color="black" />
                 </Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Contributions</Text>
-                <Text style={styles.balanceText}>KES 1, 000 / Month</Text>
+                <Text style={styles.balanceText}>
+                  KES {chamaData?.contributionAmount?.toLocaleString()} /{" "}
+                  {chamaData?.contributionPeriod}
+                </Text>
               </View>
             </View>
           </View>
@@ -96,10 +164,15 @@ const MyChama = () => {
                 <Text style={styles.financialTitle}>Total Loans</Text>
                 <Ionicons name="eye" size={24} color="black" />
               </View>
-              <Text style={styles.amountText}>KES 66,000</Text>
+              <Text style={styles.amountText}>
+                KES {chamaData?.totalLoans?.toLocaleString()}
+              </Text>
               <View style={styles.footer}>
                 <View style={styles.moreInfo}>
-                  <Text style={styles.moreInfoText}>Chama Code: 1234 5678</Text>
+                  <Text style={styles.moreInfoText}>
+                    Chama Code: {chamaData?.chamaId?.slice(0, 4)}{" "}
+                    {chamaData?.chamaId?.slice(4, 8)}
+                  </Text>
 
                   <Ionicons
                     name="copy-outline"
@@ -108,23 +181,31 @@ const MyChama = () => {
                     style={styles.copyIcon}
                   />
                 </View>
-                <Text style={styles.pendingText}>Pending Loans: 4</Text>
+                <Text style={styles.pendingText}>
+                  Location: {chamaData?.location}
+                </Text>
               </View>
             </View>
             <View style={styles.balanceContainer}>
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Interest Rate</Text>
-                <Text style={styles.balanceText}>10%</Text>
+                <Text style={styles.balanceText}>
+                  {chamaData?.loanInterestRate}%
+                </Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Payment Period</Text>
-                <Text style={styles.balanceText}>1 Month</Text>
+                <Text style={styles.balanceText}>
+                  {chamaData?.loanTerm?.toUpperCase()}
+                </Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Penalty</Text>
-                <Text style={styles.balanceText}>KSH 100</Text>
+                <Text style={styles.balanceText}>
+                  KES {chamaData?.loanPenalty?.toLocaleString()}
+                </Text>
               </View>
             </View>
           </View>
@@ -296,5 +377,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 16,
     marginTop: 32,
+  },
+  loadingText: {
+    fontFamily: "JakartaRegular",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 16,
   },
 });

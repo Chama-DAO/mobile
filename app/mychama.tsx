@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { chamaActions } from "@/constants/Styles";
 import ChamaAction from "./components/ChamaAction";
+import { useGetChama } from "@/hooks/useChama";
 
 const screenWidth = Dimensions.get("window").width;
 

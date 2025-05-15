@@ -28,6 +28,7 @@ import {
 import { client } from "@/utils/client";
 import { useGetUser } from "@/hooks/useUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useGetChama } from "@/hooks/useChama";
 const bgImage = require("@/assets/images/bg.png");
 
 export interface UserData {
@@ -64,6 +65,25 @@ const Home = () => {
   const [onboardingStep, setOnboardingStep] = useState(0);
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
+  };
+  const chamaAddress = userData.createdChamas[0].chamaAddress;
+  const { data: chamaData } = useGetChama(chamaAddress as string);
+
+  const navigator = (action: string) => {
+    switch (action) {
+      case "My Chama":
+        router.navigate(`/chama/${chamaAddress}` as any);
+        break;
+      case "My Loans":
+        router.navigate("/myloans" as any);
+        break;
+      case "Settings":
+        router.navigate("/settings" as any);
+        break;
+      default:
+        router.navigate("chama/contributions" as any);
+        break;
+    }
   };
 
   useEffect(() => {
@@ -130,7 +150,9 @@ const Home = () => {
                       <Ionicons name="eye" size={20} color="#212121" />
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.contributionAmountText}>KES 420</Text>
+                  <Text style={styles.contributionAmountText}>
+                    KES {chamaData?.contributionAmount?.toLocaleString()}
+                  </Text>
                 </View>
                 <View style={styles.manageContributionContainer}>
                   <TouchableOpacity
@@ -147,14 +169,18 @@ const Home = () => {
               <View style={styles.contributionsContainer}>
                 <View style={styles.contributionAmountContainer}>
                   <View style={styles.contributionAmountTitleContainer}>
-                    <Text style={styles.contributionAmountTitle}>My Loans</Text>
+                    <Text style={styles.contributionAmountTitle}>
+                      Chama Loans
+                    </Text>
                     <TouchableOpacity
                       style={styles.contributionAmountTitleButton}
                     >
                       <Ionicons name="eye" size={20} color="#212121" />
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.contributionAmountText}>KES 0</Text>
+                  <Text style={styles.contributionAmountText}>
+                    KES {chamaData?.totalLoans?.toLocaleString()}
+                  </Text>
                 </View>
                 <View style={styles.manageContributionContainer}>
                   <TouchableOpacity
@@ -217,7 +243,7 @@ const Home = () => {
                   <TouchableOpacity
                     style={styles.quickActionItem}
                     key={action.name}
-                    onPress={() => router.navigate(action.route as any)}
+                    onPress={() => navigator(action.name)}
                   >
                     <View style={styles.quickActionItemIconContainer}>
                       <Image

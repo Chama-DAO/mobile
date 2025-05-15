@@ -1,0 +1,43 @@
+{
+  "chamaAddress": "0xC47E3EA695B5bAd516192837cA5E6866106687C0",
+  "chamaId": "46738032",
+  "contributionAmount": 50,
+  "contributionPenalty": 20,
+  "contributionPeriod": "weekly",
+  "creator": {
+    "fullName": "Divine Circuits",
+    "profileImage": null,
+    "walletAddress": "0x56D174D8C43b67D1f27EbeA75c934938839f8C61"
+  },
+  "dateCreated": "2025-05-15T12:54:40.619379",
+  "description": "A football team of legendary washed players.",
+  "loanInterestRate": 10,
+  "loanPenalty": 20,
+  "loanPenaltyExpirationPeriod": 0,
+  "loanTerm": "monthly",
+  "location": "Nyeri",
+  "maximumLoanAmount": 5000,
+  "maximumMembers": 20,
+  "members": [
+    {
+      "fullName": "Divine Circuits",
+      "profileImage": null,
+      "walletAddress": "0x56D174D8C43b67D1f27EbeA75c934938839f8C61"
+    }
+  ],
+  "minContributionRatio": 5,
+  "name": "Classic XI",
+  "payoutPercentageAmount": 80,
+  "payoutPeriod": "yearly",
+  "penaltyExpirationPeriod": 0,
+  "profileImage": "file:///Users/sylusabel/Library/Developer/CoreSimulator/Devices/3577D355-BDDC-497B-AD0E-F4FC90BC0D10/data/Containers/Data/Application/7A24D910-1BC5-4384-A120-8A4DA1D95874/Library/Caches/ImagePicker/034FD3C0-31B3-49B4-B62F-82FB0475866F.jpg",
+  "registrationFeeAmount": 100,
+  "registrationFeeCurrency": "KES",
+  "registrationFeeRequired": true,
+  "totalContributions": 0,
+  "totalLoanPenalties": 0,
+  "totalLoanRepayments": 0,
+  "totalLoans": 0,
+  "totalPayouts": 0,
+  "updatedAt": "2025-05-15T12:54:40.619379"
+}

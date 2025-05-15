@@ -51,6 +51,7 @@ const CreateCoinbaseWallet = () => {
       const registrationData = await AsyncStorage.getItem(
         "userRegistrationDetails"
       );
+      await AsyncStorage.setItem("userStep", "0");
       if (!registrationData) {
         console.log("No registration data found");
         return;
