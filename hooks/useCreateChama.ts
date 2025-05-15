@@ -1,3 +1,4 @@
+import { UserData } from "@/app/(tabs)";
 import { CreateChamaSchema } from "@/app/create/schema";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -9,15 +10,27 @@ export const useCreateChama = () => {
   const [loading, setLoading] = useState(false);
 
   const createChamaMutation = useMutation({
-    mutationFn: async (chamaData: CreateChamaSchema) => {
+    mutationFn: async ({
+      chamaData,
+      creator,
+    }: {
+      chamaData: CreateChamaSchema;
+      creator: UserData;
+    }) => {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}/api/v1/chamas`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(chamaData),
-      });
+      const response = await fetch(
+        `${BASE_URL}/api/v1/chamas?creatorWalletAddress=${creator.walletAddress}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...chamaData,
+            creator: creator,
+          }),
+        }
+      );
       if (!response.ok) {
         console.log(response);
         throw new Error("Failed to create chama");

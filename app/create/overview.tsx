@@ -6,21 +6,46 @@ import {
   View,
   Dimensions,
   Linking,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Lottie from "lottie-react-native";
 import AppBanner from "../components/AppBanner";
 const width = Dimensions.get("window").width;
 import colors from "@/constants/Colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Clipboard from "@react-native-clipboard/clipboard";
 
 const Overview = () => {
+  const [chamaName, setChamaName] = useState("");
+  const [chamaAddress, setChamaAddress] = useState("");
+
+  useEffect(() => {
+    const fetchChamaName = async () => {
+      const chamaName = await AsyncStorage.getItem("chamaName");
+      if (chamaName) {
+        setChamaName(chamaName);
+      }
+      const chamaAddress = await AsyncStorage.getItem("chamaAddress");
+      if (chamaAddress) {
+        setChamaAddress(chamaAddress);
+      }
+    };
+    fetchChamaName();
+  }, []);
+
+  const copyChamaPageAppDeepLink = () => {
+    Clipboard.setString(`myapp://chama/${chamaAddress}`);
+    Alert.alert("Chama Page App Deep Link Copied to Clipboard");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <AppBanner />
-        <Text style={styles.title}>Wandaes Chama Created</Text>
+        <Text style={styles.title}>{chamaName} Chama Created</Text>
         <Text style={styles.subtitle}>
           Your chama has been created successfully. You can now view it and
           share it with your friends and family.
@@ -33,13 +58,16 @@ const Overview = () => {
           loop={false}
           style={styles.animationContainer}
         />
-        <TouchableOpacity style={styles.shareButton}>
+        <TouchableOpacity
+          style={styles.shareButton}
+          onPress={copyChamaPageAppDeepLink}
+        >
           <Text style={styles.footerText}>Share Invite</Text>
           <Ionicons name="share-social-outline" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.getStartedButton}
-          onPress={() => router.push(`/chama/1}`)}
+          onPress={() => router.push(`/chama/${chamaAddress}`)}
         >
           <Text style={styles.getStartedButtonText}>View Chama</Text>
           <Ionicons name="arrow-forward" size={24} color="white" />

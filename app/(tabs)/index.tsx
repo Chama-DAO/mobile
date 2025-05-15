@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import colors from "@/constants/Colors";
 import { ImageBackground, Image } from "expo-image";
@@ -27,6 +27,7 @@ import {
 } from "thirdweb/react";
 import { client } from "@/utils/client";
 import { useGetUser } from "@/hooks/useUser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const bgImage = require("@/assets/images/bg.png");
 
 export interface UserData {
@@ -40,15 +41,44 @@ export interface UserData {
   mobileNumber: string;
   updatedAt: string;
   walletAddress: string;
+  memberChamas: any[];
+  createdChamas: any[];
+  reputationScore: number;
+  profileImage: string;
 }
+
+const getTimeOfDay = (): string => {
+  const timeOfDay = new Date().getHours();
+  if (timeOfDay <= 11) {
+    return "Morning";
+  } else if (timeOfDay <= 15) {
+    return "Afternoon";
+  } else {
+    return "Evening";
+  }
+};
 
 const Home = () => {
   const activeAccount = useActiveAccount();
   const [userIsPartOfAChama, setUserIsPartOfAChama] = useState(false);
-  const [onboardingStep, setOnboardingStep] = useState(1);
+  const [onboardingStep, setOnboardingStep] = useState(0);
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
   };
+
+  useEffect(() => {
+    if (userData?.memberChamas.length > 0) {
+      setUserIsPartOfAChama(true);
+    }
+    // get onboarding step from local storage
+    const fetchOnboardingStep = async () => {
+      const onboardingStep = await AsyncStorage.getItem("userStep");
+      if (onboardingStep) {
+        setOnboardingStep(parseInt(onboardingStep));
+      }
+    };
+    fetchOnboardingStep();
+  }, [userData]);
 
   function handleClick() {
     console.log(activeAccount?.address);
@@ -59,8 +89,8 @@ const Home = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.introTextContainer}>
-            <Text style={styles.introText}>Good Morning,</Text>
-            <Text style={styles.nameText}>Sylus Abel</Text>
+            <Text style={styles.introText}>Good {getTimeOfDay()},</Text>
+            <Text style={styles.nameText}>{userData?.fullName}</Text>
           </View>
           <View style={styles.accountBalanceContainer}>
             <TouchableOpacity onPress={handleClick}>
@@ -81,7 +111,7 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {!userData?.chamaName && (
+        {userData?.memberChamas.length > 0 && (
           <View style={styles.bgImageContainer}>
             <ImageBackground
               source={bgImage}
@@ -138,20 +168,8 @@ const Home = () => {
             </ImageBackground>
           </View>
         )}
-        {onboardingStep < 2 && (
+        {onboardingStep < 3 && (
           <>
-            <Text
-              style={{
-                fontFamily: "JakartaRegular",
-                fontSize: 24,
-                color: colors.chamaBlack,
-                marginHorizontal: 16,
-                marginTop: 32,
-                textAlign: "center",
-              }}
-            >
-              Welcome To ChamaDAO
-            </Text>
             <View style={styles.nextStepContainer}>
               <View style={styles.nextStepTextContainer}>
                 <Text style={styles.nextStepText}>Next Steps</Text>
@@ -454,10 +472,12 @@ const styles = StyleSheet.create({
   nextStepContainer: {
     marginHorizontal: 16,
     marginTop: 24,
-    backgroundColor: colors.chamaYellow,
+    backgroundColor: colors.chamaGray,
     padding: 16,
     borderRadius: 10,
     marginBottom: 32,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.chamaBlack,
   },
   nextStepText: {
     fontFamily: "JakartSemiBold",

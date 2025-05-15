@@ -21,18 +21,24 @@ import { Image } from "expo-image";
 import { client } from "@/utils/client";
 import ProfileActions from "../components/ProfileActions";
 import { profileActions } from "@/constants/Styles";
+import { UserData } from ".";
+import { useGetUser } from "@/hooks/useUser";
 
 const { width } = Dimensions.get("window");
 
 const Profile = () => {
   const activeAccount = useActiveAccount();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { data: userData } = useGetUser(activeAccount!.address) as {
+    data: UserData;
+  };
+  console.log("user data", userData);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Sylus Abel</Text>
+            <Text style={styles.title}>{userData?.fullName}</Text>
             <MaterialCommunityIcons
               name="check-decagram"
               size={16}
@@ -47,7 +53,10 @@ const Profile = () => {
           <View style={styles.profileHeader}>
             <View style={styles.profileImageContainer}>
               <Image
-                source={require("@/assets/images/profile.jpg")}
+                source={
+                  userData?.profileImage ||
+                  require("@/assets/images/profile.jpg")
+                }
                 style={styles.profileImage}
               />
               <View style={styles.addressContainer}>
@@ -86,18 +95,24 @@ const Profile = () => {
                     width: width * 0.4,
                   }}
                 >
-                  <Text style={styles.addressText}>My Chama: Wandaes</Text>
-                  <Ionicons
-                    name="arrow-forward-outline"
-                    size={20}
-                    color="black"
-                  />
+                  <Text style={styles.addressText}>
+                    {userData?.memberChamas.length > 0
+                      ? userData?.memberChamas[0].name
+                      : "No Chama"}
+                  </Text>
+                  {userData?.memberChamas.length > 0 && (
+                    <Ionicons
+                      name="arrow-forward-outline"
+                      size={20}
+                      color="black"
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.extrasContainer}>
               <View style={styles.extrasItem}>
-                <Text style={styles.extraTitle}>sylusabel@gmail.com</Text>
+                <Text style={styles.extraTitle}>{userData?.email}</Text>
                 <Text style={styles.extraText}>Email</Text>
               </View>
               <View style={styles.extrasItem}>

@@ -8,7 +8,7 @@ export function useGetUser(walletAddress?: string) {
     enabled: !!walletAddress,
     queryFn: async ({ queryKey }) => {
       const walletAddress = queryKey[1] as string;
-      const response = await fetch(`${BASE_URL}/api/users/${walletAddress}`);
+      const response = await fetch(`${BASE_URL}/api/v1/users/${walletAddress}`);
       return response.json();
     },
   });

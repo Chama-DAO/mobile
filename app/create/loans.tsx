@@ -30,6 +30,9 @@ import { prepareContractCall, prepareEvent } from "thirdweb";
 import { useSendTransaction, useContractEvents } from "thirdweb/react";
 import { useCreateChama } from "@/hooks/useCreateChama";
 import { setDefaults } from "@/utils/format";
+import { UserData } from "../(tabs)";
+import { useGetUser } from "@/hooks/useUser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface ChamaCreatedEvent {
   address: string;
@@ -74,10 +77,11 @@ const preparedEvent = prepareEvent({
 
 const Loans = () => {
   const { mutateAsync: sendTransaction } = useSendTransaction();
-  // const { data: event } = useContractEvents({
-  //   contract,
-  //   events: [preparedEvent],
-  // });
+
+  const { data: event } = useContractEvents({
+    contract,
+    events: [preparedEvent],
+  });
   const {
     createChamaMutation,
     loading: creatingChama,
@@ -111,6 +115,29 @@ const Loans = () => {
   const maximumMembers = useCreateStore((state) => state.maximumMembers);
   const [loading, setLoading] = useState(false);
   const activeAccount = useActiveAccount();
+  const { data: userData } = useGetUser(activeAccount!.address) as {
+    data: UserData;
+  };
+
+  const updateUserOnboardingStep = async () => {
+    try {
+      const userStep = await AsyncStorage.getItem("userStep");
+      if (userStep) {
+        await AsyncStorage.setItem("userStep", "1");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const saveChamaDetails = async (chamaName: string, chamaAddress: string) => {
+    try {
+      await AsyncStorage.setItem("chamaName", chamaName);
+      await AsyncStorage.setItem("chamaAddress", chamaAddress);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const registrationFeeRequired = useCreateStore(
     (state) => state.registrationFeeRequired
   );
@@ -128,9 +155,6 @@ const Loans = () => {
   );
   const contributionPenalty = useCreateStore(
     (state) => state.contributionPenalty
-  );
-  const penaltyExpirationPeriod = useCreateStore(
-    (state) => state.penaltyExpirationPeriod
   );
 
   const form = useForm<LoansDetailsSchema>({
@@ -151,16 +175,14 @@ const Loans = () => {
         return;
       }
 
-      // const result = await createChama(
-      //   activeAccount.address,
-      //   "Demo Chama",
-      //   BigInt(7)
-      // );
-      // console.log("Transaction result:", result);
-      const chamaAddress =
-        // event?.[0].args.contributions ||
-        "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4";
-      // const txnHash = event?.[0].transactionHash;
+      const result = await createChama(
+        activeAccount.address,
+        name,
+        BigInt(data.loanInterestRate)
+      );
+      console.log("Transaction result:", result);
+      const chamaAddress = event?.[0].args.contributions;
+      const txnHash = event?.[0].transactionHash;
 
       if (
         !chamaAddress ||
@@ -180,8 +202,7 @@ const Loans = () => {
         return;
       }
       const chamaData = setDefaults({
-        chamaAddress:
-          "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb6900b5950e82cd298d8f466d4aee4",
+        chamaAddress,
         name,
         description,
         location,
@@ -197,17 +218,21 @@ const Loans = () => {
         loanTerm: data.loanTerm,
         loanPenalty: data.loanPenalty,
       });
-      const finalData = {
-        ...chamaData,
-        creatorAddress: activeAccount.address,
+      const updatedCreator = {
+        ...userData,
+        profileImage: "https://www.svgrepo.com/show/491108/profile.svg",
       };
-      console.log("chama data", chamaData);
 
-      const response = await createChamaMutation.mutateAsync(chamaData);
+      const response = await createChamaMutation.mutateAsync({
+        chamaData,
+        creator: updatedCreator,
+      });
       console.log(response);
+      await updateUserOnboardingStep();
+      await saveChamaDetails(name, chamaAddress);
       setLoading(false);
 
-      // router.push("/create/overview");
+      router.push("/create/overview");
     } catch (error) {
       console.error(error);
     } finally {

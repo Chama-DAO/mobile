@@ -208,13 +208,13 @@ export const tokens = [
     amount: 4.12,
     logo: usdc,
   },
-  {
-    id: "ksh",
-    name: "KSHC",
-    price: 1,
-    amount: 40.02,
-    logo: kshc,
-  },
+  // {
+  //   id: "ksh",
+  //   name: "KSHC",
+  //   price: 1,
+  //   amount: 40.02,
+  //   logo: kshc,
+  // },
   {
     id: "eth",
     name: "ETH",

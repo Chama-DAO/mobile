@@ -7,9 +7,13 @@ export interface SignUpData {
   walletAddress: string;
   fullName: string;
   mobileNumber: string;
+  email: string;
   profileImage: string;
   country: string;
   idNumber: string;
+  reputationScore: number;
+  createdChamas: any[];
+  memberChamas: any[];
 }
 
 export default function useAuth() {
@@ -20,7 +24,7 @@ export default function useAuth() {
   const signUpMutation = useMutation({
     mutationFn: (userData: SignUpData) => {
       setLoading(true);
-      return fetch(`${BASE_URL}/api/users`, {
+      return fetch(`${BASE_URL}/api/v1/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

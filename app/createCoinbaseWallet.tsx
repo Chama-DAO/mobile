@@ -57,6 +57,10 @@ const CreateCoinbaseWallet = () => {
       }
       const data: SignUpData = JSON.parse(registrationData);
       data.walletAddress = activeAccount!.address;
+      data.reputationScore = 0;
+      data.createdChamas = [];
+      data.memberChamas = [];
+      data.profileImage = "https://www.svgrepo.com/show/491108/profile.svg";
       const response = await signUpMutation.mutateAsync(data);
       console.log(response);
       router.push("/(tabs)");
