@@ -1,43 +1,21 @@
 {
-  "chamaAddress": "0xC47E3EA695B5bAd516192837cA5E6866106687C0",
-  "chamaId": "46738032",
-  "contributionAmount": 50,
-  "contributionPenalty": 20,
-  "contributionPeriod": "weekly",
-  "creator": {
-    "fullName": "Divine Circuits",
-    "profileImage": null,
-    "walletAddress": "0x56D174D8C43b67D1f27EbeA75c934938839f8C61"
-  },
-  "dateCreated": "2025-05-15T12:54:40.619379",
-  "description": "A football team of legendary washed players.",
-  "loanInterestRate": 10,
-  "loanPenalty": 20,
-  "loanPenaltyExpirationPeriod": 0,
-  "loanTerm": "monthly",
-  "location": "Nyeri",
-  "maximumLoanAmount": 5000,
-  "maximumMembers": 20,
-  "members": [
-    {
-      "fullName": "Divine Circuits",
-      "profileImage": null,
-      "walletAddress": "0x56D174D8C43b67D1f27EbeA75c934938839f8C61"
-    }
-  ],
-  "minContributionRatio": 5,
-  "name": "Classic XI",
-  "payoutPercentageAmount": 80,
-  "payoutPeriod": "yearly",
-  "penaltyExpirationPeriod": 0,
-  "profileImage": "file:///Users/sylusabel/Library/Developer/CoreSimulator/Devices/3577D355-BDDC-497B-AD0E-F4FC90BC0D10/data/Containers/Data/Application/7A24D910-1BC5-4384-A120-8A4DA1D95874/Library/Caches/ImagePicker/034FD3C0-31B3-49B4-B62F-82FB0475866F.jpg",
-  "registrationFeeAmount": 100,
-  "registrationFeeCurrency": "KES",
-  "registrationFeeRequired": true,
-  "totalContributions": 0,
-  "totalLoanPenalties": 0,
-  "totalLoanRepayments": 0,
-  "totalLoans": 0,
-  "totalPayouts": 0,
-  "updatedAt": "2025-05-15T12:54:40.619379"
-}
+  "address": "0xc2f4fc5416d96ac447388ead98c8eedb45d6ba82", 
+  "args": {
+    "admin": "0x56D174D8C43b67D1f27EbeA75c934938839f8C61", 
+    "contributions": "0xf2F069Bb483A3E9685E42f7f19Af612D20a8D5A3"
+    }, 
+    "blockHash": "0x7f74010cf80af7f17bbfef976443aa45b87d6db153a035200edf26fcbd9adeff", 
+    "blockNumber": 25824698n, 
+    "blockTimestamp": 1747417684, 
+    "chainId": "84532", 
+    "data": "0x000000000000000000000000f2f069bb483a3e9685e42f7f19af612d20a8d5a3", 
+    "eventName": "chamaCreated", 
+    "logIndex": 109, 
+    "topics": [
+      "0xccd3fd34999c91094bc4975f14e72854cb1dac75570490a4bec54dee2895e670", 
+      "0x00000000000000000000000056d174d8c43b67d1f27ebea75c934938839f8c61"
+    ],
+    "transactionHash": "0x93a7d8e790ca284fcba555148e6ce71908d22ac8af2d57599a5a34f9d24b5fb1",
+    "transactionIndex": 49
+  }
+

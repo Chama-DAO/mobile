@@ -9,13 +9,16 @@ import {
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import colors from "@/constants/Colors";
 import ChamaLoansOverview from "../components/ChamaLoansOverview";
 import LoanItemRow from "../components/LoanItemRow";
+import { useGetChama } from "@/hooks/useChama";
 const screenWidth = Dimensions.get("window").width;
 
 const Loans = () => {
+  const { id } = useLocalSearchParams();
+  const { data: chamaData } = useGetChama(id as string);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -30,10 +33,15 @@ const Loans = () => {
             <View style={styles.financialHeader}>
               <Text style={styles.financialTitle}>Total Loans Given</Text>
             </View>
-            <Text style={styles.amountText}>KES 66,000</Text>
+            <Text style={styles.amountText}>
+              KES {chamaData?.totalLoans?.toLocaleString()}
+            </Text>
             <View style={styles.footer}>
               <View style={styles.moreInfo}>
-                <Text style={styles.moreInfoText}>Chama Code: 1234 5678</Text>
+                <Text style={styles.moreInfoText}>
+                  Chama Code: {chamaData?.chamaId?.slice(0, 4)}{" "}
+                  {chamaData?.chamaId?.slice(4, 8)}
+                </Text>
                 <Ionicons
                   name="copy-outline"
                   size={14}
@@ -41,18 +49,24 @@ const Loans = () => {
                   style={styles.copyIcon}
                 />
               </View>
-              <Text style={styles.pendingText}>Pending Loans: 4</Text>
+              <Text style={styles.pendingText}>
+                Pending Loans: {chamaData?.totalLoanRepayments}
+              </Text>
             </View>
           </View>
           <View style={styles.balanceContainer}>
             <View style={styles.balanceItem}>
               <Text style={styles.balanceTitle}>Interest Earned</Text>
-              <Text style={styles.balanceText}>KES 1,000</Text>
+              <Text style={styles.balanceText}>
+                KES {chamaData?.totalLoanPenalties?.toLocaleString()}
+              </Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.balanceItem}>
               <Text style={styles.balanceTitle}>Payment Period</Text>
-              <Text style={styles.balanceText}>1 Month</Text>
+              <Text style={styles.balanceText}>
+                {chamaData?.loanTerm?.toUpperCase()}
+              </Text>
             </View>
             <View style={styles.divider} />
             <TouchableOpacity
@@ -76,13 +90,13 @@ const Loans = () => {
               <Text style={styles.loansAmountHeaderText}>Loan Amount</Text>
               <Text style={styles.loansStatusHeaderText}>Loan Status</Text>
             </View>
-            <LoanItemRow
+            {/* <LoanItemRow
               id="1"
               icon={require("@/assets/images/profile.jpg")}
               user="Sylus Abel"
               amount="KES 1,000"
               status="Pending"
-            />
+            /> */}
           </View>
         </View>
       </ScrollView>

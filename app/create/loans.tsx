@@ -71,9 +71,10 @@ const loansDetailsSchema = createChamaSchema.pick({
   loanPenalty: true,
 });
 type LoansDetailsSchema = z.infer<typeof loansDetailsSchema>;
-// const preparedEvent = prepareEvent({
-//   signature: "event chamaCreated(address indexed admin, address contributions)",
-// });
+
+const preparedEvent = prepareEvent({
+  signature: "event chamaCreated(address indexed admin, address contributions)",
+});
 
 const Loans = () => {
   const { mutateAsync: sendTransaction } = useSendTransaction();
@@ -82,6 +83,7 @@ const Loans = () => {
   //   contract,
   //   events: [preparedEvent],
   // });
+
   const {
     createChamaMutation,
     loading: creatingChama,
@@ -185,6 +187,7 @@ const Loans = () => {
       );
       console.log("Transaction result:", result);
       // const chamaAddress = event?.[0]?.args?.contributions;
+      // console.log(event?.[0]);
       const chamaAddress =
         "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb7900b5950e82cd298d8f466d4afe4";
       console.log("chamaAddress", chamaAddress);

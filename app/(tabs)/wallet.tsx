@@ -60,8 +60,6 @@ const Wallet = () => {
     chain: baseSepolia,
     client: client,
   });
-  console.log(usdcError);
-  console.log(tokenAddresses.usdc);
 
   const [ethPrice, setEthPrice] = useState<number>(0);
   const [usdcPrice, setUsdcPrice] = useState<number>(0);

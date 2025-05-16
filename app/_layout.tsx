@@ -163,6 +163,7 @@ export default function RootLayout() {
               options={{
                 title: "Chama Details",
                 headerShown: false,
+                animation: "none",
               }}
             />
             <Stack.Screen
@@ -170,6 +171,7 @@ export default function RootLayout() {
               options={{
                 title: "Membership Details",
                 headerShown: false,
+                animation: "none",
               }}
             />
             <Stack.Screen
@@ -177,6 +179,7 @@ export default function RootLayout() {
               options={{
                 title: "Contributions Details",
                 headerShown: false,
+                animation: "none",
               }}
             />
             <Stack.Screen
@@ -184,6 +187,7 @@ export default function RootLayout() {
               options={{
                 title: "Loans Details",
                 headerShown: false,
+                animation: "none",
               }}
             />
             <Stack.Screen

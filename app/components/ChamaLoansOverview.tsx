@@ -14,6 +14,7 @@ const ChamaLoansOverview = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("1 Day");
   const [selectedLoan, setSelectedLoan] = useState("4");
   const lines = [1, 2, 3, 4, 5, 6];
+  const loansGiven = [0, 0, 0, 0, 0, 0];
 
   return (
     <View style={styles.container}>
@@ -71,42 +72,42 @@ const ChamaLoansOverview = () => {
             <View
               style={[
                 styles.graphItem,
-                { height: (400 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[0] / 600) * screenWidth * 0.64 },
                 selectedLoan === "1" && styles.selectedLoan,
               ]}
             />
             <View
               style={[
                 styles.graphItem,
-                { height: (200 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[1] / 600) * screenWidth * 0.64 },
                 selectedLoan === "2" && styles.selectedLoan,
               ]}
             />
             <View
               style={[
                 styles.graphItem,
-                { height: (100 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[2] / 600) * screenWidth * 0.64 },
                 selectedLoan === "3" && styles.selectedLoan,
               ]}
             />
             <View
               style={[
                 styles.graphItem,
-                { height: (350 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[3] / 600) * screenWidth * 0.64 },
                 selectedLoan === "4" && styles.selectedLoan,
               ]}
             />
             <View
               style={[
                 styles.graphItem,
-                { height: (280 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[4] / 600) * screenWidth * 0.64 },
                 selectedLoan === "5" && styles.selectedLoan,
               ]}
             />
             <View
               style={[
                 styles.graphItem,
-                { height: (500 / 600) * screenWidth * 0.64 },
+                { height: (loansGiven[5] / 600) * screenWidth * 0.64 },
                 selectedLoan === "6" && styles.selectedLoan,
               ]}
             />

@@ -8,6 +8,7 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import colors from "@/constants/Colors";
@@ -16,7 +17,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { chamaActions } from "@/constants/Styles";
 import ChamaAction from "../components/ChamaAction";
 import { useGetChama } from "@/hooks/useChama";
-
+import * as Clipboard from "expo-clipboard";
+import useChamaBalance from "@/hooks/useChamaBalance";
 const screenWidth = Dimensions.get("window").width;
 
 export interface ChamaMember {
@@ -68,6 +70,9 @@ const MyChama = () => {
   const { id } = useLocalSearchParams();
   const scrollRef = useRef(null);
   const { data: chamaData } = useGetChama(id as string);
+  const { usdcBalanceInUSD, loading, usdcError } = useChamaBalance(
+    chamaData?.chamaAddress as string
+  );
 
   if (!chamaData) {
     return (
@@ -83,6 +88,11 @@ const MyChama = () => {
       </View>
     );
   }
+
+  const copyChamaAddress = () => {
+    Clipboard.setString(chamaData?.chamaAddress as string);
+    Alert.alert("Chama Address Copied", "Chama Address Copied to Clipboard");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -143,17 +153,20 @@ const MyChama = () => {
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Balance</Text>
                 <Text style={styles.balanceText}>
-                  KES {getChamaBalance().toLocaleString()}
+                  KES {loading ? "..." : usdcBalanceInUSD.toLocaleString()}
                 </Text>
               </View>
               <View style={styles.divider} />
-              <View style={styles.balanceItem}>
+              <TouchableOpacity
+                style={styles.balanceItem}
+                onPress={copyChamaAddress}
+              >
                 <Text style={styles.balanceTitle}>Address</Text>
                 <Text style={styles.balanceText}>
                   {chamaData?.chamaAddress?.slice(0, 4)}...
                   <Ionicons name="copy-outline" size={14} color="black" />
                 </Text>
-              </View>
+              </TouchableOpacity>
               <View style={styles.divider} />
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Contributions</Text>
@@ -235,6 +248,7 @@ const MyChama = () => {
                 route={item.route}
                 icon={item.icon}
                 description={item.description}
+                id={id as string}
               />
             )}
             numColumns={2}

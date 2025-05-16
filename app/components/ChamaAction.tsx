@@ -14,15 +14,22 @@ interface ChamaActionProps {
   route: string;
   icon: any;
   description: string;
+  id: string;
 }
 
 const { width } = Dimensions.get("window");
 
-const ChamaAction = ({ title, route, icon, description }: ChamaActionProps) => {
+const ChamaAction = ({
+  title,
+  route,
+  icon,
+  description,
+  id,
+}: ChamaActionProps) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => router.push(route as any)}
+      onPress={() => router.push(`${route}?id=${id}` as any)}
     >
       <Image source={icon} style={styles.icon} contentFit="contain" />
       <Text style={styles.title}>{title}</Text>

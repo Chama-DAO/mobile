@@ -45,7 +45,13 @@ export function useJoinChama(chamaAddress: string, walletAddress: string) {
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${BASE_URL}/api/v1/chamas/${chamaAddress}/members/${walletAddress}`
+        `${BASE_URL}/api/v1/chamas/${chamaAddress}/members/${walletAddress}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       return response.json();
     },

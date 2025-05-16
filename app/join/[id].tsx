@@ -27,6 +27,7 @@ import { useGetUser } from "@/hooks/useUser";
 import { tokenAddresses } from "@/constants/Styles";
 import { transfer } from "thirdweb/extensions/erc20";
 import { baseSepolia } from "thirdweb/chains";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get("window");
 
@@ -69,6 +70,24 @@ export interface ChamaData {
   dateCreated: string;
   updatedAt: string;
 }
+
+const updateUserOnboardingStep = async () => {
+  try {
+    const userStep = await AsyncStorage.getItem("userStep");
+    if (userStep) {
+      await AsyncStorage.setItem(
+        "userStep",
+        (parseInt(userStep) + 1).toString()
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const convertKesToUsd = (amount: number) => {
+  return (amount / 129.33).toFixed(2);
+};
 
 const JoinChama = () => {
   const activeAccount = useActiveAccount();
@@ -120,15 +139,18 @@ const JoinChama = () => {
         client,
         chain: baseSepolia,
       });
+      const convertedAmount = convertKesToUsd(chamaData?.registrationFeeAmount);
+      console.log(convertedAmount);
       const transaction = transfer({
         contract: usdcContract,
         to: chamaData?.chamaAddress,
-        amount: 1,
+        amount: convertedAmount,
       });
       const result = await sendTransaction(transaction);
       console.log(result);
       // call the addMember to chama on the backend
       const response = await joinChama();
+      updateUserOnboardingStep();
       console.log(response);
       // navigate to the chama dashboard.
       Alert.alert("Request Sent", "Request to join Chama Sent", [
@@ -216,10 +238,10 @@ const JoinChama = () => {
           style={[
             styles.btn,
             {
-              opacity: !chamaData || isMember ? 0.5 : 1,
+              opacity: !chamaData || isMember || loading ? 0.5 : 1,
             },
           ]}
-          disabled={!chamaData || isMember}
+          disabled={!chamaData || isMember || loading}
           onPress={handleJoinChama}
         >
           <Text
