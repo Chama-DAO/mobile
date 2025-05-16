@@ -71,7 +71,13 @@ const MyChama = () => {
 
   if (!chamaData) {
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <ActivityIndicator size="large" color={colors.chamaBlue} />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>

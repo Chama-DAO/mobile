@@ -1,7 +1,15 @@
-import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+  Image,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 
+const { width } = Dimensions.get("window");
 const index = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -68,9 +76,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bannerContainer: {
-    marginTop: 100,
+    marginTop: 32,
   },
-  bannerImage: {},
+  bannerImage: {
+    width: width * 0.7,
+    height: width * 0.7,
+  },
   welcomeContainer: {
     marginTop: 70,
   },

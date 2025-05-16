@@ -160,43 +160,7 @@ export const chamaActions = [
   },
 ];
 
-export const contributionHistory = [
-  {
-    id: "1",
-    date: "May 07, 2025",
-    amount: 420,
-    status: "Paid",
-    icon: "✅",
-  },
-  {
-    id: "2",
-    date: "Apr 07, 2025",
-    amount: 420,
-    status: "Paid",
-    icon: "✅",
-  },
-  {
-    id: "3",
-    date: "Mar 17, 2025",
-    amount: 420,
-    status: "Late",
-    icon: "⚠️",
-  },
-  {
-    id: "4",
-    date: "Feb 07, 2025",
-    amount: 420,
-    status: "Paid",
-    icon: "✅",
-  },
-  {
-    id: "5",
-    date: "Jan 07, 2025",
-    amount: 420,
-    status: "Paid",
-    icon: "✅",
-  },
-];
+export const contributionHistory = [];
 
 export const backgroundTokenColors = ["#E6F0F6", "#FCDBE9", "#CBFDD3"];
 

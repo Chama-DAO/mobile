@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -66,7 +67,7 @@ const Home = () => {
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
   };
-  const chamaAddress = userData.createdChamas[0].chamaAddress;
+  const chamaAddress = userData?.createdChamas[0]?.chamaAddress;
   const { data: chamaData } = useGetChama(chamaAddress as string);
 
   const navigator = (action: string) => {
@@ -103,6 +104,22 @@ const Home = () => {
   function handleClick() {
     console.log(activeAccount?.address);
   }
+
+  if (!userData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <StatusBar style="dark" />
+        <ActivityIndicator size="large" color={colors.accent} />
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />

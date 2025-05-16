@@ -215,6 +215,13 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="chama/members"
+              options={{
+                title: "Members",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="join/[id]"
               options={{
                 title: "Join a Chama",

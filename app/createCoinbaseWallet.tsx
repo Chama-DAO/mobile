@@ -24,7 +24,7 @@ import useAuth from "@/hooks/useAuth";
 const width = Dimensions.get("window").width;
 
 const CreateCoinbaseWallet = () => {
-  const [walletConnected, setWalletConnected] = useState(true);
+  const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const { signUpMutation, user, error } = useAuth();
   const activeAccount = useActiveAccount();

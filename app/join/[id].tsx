@@ -5,68 +5,223 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { trendingChamas } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import colors from "@/constants/Colors";
+import contract, { client } from "@/utils/client";
+import {
+  useGetChama,
+  useIsMemberOfChama,
+  useJoinChama,
+} from "@/hooks/useChama";
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
+import * as Clipboard from "expo-clipboard";
+import { useActiveAccount, useSendTransaction } from "thirdweb/react";
+import { UserData } from "../(tabs)";
+import { useGetUser } from "@/hooks/useUser";
+import { tokenAddresses } from "@/constants/Styles";
+import { transfer } from "thirdweb/extensions/erc20";
+import { baseSepolia } from "thirdweb/chains";
 
 const { width } = Dimensions.get("window");
 
+export interface ChamaMember {
+  walletAddress: string;
+  fullName: string;
+  profileImage: string;
+}
+
+export interface ChamaData {
+  chamaAddress: string;
+  chamaId: string;
+  name: string;
+  description: string;
+  location: string;
+  profileImage: string;
+  creator: ChamaMember;
+  maximumMembers: number;
+  registrationFeeRequired: boolean;
+  registrationFeeAmount: number;
+  registrationFeeCurrency: string;
+  payoutPeriod: string;
+  payoutPercentageAmount: number;
+  contributionAmount: number;
+  contributionPeriod: string;
+  contributionPenalty: number;
+  penaltyExpirationPeriod: number;
+  maximumLoanAmount: number;
+  loanInterestRate: number;
+  loanTerm: string;
+  loanPenalty: number;
+  loanPenaltyExpirationPeriod: number;
+  minContributionRatio: number;
+  totalContributions: number;
+  totalPayouts: number;
+  totalLoans: number;
+  totalLoanRepayments: number;
+  totalLoanPenalties: number;
+  members: ChamaMember[];
+  dateCreated: string;
+  updatedAt: string;
+}
+
 const JoinChama = () => {
+  const activeAccount = useActiveAccount();
   const { id } = useLocalSearchParams();
-  const chama = trendingChamas.find((chama) => chama.name === id);
+  const { data: chamaData } = useGetChama(id as string) as {
+    data: ChamaData;
+  };
+  const { data: userData } = useGetUser(activeAccount!.address) as {
+    data: UserData;
+  };
+  const { data: isMember } = useIsMemberOfChama(
+    chamaData?.chamaAddress,
+    activeAccount?.address as string
+  );
+  const { mutateAsync: sendTransaction } = useSendTransaction();
+  const { mutateAsync: joinChama } = useJoinChama(
+    chamaData?.chamaAddress,
+    activeAccount?.address as string
+  );
+  const [loading, setLoading] = useState(false);
+
+  if (!chamaData) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color={colors.chamaBlue} />
+      </View>
+    );
+  }
+  const formatted = new Date(chamaData?.dateCreated).toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const handleCopyChamaAddress = () => {
+    Clipboard.setString(chamaData?.chamaAddress);
+    Alert.alert("Address Copied", "Chama Address Copied to Clipboard");
+  };
+
+  const handleJoinChama = async () => {
+    if (!activeAccount || !userData) {
+      Alert.alert("Error", "Please connect your wallet");
+      return;
+    }
+    try {
+      setLoading(true);
+      // if the chama requires a reg fee, transfer the reg fee to the chama address
+      const usdcContract = getContract({
+        address: tokenAddresses.usdc,
+        client,
+        chain: baseSepolia,
+      });
+      const transaction = transfer({
+        contract: usdcContract,
+        to: chamaData?.chamaAddress,
+        amount: 1,
+      });
+      const result = await sendTransaction(transaction);
+      console.log(result);
+      // call the addMember to chama on the backend
+      const response = await joinChama();
+      console.log(response);
+      // navigate to the chama dashboard.
+      Alert.alert("Request Sent", "Request to join Chama Sent", [
+        {
+          text: "OK",
+          onPress: () => router.push(`/chama/${chamaData?.chamaAddress}`),
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>{chama?.name}</Text>
+        <Text style={styles.title}>{chamaData?.name}</Text>
       </View>
       <View style={styles.chamaContainer}>
-        <Text style={styles.membersText}>{chama?.members} members</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.membersText}>
+            {chamaData?.members?.length}{" "}
+            {chamaData?.members?.length === 1 ? "member" : "members"}
+          </Text>
+          <Text style={styles.registrationFeeText}>
+            Registration Fee: KSH {chamaData?.registrationFeeAmount}
+          </Text>
+        </View>
         <View style={styles.chamaInfoContainer}>
           <View style={styles.chamaInfoItem}>
-            <Image source={chama?.icon} style={styles.chamaImage} />
-            <Text style={styles.chamaName}>{chama?.name}</Text>
+            <Image
+              source="https://cdn-icons-png.flaticon.com/512/745/745650.png"
+              style={styles.chamaImage}
+            />
+            <Text style={styles.chamaName}>{chamaData?.name}</Text>
           </View>
           <View style={styles.financialInfoContainer}>
             <View style={styles.financialInfoItem}>
               <Text style={styles.financialInfoText}>
-                {chama?.contributionPeriod} Contribution
+                {chamaData?.contributionPeriod} Contribution
               </Text>
               <Text style={styles.amountText}>
-                KES {chama?.contributionAmount.toLocaleString()}
+                KES {chamaData?.contributionAmount?.toLocaleString()}
               </Text>
             </View>
             <View style={styles.financialInfoItem}>
               <Text style={styles.financialInfoText}>Date Created</Text>
-              <Text style={styles.amountText}>May 2025</Text>
+              <Text style={styles.amountText}>{formatted}</Text>
             </View>
           </View>
           <View style={styles.footer}>
             <View style={styles.chamaCode}>
-              <Text style={styles.footerText}>Chama Code: 0000 0001</Text>
+              <Text style={styles.footerText}>
+                Chama Code: {chamaData?.chamaId?.slice(0, 4)}{" "}
+                {chamaData?.chamaId?.slice(4, 8)}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.chamaCode}
+              onPress={handleCopyChamaAddress}
+            >
+              <Text style={styles.footerText}>
+                {chamaData?.chamaAddress?.slice(0, 12)}...
+              </Text>
               <Ionicons
                 name="copy-outline"
                 size={14}
                 color={colors.chamaBlack}
               />
-            </View>
-            <View style={styles.chamaCode}>
-              <Text style={styles.footerText}>0xfch5ad67be...</Text>
-              <Ionicons
-                name="copy-outline"
-                size={14}
-                color={colors.chamaBlack}
-              />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          style={[
+            styles.btn,
+            {
+              opacity: !chamaData || isMember ? 0.5 : 1,
+            },
+          ]}
+          disabled={!chamaData || isMember}
+          onPress={handleJoinChama}
+        >
           <Text
             style={[
               styles.financialInfoText,
@@ -78,7 +233,7 @@ const JoinChama = () => {
               },
             ]}
           >
-            Request to join Chama
+            {loading ? "Joining..." : "Request to join Chama"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -128,9 +283,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginHorizontal: 4,
   },
+  registrationFeeText: {
+    fontSize: 12,
+    color: "#212121",
+    fontFamily: "JakartRegular",
+    marginBottom: 16,
+    marginHorizontal: 4,
+  },
   chamaInfoContainer: {
     width: width - 32,
-    height: width / 2 - 32,
+    height: width / 1.8 - 32,
     backgroundColor: colors.chamaBlue,
     borderRadius: 16,
     padding: 16,

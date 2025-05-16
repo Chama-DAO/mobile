@@ -11,18 +11,61 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import colors from "@/constants/Colors";
-import { trendingChamas } from "@/constants/Styles";
 import { Image } from "expo-image";
+import { useGetAllChamas } from "@/hooks/useChama";
+
+export interface ChamaMember {
+  walletAddress: string;
+  fullName: string;
+  profileImage: string | null;
+}
+
+export interface ChamaData {
+  chamaAddress: string;
+  chamaId: string;
+  name: string;
+  description: string;
+  location: string;
+  profileImage: string;
+  creator: ChamaMember;
+  maximumMembers: number;
+  registrationFeeRequired: boolean;
+  registrationFeeAmount: number;
+  registrationFeeCurrency: string;
+  payoutPeriod: string;
+  payoutPercentageAmount: number;
+  contributionAmount: number;
+  contributionPeriod: string;
+  contributionPenalty: number;
+  penaltyExpirationPeriod: number;
+  maximumLoanAmount: number;
+  loanInterestRate: number;
+  loanTerm: string;
+  loanPenalty: number;
+  loanPenaltyExpirationPeriod: number;
+  minContributionRatio: number;
+  totalContributions: number;
+  totalPayouts: number;
+  totalLoans: number;
+  totalLoanRepayments: number;
+  totalLoanPenalties: number;
+  members: ChamaMember[];
+  dateCreated: string;
+  updatedAt: string;
+}
 
 const Join = () => {
+  const { data: chamas } = useGetAllChamas() as {
+    data: ChamaData[];
+  };
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
   };
 
-  const filteredChamas = trendingChamas.filter((chama) =>
-    chama.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredChamas = chamas?.filter((chama: ChamaData) =>
+    chama?.name?.toLowerCase()?.includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -57,11 +100,11 @@ const Join = () => {
                   {filteredChamas.map((chama) => (
                     <TouchableOpacity
                       style={styles.filteredChama}
-                      onPress={() => router.push(`/join/${chama.name}`)}
+                      onPress={() => router.push(`/join/${chama.chamaAddress}`)}
                       key={chama.name}
                     >
                       <Image
-                        source={chama.icon}
+                        source="https://cdn-icons-png.flaticon.com/512/745/745650.png"
                         style={styles.filteredChamaImage}
                       />
                       <Text>{chama.name}</Text>
