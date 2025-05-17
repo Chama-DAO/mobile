@@ -47,19 +47,27 @@ const Wallet = () => {
   const [depositMethod, setDepositMethod] = useState<"wallet" | "mpesa">(
     "mpesa"
   );
-  const { data: ethBalance } = useWalletBalance({
-    tokenAddress: undefined,
-    address: activeAccount?.address,
-    chain: baseSepolia,
-    client: client,
-  });
 
-  const { data: usdcBalance, error: usdcError } = useWalletBalance({
-    tokenAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-    address: activeAccount?.address,
-    chain: baseSepolia,
-    client: client,
-  });
+  const ethBalanceResult = activeAccount?.address
+    ? useWalletBalance({
+        tokenAddress: undefined,
+        address: activeAccount.address,
+        chain: baseSepolia,
+        client: client,
+      })
+    : { data: undefined };
+
+  const usdcBalanceResult = activeAccount?.address
+    ? useWalletBalance({
+        tokenAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        address: activeAccount.address,
+        chain: baseSepolia,
+        client: client,
+      })
+    : { data: undefined, error: undefined };
+
+  const ethBalance = ethBalanceResult.data;
+  const usdcBalance = usdcBalanceResult.data;
 
   const [ethPrice, setEthPrice] = useState<number>(0);
   const [usdcPrice, setUsdcPrice] = useState<number>(0);
@@ -132,22 +140,30 @@ const Wallet = () => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {isBalanceHidden ? (
-                <BlurView
-                  intensity={10}
-                  style={{
-                    borderRadius: 16,
-                  }}
-                >
-                  <Text style={styles.walletBalanceAmount}>***********</Text>
-                </BlurView>
-              ) : (
-                <Text style={styles.walletBalanceAmount}>
-                  KES {getWalletBalanceInKes(formattedTokens).toLocaleString()}
-                </Text>
-              )}
-            </View>
+            {/* Only render balance if address is defined */}
+            {activeAccount?.address ? (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                {isBalanceHidden ? (
+                  <BlurView
+                    intensity={10}
+                    style={{
+                      borderRadius: 16,
+                    }}
+                  >
+                    <Text style={styles.walletBalanceAmount}>***********</Text>
+                  </BlurView>
+                ) : (
+                  <Text style={styles.walletBalanceAmount}>
+                    KES{" "}
+                    {getWalletBalanceInKes(formattedTokens).toLocaleString()}
+                  </Text>
+                )}
+              </View>
+            ) : (
+              <Text style={styles.walletBalanceAmount}>
+                Connect wallet to view balance
+              </Text>
+            )}
             <View style={styles.walletBalanceSubtitleContainer}>
               <Text style={styles.walletBalanceSubtitle}>Wallet Address</Text>
               <TouchableOpacity
