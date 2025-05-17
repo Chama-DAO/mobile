@@ -79,10 +79,10 @@ const preparedEvent = prepareEvent({
 const Loans = () => {
   const { mutateAsync: sendTransaction } = useSendTransaction();
 
-  // const { data: event } = useContractEvents({
-  //   contract,
-  //   events: [preparedEvent],
-  // });
+  const { data: event } = useContractEvents({
+    contract,
+    events: [preparedEvent],
+  });
 
   const {
     createChamaMutation,
@@ -186,10 +186,10 @@ const Loans = () => {
         BigInt(data.loanInterestRate)
       );
       console.log("Transaction result:", result);
-      // const chamaAddress = event?.[0]?.args?.contributions;
-      // console.log(event?.[0]);
-      const chamaAddress =
-        "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb7900b5950e82cd298d8f466d4afe4";
+      const chamaAddress = event?.[0]?.args?.contributions;
+      console.log(event?.[0]);
+      // const chamaAddress =
+      //   "0xa5cc7f7c9c40a5dbf7893a7cec19bc595fb7900b5950e82cd298d8f466d4afe4";
       console.log("chamaAddress", chamaAddress);
 
       if (

@@ -43,7 +43,7 @@ export default ChamaAction;
 const styles = StyleSheet.create({
   container: {
     width: width / 2 - 20,
-    height: width / 2.8 - 20,
+    minHeight: width / 2.7 - 20,
     backgroundColor: "#f0f7f9",
     borderRadius: 10,
     padding: 16,

@@ -30,10 +30,10 @@ interface RegisterDetails {
 
 const register = () => {
   const router = useRouter();
-  const [fullName, setFullName] = useState("Divine Circuit");
-  const [email, setEmail] = useState("divinecircuit@gmail.com");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [idNumber, setIdNumber] = useState("39296079");
-  const [mobileNumber, setPhoneNumber] = useState("+254712345678");
+  const [mobileNumber, setPhoneNumber] = useState("+712345678");
   const [country, setCountry] = useState("ke");
   const [role, setRole] = useState("member");
   const [isLoading, setIsLoading] = useState(false);

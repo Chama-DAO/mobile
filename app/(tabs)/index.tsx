@@ -67,7 +67,7 @@ const Home = () => {
   const { data: userData } = useGetUser(activeAccount!.address) as {
     data: UserData;
   };
-  const chamaAddress = userData?.createdChamas[0]?.chamaAddress;
+  const chamaAddress = userData?.memberChamas[0]?.chamaAddress;
   const { data: chamaData } = useGetChama(chamaAddress as string);
 
   const navigator = (action: string) => {

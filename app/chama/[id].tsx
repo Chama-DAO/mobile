@@ -61,16 +61,12 @@ export interface ChamaData {
   updatedAt: string;
 }
 
-const getChamaBalance = () => {
-  return 0;
-};
-
 const MyChama = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useLocalSearchParams();
   const scrollRef = useRef(null);
   const { data: chamaData } = useGetChama(id as string);
-  const { usdcBalanceInUSD, loading, usdcError } = useChamaBalance(
+  const { usdcBalanceInKes, loading, usdcError } = useChamaBalance(
     chamaData?.chamaAddress as string
   );
 
@@ -153,7 +149,7 @@ const MyChama = () => {
               <View style={styles.balanceItem}>
                 <Text style={styles.balanceTitle}>Balance</Text>
                 <Text style={styles.balanceText}>
-                  KES {loading ? "..." : usdcBalanceInUSD.toLocaleString()}
+                  KES {loading ? "..." : usdcBalanceInKes?.toLocaleString()}
                 </Text>
               </View>
               <View style={styles.divider} />

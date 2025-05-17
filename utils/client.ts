@@ -1,7 +1,7 @@
 import { createThirdwebClient, getContract, defineChain } from "thirdweb";
 
-const clientId = process.env.EXPO_PUBLIC_THIRD_WEB_CLIENT_ID;
-const secretKey = process.env.EXPO_PUBLIC_THIRD_WEB_SECRET_KEY;
+const clientId = process.env.EXPO_PUBLIC_THIRD_WEB_CLIENT_ID_B;
+const secretKey = process.env.EXPO_PUBLIC_THIRD_WEB_SECRET_KEY_B;
 
 if (!clientId || !secretKey) {
   throw new Error(
